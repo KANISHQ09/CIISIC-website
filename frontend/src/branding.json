@@ -1,0 +1,21 @@
+{
+    "brandName": "CIISIC",
+    "company": {
+        "name": "CIISIC",
+        "url": "https://ciisic.org/",
+        "socialLink": {
+            "linkedin": "#",
+            "instagram": "#",
+            "facebook": "#",
+            "youtube": "#",
+            "github": "#",
+            "dribble": "#",
+            "discord": "#",
+            "support": "#"
+        }
+    },
+    "logo": {
+        "main":"",
+        "logoIcon": ""
+    }
+}
