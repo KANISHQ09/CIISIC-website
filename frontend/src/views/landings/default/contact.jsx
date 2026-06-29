@@ -18,7 +18,11 @@ export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
     resolver: zodResolver(contactSchema)
   });
 
@@ -26,7 +30,7 @@ export default function Contact() {
     setIsLoading(true);
     try {
       // Simulate endpoint dispatch
-      await new Promise(resolve => setTimeout(resolve, 800));
+      await new Promise((resolve) => setTimeout(resolve, 800));
       setIsSubmitted(true);
       showToast('Helpline message dispatched successfully.', 'success');
     } catch {
@@ -39,16 +43,14 @@ export default function Contact() {
   return (
     <div className="w-full min-h-screen bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 text-left">
-        
         {/* Info Column */}
         <div className="lg:col-span-5 space-y-8">
           <div className="space-y-4">
             <span className="text-xs uppercase tracking-widest text-blue-900 font-extrabold">Helpdesk Hub</span>
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
-              Contact Us
-            </h1>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">Contact Us</h1>
             <p className="text-sm text-neutral-600 leading-relaxed font-medium">
-              Have questions regarding chapter verification, active challenges, or student credentials? Reach out to our program coordinators.
+              Have questions regarding chapter verification, active challenges, or student credentials? Reach out to our program
+              coordinators.
             </p>
           </div>
 
@@ -71,9 +73,7 @@ export default function Contact() {
               </div>
               <div className="space-y-1">
                 <h4 className="text-xs font-bold text-[#0F172A] uppercase">Email Enquiries</h4>
-                <p className="text-xs text-neutral-800 font-bold hover:underline">
-                  support@ciisic.in
-                </p>
+                <p className="text-xs text-neutral-800 font-bold hover:underline">support@ciisic.in</p>
               </div>
             </div>
 
@@ -99,7 +99,8 @@ export default function Contact() {
                 </div>
                 <h3 className="text-base font-bold text-neutral-900">Message Received!</h3>
                 <p className="text-xs text-neutral-500 max-w-xs mx-auto font-medium">
-                  Thank you for reaching out. A CIISIC state coordinator will reply to your registered email address within 24 business hours.
+                  Thank you for reaching out. A CIISIC state coordinator will reply to your registered email address within 24 business
+                  hours.
                 </p>
               </div>
             ) : (
@@ -148,7 +149,6 @@ export default function Contact() {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

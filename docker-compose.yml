@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  database:
+    image: mongo:6.0
+    container_name: ciisic-database
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - ciisic-network
+
+  cache:
+    image: redis:7-alpine
+    container_name: ciisic-cache
+    ports:
+      - '6379:6379'
+    networks:
+      - ciisic-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ciisic-backend
+    ports:
+      - '5000:5000'
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - MONGO_URI=mongodb://database:27017/ciisic
+      - REDIS_URL=redis://cache:6379
+    depends_on:
+      - database
+      - cache
+    networks:
+      - ciisic-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ciisic-frontend
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://backend:5000
+    depends_on:
+      - backend
+    networks:
+      - ciisic-network
+
+volumes:
+  mongo-data:
+
+networks:
+  ciisic-network:
+    driver: bridge

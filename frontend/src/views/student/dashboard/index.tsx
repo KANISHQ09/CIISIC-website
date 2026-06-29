@@ -3,12 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import {
-  StudentProfile,
-  Challenge,
-  Proposal,
-  Notification
-} from '@/types/studentPortal';
+import { StudentProfile, Challenge, Proposal, Notification } from '@/types/studentPortal';
 import { StudentService } from '@/services/studentService';
 import { ChallengeService } from '@/services/challengeService';
 import { ProposalService } from '@/services/proposalService';
@@ -17,17 +12,7 @@ import { StatsCard } from '@/components/student/StatsCard';
 import { ChallengeCard } from '@/components/student/ChallengeCard';
 import { ProgressBar } from '@/components/student/ProgressBar';
 import { StatusBadge } from '@/components/student/StatusBadge';
-import {
-  FileText,
-  Bookmark,
-  Trophy,
-  Calendar,
-  Bell,
-  ArrowRight,
-  TrendingUp,
-  Award,
-  Zap
-} from 'lucide-react';
+import { FileText, Bookmark, Trophy, Calendar, Bell, ArrowRight, TrendingUp, Award, Zap } from 'lucide-react';
 
 export default function StudentDashboard() {
   const router = useRouter();
@@ -47,7 +32,7 @@ export default function StudentDashboard() {
           NotificationService.getNotifications()
         ]);
         setProfile(profData);
-        setChallenges(chData.filter(c => c.status === 'OPEN').slice(0, 2));
+        setChallenges(chData.filter((c) => c.status === 'OPEN').slice(0, 2));
         setProposals(prData);
         setNotifications(notData.slice(0, 3));
       } catch (err) {
@@ -79,7 +64,8 @@ export default function StudentDashboard() {
               Candidate Workspace
             </span>
             <h1 className="text-3xl font-black tracking-tight leading-none mt-1">
-              Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-indigo-200">{profile.name}</span>!
+              Welcome back,{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-indigo-200">{profile.name}</span>!
             </h1>
             <p className="text-zinc-400 text-xs font-medium max-w-sm leading-relaxed">
               Academic-Industrial collaboration portal. Browse open innovation briefs from CII corporate sponsors and draft your solutions.
@@ -106,9 +92,7 @@ export default function StudentDashboard() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Verification Level</span>
-              <span className="px-2 py-0.5 rounded-md bg-violet-50 text-violet-700 font-extrabold text-[10px]">
-                Level {profile.level}
-              </span>
+              <span className="px-2 py-0.5 rounded-md bg-violet-50 text-violet-700 font-extrabold text-[10px]">Level {profile.level}</span>
             </div>
             <h3 className="text-lg font-extrabold text-zinc-900">Ecosystem Credential</h3>
             <p className="text-xs text-zinc-500 font-medium leading-relaxed">
@@ -135,18 +119,8 @@ export default function StudentDashboard() {
           icon={<Zap className="w-5 h-5" />}
           trend={{ value: '+120 XP ', positive: true }}
         />
-        <StatsCard
-          label="Saved Briefs"
-          value="1"
-          icon={<Bookmark className="w-5 h-5" />}
-          description="Bookmarked briefs"
-        />
-        <StatsCard
-          label="Public Leaderboard"
-          value={`#${profile.rank}`}
-          icon={<Trophy className="w-5 h-5" />}
-          description="Global rank"
-        />
+        <StatsCard label="Saved Briefs" value="1" icon={<Bookmark className="w-5 h-5" />} description="Bookmarked briefs" />
+        <StatsCard label="Public Leaderboard" value={`#${profile.rank}`} icon={<Trophy className="w-5 h-5" />} description="Global rank" />
       </div>
 
       {/* Lower grid content */}
@@ -165,7 +139,7 @@ export default function StudentDashboard() {
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {challenges.map(c => (
+              {challenges.map((c) => (
                 <ChallengeCard
                   key={c.id}
                   challenge={c}
@@ -191,7 +165,7 @@ export default function StudentDashboard() {
               <p className="text-xs text-zinc-400 py-6 text-center">No active submissions found.</p>
             ) : (
               <div className="divide-y divide-zinc-50">
-                {proposals.map(p => (
+                {proposals.map((p) => (
                   <div
                     key={p.id}
                     className="flex items-center justify-between py-3.5 hover:bg-zinc-50/50 rounded-xl px-2 transition-all cursor-pointer"
@@ -224,18 +198,14 @@ export default function StudentDashboard() {
               <h2 className="text-sm font-extrabold text-zinc-900 uppercase tracking-wider">Ecosystem Updates</h2>
             </div>
             <div className="space-y-4">
-              {notifications.map(n => (
+              {notifications.map((n) => (
                 <div
                   key={n.id}
                   onClick={() => router.push('/notifications')}
                   className="space-y-1 text-left cursor-pointer group pb-3 last:pb-0 border-b border-zinc-50 last:border-0"
                 >
-                  <p className="text-xs font-bold text-zinc-800 group-hover:text-violet-600 transition-colors line-clamp-1">
-                    {n.title}
-                  </p>
-                  <p className="text-[11px] text-zinc-400 font-medium line-clamp-2 leading-relaxed">
-                    {n.content}
-                  </p>
+                  <p className="text-xs font-bold text-zinc-800 group-hover:text-violet-600 transition-colors line-clamp-1">{n.title}</p>
+                  <p className="text-[11px] text-zinc-400 font-medium line-clamp-2 leading-relaxed">{n.content}</p>
                 </div>
               ))}
             </div>

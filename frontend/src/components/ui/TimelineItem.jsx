@@ -14,7 +14,7 @@ const NodeDot = styled(Box)(({ theme, active }) => ({
   backgroundColor: active ? colors.primary.main : colors.neutral[400],
   border: `3px solid ${active ? colors.primary.lighter : colors.neutral[100]}`,
   position: 'relative',
-  zIndex: 2,
+  zIndex: 2
 }));
 
 const TimelineLine = styled(Box)(({ theme }) => ({
@@ -24,7 +24,7 @@ const TimelineLine = styled(Box)(({ theme }) => ({
   left: '5px',
   width: '2px',
   backgroundColor: colors.neutral[200],
-  zIndex: 1,
+  zIndex: 1
 }));
 
 export default function TimelineItem({ title, description, time, active = false, isLast = false }) {

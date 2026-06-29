@@ -17,7 +17,11 @@ export const ForgotPassword: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<ForgotPasswordFields>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<ForgotPasswordFields>({
     resolver: zodResolver(forgotPasswordSchema)
   });
 

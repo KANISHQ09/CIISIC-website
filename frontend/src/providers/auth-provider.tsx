@@ -62,13 +62,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const devSwitchRole = (newRole: UserRole) => {
     if (process.env.NODE_ENV === 'development') {
-      const updatedUser = user ? { ...user, role: newRole } : {
-        id: 'dev-user-id',
-        name: 'Developer Mode',
-        email: 'dev@ciisic.org',
-        role: newRole,
-        createdAt: new Date().toISOString()
-      };
+      const updatedUser = user
+        ? { ...user, role: newRole }
+        : {
+            id: 'dev-user-id',
+            name: 'Developer Mode',
+            email: 'dev@ciisic.org',
+            role: newRole,
+            createdAt: new Date().toISOString()
+          };
       localStorage.setItem('ciisic_user', JSON.stringify(updatedUser));
       setUser(updatedUser);
     }

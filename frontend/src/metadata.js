@@ -5,7 +5,8 @@ import { PAGE_PATH, SECTION_PATH } from '@/path';
 /***************************  SEO METADATA - MAIN LAYOUT  ***************************/
 
 const title = 'CIISIC | Confederation of Indian Industry';
-const description = 'Collaborative Institutional Cooperation for Industrial Innovation Platform connecting students and corporate partners.';
+const description =
+  'Collaborative Institutional Cooperation for Industrial Innovation Platform connecting students and corporate partners.';
 
 const ogCommonMetadata = {
   locale: 'en_US',

@@ -10,16 +10,16 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     borderRadius: radius.input,
     fontFamily: 'Figtree, sans-serif',
     transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-    
+
     '& fieldset': {
-      borderColor: theme.palette.divider,
+      borderColor: theme.palette.divider
     },
     '&:hover fieldset': {
-      borderColor: theme.palette.text.secondary,
+      borderColor: theme.palette.text.secondary
     },
     '&.Mui-focused fieldset': {
       borderColor: theme.palette.primary.main,
-      borderWidth: '1px',
+      borderWidth: '1px'
     },
     '&.Mui-focused': {
       boxShadow: `0 0 0 3px ${theme.palette.primary.light}80`

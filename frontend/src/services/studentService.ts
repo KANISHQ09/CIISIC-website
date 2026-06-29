@@ -66,9 +66,22 @@ const DEFAULT_BADGES: Badge[] = [
 const DEFAULT_LEADERBOARD: LeaderboardEntry[] = [
   { rank: 1, name: 'Ananya Sharma', institution: 'IIT Bombay', points: 2890, avatar: 'https://randomuser.me/api/portraits/women/12.jpg' },
   { rank: 2, name: 'Rohan Deshmukh', institution: 'COEP Pune', points: 2540, avatar: 'https://randomuser.me/api/portraits/men/15.jpg' },
-  { rank: 3, name: 'Sneha Patel', institution: 'LD College of Engineering', points: 2310, avatar: 'https://randomuser.me/api/portraits/women/24.jpg' },
+  {
+    rank: 3,
+    name: 'Sneha Patel',
+    institution: 'LD College of Engineering',
+    points: 2310,
+    avatar: 'https://randomuser.me/api/portraits/women/24.jpg'
+  },
   { rank: 11, name: 'Ayush Verma', institution: 'LNCT Bhopal', points: 1320, avatar: 'https://randomuser.me/api/portraits/men/44.jpg' },
-  { rank: 12, name: 'Madhavan Singh', institution: 'LNCT Bhopal', points: 1240, avatar: 'https://randomuser.me/api/portraits/men/32.jpg', isMe: true },
+  {
+    rank: 12,
+    name: 'Madhavan Singh',
+    institution: 'LNCT Bhopal',
+    points: 1240,
+    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    isMe: true
+  },
   { rank: 13, name: 'Priya Iyer', institution: 'VIT Vellore', points: 1210, avatar: 'https://randomuser.me/api/portraits/women/47.jpg' }
 ];
 
@@ -100,7 +113,7 @@ export class StudentService {
   static async updateProfile(profile: Partial<StudentProfile>): Promise<StudentProfile> {
     const current = await this.getProfile();
     const updated = { ...current, ...profile };
-    
+
     // Recalculate profile completion percentage
     let filledFields = 0;
     const totalFields = 8;
@@ -112,9 +125,9 @@ export class StudentService {
     if (updated.resumeName) filledFields++;
     if (updated.portfolioUrl) filledFields++;
     if (updated.socialLinks.github || updated.socialLinks.linkedin) filledFields++;
-    
+
     updated.completionPercentage = Math.round((filledFields / totalFields) * 100);
-    
+
     this.setStorageItem('ciisic_student_profile', updated);
     return updated;
   }

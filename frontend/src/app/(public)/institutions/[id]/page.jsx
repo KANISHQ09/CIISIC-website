@@ -8,9 +8,7 @@ export default async function InstitutionDetailPage(props) {
   const params = await props.params;
   const instId = params.id;
 
-  const inst = institutions.find(
-    (item) => item.id === instId
-  );
+  const inst = institutions.find((item) => item.id === instId);
 
   if (!inst) {
     notFound();
@@ -19,7 +17,6 @@ export default async function InstitutionDetailPage(props) {
   return (
     <div className="w-full min-h-screen bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-12 text-left">
-        
         {/* Header */}
         <div className="space-y-6">
           <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-900 flex items-center justify-center">
@@ -33,9 +30,7 @@ export default async function InstitutionDetailPage(props) {
               </span>
               <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase">Code: {inst.code}</span>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
-              {inst.name}
-            </h1>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">{inst.name}</h1>
             <div className="flex items-center gap-1.5 text-xs text-neutral-500 font-semibold pt-1">
               <MapPin className="w-4 h-4 text-zinc-400" />
               <span>{inst.district}, Madhya Pradesh</span>
@@ -49,7 +44,8 @@ export default async function InstitutionDetailPage(props) {
             <div className="space-y-3">
               <h3 className="text-lg font-bold text-neutral-900">About Chapter node</h3>
               <p className="text-xs text-neutral-600 leading-relaxed font-medium">
-                This college hosts active student innovation cohorts under the state-level CIISIC program. The local placement SPOC coordinates technical approaches directly with corporate R&D labs.
+                This college hosts active student innovation cohorts under the state-level CIISIC program. The local placement SPOC
+                coordinates technical approaches directly with corporate R&D labs.
               </p>
             </div>
 
@@ -59,7 +55,9 @@ export default async function InstitutionDetailPage(props) {
               </div>
               <h4 className="text-xs font-bold text-neutral-900 uppercase">Chapter Oversight Coordinator</h4>
               <p className="text-xs text-neutral-800 font-bold">Local Placement SPOC Faculty</p>
-              <p className="text-[10px] text-neutral-500 font-medium">Liaisons local candidate submissions and signs verified placement credentials.</p>
+              <p className="text-[10px] text-neutral-500 font-medium">
+                Liaisons local candidate submissions and signs verified placement credentials.
+              </p>
             </div>
           </div>
 
@@ -70,7 +68,8 @@ export default async function InstitutionDetailPage(props) {
                 <h4 className="text-xs font-bold uppercase tracking-wide">Connected Excellence Cells</h4>
               </div>
               <p className="text-[10px] text-neutral-500 leading-relaxed font-medium">
-                Students of this college have active access keys to submit proposals to the Agritech, Clean Energy, Smart Mobility, and IT cells.
+                Students of this college have active access keys to submit proposals to the Agritech, Clean Energy, Smart Mobility, and IT
+                cells.
               </p>
             </div>
 
@@ -101,7 +100,6 @@ export default async function InstitutionDetailPage(props) {
             </button>
           </Link>
         </div>
-
       </div>
     </div>
   );

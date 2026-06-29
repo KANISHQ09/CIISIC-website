@@ -6,8 +6,12 @@ import useAuth from '@/hooks/useAuth';
 
 const AdminLayout = dynamic(() => import('@/layouts/AdminLayout'));
 const StudentLayout = dynamic(() => import('@/layouts/StudentLayout'));
+const IndustryLayout = dynamic(() => import('@/layouts/IndustryLayout'));
+const InstitutionLayout = dynamic(() => import('@/layouts/InstitutionLayout'));
+const SuperAdminLayout = dynamic(() => import('@/layouts/SuperAdminLayout'));
+const ReviewerLayout = dynamic(() => import('@/layouts/ReviewerLayout'));
 
-/***************************  LAYOUT - ADMIN & STUDENT  ***************************/
+/***************************  LAYOUT - ADMIN, STUDENT, INDUSTRY, INSTITUTION & REVIEWER  ***************************/
 
 export default function Layout({ children }) {
   const { role, isLoading } = useAuth();
@@ -22,6 +26,22 @@ export default function Layout({ children }) {
 
   if (role === 'STUDENT') {
     return <StudentLayout>{children}</StudentLayout>;
+  }
+
+  if (role === 'INDUSTRY_SPOC') {
+    return <IndustryLayout>{children}</IndustryLayout>;
+  }
+
+  if (role === 'INSTITUTION_SPOC') {
+    return <InstitutionLayout>{children}</InstitutionLayout>;
+  }
+
+  if (role === 'SUPER_ADMIN') {
+    return <SuperAdminLayout>{children}</SuperAdminLayout>;
+  }
+
+  if (role === 'REVIEWER') {
+    return <ReviewerLayout>{children}</ReviewerLayout>;
   }
 
   return <AdminLayout>{children}</AdminLayout>;

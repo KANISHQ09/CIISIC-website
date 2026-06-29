@@ -17,19 +17,19 @@ const StyledPaper = styled(Paper)(({ theme, type }) => ({
 
   ...(type === 'success' && {
     borderLeftColor: colors.semantic.success.main,
-    backgroundColor: colors.neutral[50],
+    backgroundColor: colors.neutral[50]
   }),
   ...(type === 'error' && {
     borderLeftColor: colors.semantic.error.main,
-    backgroundColor: colors.neutral[50],
+    backgroundColor: colors.neutral[50]
   }),
   ...(type === 'info' && {
     borderLeftColor: colors.semantic.info.main,
-    backgroundColor: colors.neutral[50],
+    backgroundColor: colors.neutral[50]
   }),
   ...(type === 'warning' && {
     borderLeftColor: colors.semantic.warning.main,
-    backgroundColor: colors.neutral[50],
+    backgroundColor: colors.neutral[50]
   })
 }));
 

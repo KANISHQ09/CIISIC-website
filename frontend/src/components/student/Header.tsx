@@ -22,7 +22,7 @@ export const Header: React.FC = () => {
   const getBreadcrumbs = () => {
     const paths = pathname.split('/').filter(Boolean);
     if (paths.length === 0) return [{ label: 'Dashboard', path: '/dashboard' }];
-    
+
     return paths.map((path, index) => {
       const label = path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' ');
       const url = '/' + paths.slice(0, index + 1).join('/');
@@ -112,26 +112,35 @@ export const Header: React.FC = () => {
                   <p className="text-xs font-bold text-zinc-900 truncate">{user?.name}</p>
                   <p className="text-[10px] text-zinc-400 font-medium truncate">{user?.email}</p>
                 </div>
-                
+
                 <button
                   type="button"
-                  onClick={() => { setShowDropdown(false); router.push('/profile'); }}
+                  onClick={() => {
+                    setShowDropdown(false);
+                    router.push('/profile');
+                  }}
                   className="w-full px-4 py-2 text-xs font-bold text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition-colors flex items-center gap-2.5 cursor-pointer"
                 >
                   <User className="w-4 h-4" /> My Profile
                 </button>
                 <button
                   type="button"
-                  onClick={() => { setShowDropdown(false); router.push('/settings'); }}
+                  onClick={() => {
+                    setShowDropdown(false);
+                    router.push('/settings');
+                  }}
                   className="w-full px-4 py-2 text-xs font-bold text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition-colors flex items-center gap-2.5 cursor-pointer"
                 >
                   <Settings className="w-4 h-4" /> Settings
                 </button>
-                
+
                 <hr className="my-1.5 border-zinc-100" />
                 <button
                   type="button"
-                  onClick={() => { setShowDropdown(false); handleLogout(); }}
+                  onClick={() => {
+                    setShowDropdown(false);
+                    handleLogout();
+                  }}
                   className="w-full px-4 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors flex items-center gap-2.5 cursor-pointer"
                 >
                   <LogOut className="w-4 h-4" /> Sign Out

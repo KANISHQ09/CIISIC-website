@@ -15,9 +15,7 @@ export const Providers: React.FC<ProvidersProps> = ({ children }) => {
     <AuthProvider>
       <ToastProvider>
         <ModalProvider>
-          <RouteTransitionProvider>
-            {children}
-          </RouteTransitionProvider>
+          <RouteTransitionProvider>{children}</RouteTransitionProvider>
         </ModalProvider>
       </ToastProvider>
     </AuthProvider>

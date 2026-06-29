@@ -6,25 +6,11 @@ import { Hero17 } from '@/blocks/hero';
 import LazySection from '@/components/LazySection';
 
 // @data
-import {
-  metrics,
-  clientele,
-  cta4,
-  cta5,
-  faq,
-  feature20,
-  feature21,
-  feature18,
-  hero,
-  integration,
-  other,
-  testimonial
-} from './data';
+import { metrics, clientele, cta4, cta5, faq, feature20, feature21, feature18, hero, integration, other, testimonial } from './data';
 
 /***************************  PAGE - MAIN  ***************************/
 
 export default function Main() {
-
   return (
     <>
       <Hero17 {...hero} />

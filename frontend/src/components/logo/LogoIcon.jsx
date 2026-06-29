@@ -17,7 +17,18 @@ export default function LogoIcon() {
   return logoIconPath ? (
     <CardMedia src={logoIconPath} component="img" alt="logo" sx={{ height: 1 }} />
   ) : (
-    <Box sx={{ bgcolor: 'primary.main', color: 'background.default', px: 1, py: 0.5, borderRadius: 1.25, fontWeight: 900, fontSize: '0.9rem', letterSpacing: 0.2 }}>
+    <Box
+      sx={{
+        bgcolor: 'primary.main',
+        color: 'background.default',
+        px: 1,
+        py: 0.5,
+        borderRadius: 1.25,
+        fontWeight: 900,
+        fontSize: '0.9rem',
+        letterSpacing: 0.2
+      }}
+    >
       CII
     </Box>
   );

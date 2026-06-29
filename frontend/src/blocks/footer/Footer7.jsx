@@ -141,13 +141,7 @@ export default function Footer7() {
                   {usefullLinks.map((item, index) => (
                     <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }} key={index}>
                       {item.icon}
-                      <Link
-                        component={NextLink}
-                        variant="body2"
-                        color="text.secondary"
-                        href={item.href}
-                        aria-label="Usefull Links"
-                      >
+                      <Link component={NextLink} variant="body2" color="text.secondary" href={item.href} aria-label="Usefull Links">
                         {item.title}
                       </Link>
                     </Stack>

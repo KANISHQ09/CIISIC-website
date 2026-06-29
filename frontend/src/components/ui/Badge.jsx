@@ -11,42 +11,35 @@ const StyledChip = styled(Chip)(({ theme, color }) => ({
   fontWeight: 600,
   fontSize: '12px',
   height: '24px',
-  
+
   ...(color === 'primary' && {
     backgroundColor: theme.palette.primary.lighter,
-    color: theme.palette.primary.dark,
+    color: theme.palette.primary.dark
   }),
-  
+
   ...(color === 'success' && {
     backgroundColor: theme.palette.success.lighter,
-    color: theme.palette.success.dark,
+    color: theme.palette.success.dark
   }),
 
   ...(color === 'error' && {
     backgroundColor: theme.palette.error.lighter,
-    color: theme.palette.error.dark,
+    color: theme.palette.error.dark
   }),
 
   ...(color === 'warning' && {
     backgroundColor: theme.palette.warning.lighter,
-    color: theme.palette.warning.dark,
+    color: theme.palette.warning.dark
   }),
 
   ...(color === 'info' && {
     backgroundColor: theme.palette.info.lighter,
-    color: theme.palette.info.dark,
+    color: theme.palette.info.dark
   })
 }));
 
 export default function Badge({ label, color = 'primary', ...props }) {
-  return (
-    <StyledChip
-      label={label}
-      color={color}
-      size="small"
-      {...props}
-    />
-  );
+  return <StyledChip label={label} color={color} size="small" {...props} />;
 }
 
 Badge.propTypes = {

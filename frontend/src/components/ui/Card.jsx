@@ -15,7 +15,7 @@ const StyledCard = styled(MuiCard)(({ theme }) => ({
 
   '&:hover': {
     transform: 'translateY(-4px)',
-    boxShadow: shadows.elevation,
+    boxShadow: shadows.elevation
   }
 }));
 

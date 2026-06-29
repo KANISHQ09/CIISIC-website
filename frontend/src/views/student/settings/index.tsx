@@ -16,7 +16,7 @@ export default function StudentSettings() {
   const [email, setEmail] = useState('');
   const [githubUrl, setGithubUrl] = useState('');
   const [linkedinUrl, setLinkedinUrl] = useState('');
-  
+
   // Notification Prefs
   const [emailOnComment, setEmailOnComment] = useState(true);
   const [emailOnDeadline, setEmailOnDeadline] = useState(true);
@@ -72,7 +72,7 @@ export default function StudentSettings() {
       showToast('Please specify both current and new password.', 'error');
       return;
     }
-    
+
     // Mock change password success
     setTimeout(() => {
       setOldPassword('');
@@ -171,7 +171,9 @@ export default function StudentSettings() {
             />
             <div className="leading-tight">
               <p className="text-xs font-bold text-zinc-800">Email alerts on Review comments</p>
-              <span className="text-[10px] text-zinc-400 font-medium">Receive direct alerts when academic/industry reviews comment on proposal.</span>
+              <span className="text-[10px] text-zinc-400 font-medium">
+                Receive direct alerts when academic/industry reviews comment on proposal.
+              </span>
             </div>
           </label>
 
@@ -184,7 +186,9 @@ export default function StudentSettings() {
             />
             <div className="leading-tight">
               <p className="text-xs font-bold text-zinc-800">Deadline reminders</p>
-              <span className="text-[10px] text-zinc-400 font-medium">Receive alert reminders 48 hours before challenge submissions close.</span>
+              <span className="text-[10px] text-zinc-400 font-medium">
+                Receive alert reminders 48 hours before challenge submissions close.
+              </span>
             </div>
           </label>
         </div>

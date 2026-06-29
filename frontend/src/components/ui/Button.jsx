@@ -16,25 +16,26 @@ const StyledButton = styled(MuiButton)(({ theme, variant, color }) => ({
 
   '&:hover': {
     transform: 'scale(1.02)',
-    boxShadow: 'none',
+    boxShadow: 'none'
   },
-  
+
   '&:active': {
-    transform: 'scale(0.98)',
+    transform: 'scale(0.98)'
   },
 
   '&:focus-visible': {
     outline: `3px solid ${theme.palette.primary.light}`,
-    outlineOffset: '2px',
+    outlineOffset: '2px'
   },
 
-  ...(variant === 'contained' && color === 'primary' && {
-    backgroundColor: theme.palette.primary.main,
-    color: '#fff',
-    '&:hover': {
-      backgroundColor: theme.palette.primary.dark,
-    }
-  }),
+  ...(variant === 'contained' &&
+    color === 'primary' && {
+      backgroundColor: theme.palette.primary.main,
+      color: '#fff',
+      '&:hover': {
+        backgroundColor: theme.palette.primary.dark
+      }
+    }),
 
   ...(variant === 'outlined' && {
     borderColor: theme.palette.divider,

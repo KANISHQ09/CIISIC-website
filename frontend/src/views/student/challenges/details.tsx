@@ -25,7 +25,7 @@ export default function ChallengeDetails() {
   const params = useParams();
   const router = useRouter();
   const { showToast } = useToast();
-  
+
   const challengeId = params?.id as string;
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [isSaved, setIsSaved] = useState(false);
@@ -65,15 +65,10 @@ export default function ChallengeDetails() {
   const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!commentText.trim() || !challenge) return;
-    
+
     try {
       const student = await StudentService.getProfile();
-      const updated = await ChallengeService.addDiscussionComment(
-        challenge.id,
-        student.name,
-        'Student',
-        commentText.trim()
-      );
+      const updated = await ChallengeService.addDiscussionComment(challenge.id, student.name, 'Student', commentText.trim());
       if (updated) {
         setChallenge(updated);
         setCommentText('');
@@ -86,9 +81,12 @@ export default function ChallengeDetails() {
 
   const getDifficultyBg = (dif: string) => {
     switch (dif) {
-      case 'HARD': return 'bg-rose-50 border-rose-100 text-rose-700';
-      case 'MEDIUM': return 'bg-blue-50 border-blue-100 text-blue-700';
-      default: return 'bg-emerald-50 border-emerald-100 text-emerald-700';
+      case 'HARD':
+        return 'bg-rose-50 border-rose-100 text-rose-700';
+      case 'MEDIUM':
+        return 'bg-blue-50 border-blue-100 text-blue-700';
+      default:
+        return 'bg-emerald-50 border-emerald-100 text-emerald-700';
     }
   };
 
@@ -128,13 +126,13 @@ export default function ChallengeDetails() {
             <span className="px-2.5 py-1 bg-zinc-100/80 rounded-lg text-[10px] font-extrabold text-zinc-500 uppercase tracking-wider">
               {challenge.category}
             </span>
-            <span className={`px-2.5 py-1 rounded-lg text-[10px] font-extrabold border uppercase tracking-wider ${getDifficultyBg(challenge.difficulty)}`}>
+            <span
+              className={`px-2.5 py-1 rounded-lg text-[10px] font-extrabold border uppercase tracking-wider ${getDifficultyBg(challenge.difficulty)}`}
+            >
               {challenge.difficulty} Difficulty
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-zinc-900 tracking-tight leading-tight">
-            {challenge.title}
-          </h1>
+          <h1 className="text-2xl md:text-3xl font-black text-zinc-900 tracking-tight leading-tight">{challenge.title}</h1>
           <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-zinc-500">
             <div className="flex items-center gap-1.5">
               <Building className="w-4 h-4 text-zinc-400" />
@@ -184,9 +182,7 @@ export default function ChallengeDetails() {
           {/* Main Description */}
           <div className="bg-white border border-zinc-150 rounded-3xl p-6 shadow-sm space-y-4">
             <h2 className="text-lg font-extrabold text-zinc-900 tracking-tight">Challenge Brief</h2>
-            <p className="text-sm text-zinc-600 leading-relaxed font-medium">
-              {challenge.description}
-            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed font-medium">{challenge.description}</p>
 
             {/* Deliverables checklist */}
             <div className="space-y-3 pt-2">
@@ -207,7 +203,7 @@ export default function ChallengeDetails() {
             <div className="space-y-2.5 pt-2">
               <h4 className="text-xs font-extrabold text-zinc-800 uppercase tracking-wider">Suggested Technology Stack</h4>
               <div className="flex flex-wrap gap-2">
-                {challenge.techStack.map(tech => (
+                {challenge.techStack.map((tech) => (
                   <span key={tech} className="px-3 py-1.5 bg-zinc-50 border border-zinc-150 rounded-xl text-xs font-bold text-zinc-700">
                     {tech}
                   </span>
@@ -221,7 +217,7 @@ export default function ChallengeDetails() {
             <div className="bg-white border border-zinc-150 rounded-3xl p-6 shadow-sm space-y-4">
               <h2 className="text-lg font-extrabold text-zinc-900 tracking-tight">Reference Attachments</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {challenge.attachments.map(att => (
+                {challenge.attachments.map((att) => (
                   <div key={att.name} className="p-3 border border-zinc-150 rounded-2xl flex items-center justify-between gap-4">
                     <div className="flex items-center gap-2.5">
                       <FileText className="w-5 h-5 text-zinc-400" />
@@ -244,7 +240,7 @@ export default function ChallengeDetails() {
             <div className="bg-white border border-zinc-150 rounded-3xl p-6 shadow-sm space-y-4">
               <h2 className="text-lg font-extrabold text-zinc-900 tracking-tight">Frequently Asked Questions</h2>
               <div className="space-y-4">
-                {challenge.faqs.map(faq => (
+                {challenge.faqs.map((faq) => (
                   <div key={faq.question} className="space-y-1.5 text-left border-b border-zinc-50 pb-3 last:border-0 last:pb-0">
                     <p className="text-xs font-bold text-zinc-800">Q: {faq.question}</p>
                     <p className="text-xs text-zinc-500 font-medium leading-relaxed">A: {faq.answer}</p>
@@ -257,7 +253,7 @@ export default function ChallengeDetails() {
           {/* Discussions board */}
           <div className="bg-white border border-zinc-150 rounded-3xl p-6 shadow-sm space-y-5">
             <h2 className="text-lg font-extrabold text-zinc-900 tracking-tight border-b border-zinc-50 pb-3">Discussions Thread</h2>
-            
+
             {/* Comment write box */}
             <form onSubmit={handleAddComment} className="flex gap-3">
               <input
@@ -276,14 +272,18 @@ export default function ChallengeDetails() {
             </form>
 
             {/* Comment list */}
-            {(!challenge.discussion || challenge.discussion.length === 0) ? (
+            {!challenge.discussion || challenge.discussion.length === 0 ? (
               <p className="text-xs text-zinc-400 py-4 text-center">No discussion posts yet. Be the first to ask a query!</p>
             ) : (
               <div className="space-y-4 mt-2">
-                {challenge.discussion.map(disc => (
+                {challenge.discussion.map((disc) => (
                   <div key={disc.id} className="flex items-start gap-3 text-left">
                     {disc.authorAvatar ? (
-                      <img src={disc.authorAvatar} className="w-8 h-8 rounded-lg object-cover border border-zinc-100 shrink-0 mt-0.5" alt="avatar" />
+                      <img
+                        src={disc.authorAvatar}
+                        className="w-8 h-8 rounded-lg object-cover border border-zinc-100 shrink-0 mt-0.5"
+                        alt="avatar"
+                      />
                     ) : (
                       <div className="w-8 h-8 rounded-lg bg-violet-50 text-violet-600 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
                         {disc.authorName.slice(0, 2)}
@@ -293,7 +293,9 @@ export default function ChallengeDetails() {
                       <div className="flex items-center justify-between text-[10px] text-zinc-400 font-bold">
                         <div>
                           <span className="text-zinc-700 font-extrabold mr-1">{disc.authorName}</span>
-                          <span className="px-1.5 py-0.2 bg-zinc-100 text-zinc-400 rounded-md uppercase tracking-wider text-[8px]">{disc.authorRole}</span>
+                          <span className="px-1.5 py-0.2 bg-zinc-100 text-zinc-400 rounded-md uppercase tracking-wider text-[8px]">
+                            {disc.authorRole}
+                          </span>
                         </div>
                         <span>{new Date(disc.createdAt).toLocaleDateString()}</span>
                       </div>
@@ -315,17 +317,23 @@ export default function ChallengeDetails() {
               <div className="relative">
                 <div className="absolute left-[-21px] top-1 w-2.5 h-2.5 rounded-full bg-violet-600" />
                 <p className="text-xs font-bold text-zinc-800">Challenge Published</p>
-                <p className="text-[10px] text-zinc-400 font-bold uppercase">{new Date(challenge.timeline.published).toLocaleDateString()}</p>
+                <p className="text-[10px] text-zinc-400 font-bold uppercase">
+                  {new Date(challenge.timeline.published).toLocaleDateString()}
+                </p>
               </div>
               <div className="relative">
                 <div className="absolute left-[-21px] top-1 w-2.5 h-2.5 rounded-full bg-violet-600" />
                 <p className="text-xs font-bold text-zinc-800">Proposal Submission Deadline</p>
-                <p className="text-[10px] text-zinc-400 font-bold uppercase">{new Date(challenge.timeline.submissionDeadline).toLocaleDateString()}</p>
+                <p className="text-[10px] text-zinc-400 font-bold uppercase">
+                  {new Date(challenge.timeline.submissionDeadline).toLocaleDateString()}
+                </p>
               </div>
               <div className="relative">
                 <div className="absolute left-[-21px] top-1 w-2.5 h-2.5 rounded-full bg-zinc-300" />
                 <p className="text-xs font-bold text-zinc-800">Review Auditing Completed</p>
-                <p className="text-[10px] text-zinc-400 font-bold uppercase">{new Date(challenge.timeline.reviewCompleted).toLocaleDateString()}</p>
+                <p className="text-[10px] text-zinc-400 font-bold uppercase">
+                  {new Date(challenge.timeline.reviewCompleted).toLocaleDateString()}
+                </p>
               </div>
             </div>
           </div>
@@ -334,8 +342,11 @@ export default function ChallengeDetails() {
           <div className="bg-white border border-zinc-150 rounded-3xl p-6 shadow-sm space-y-3">
             <h3 className="text-sm font-extrabold text-zinc-900 uppercase tracking-wider">Prerequisite Skills</h3>
             <div className="flex flex-wrap gap-1.5">
-              {challenge.skillsRequired.map(skill => (
-                <span key={skill} className="px-2.5 py-1 bg-violet-50 text-violet-700 rounded-lg text-[10px] font-bold border border-violet-100 uppercase tracking-wider">
+              {challenge.skillsRequired.map((skill) => (
+                <span
+                  key={skill}
+                  className="px-2.5 py-1 bg-violet-50 text-violet-700 rounded-lg text-[10px] font-bold border border-violet-100 uppercase tracking-wider"
+                >
                   {skill}
                 </span>
               ))}
@@ -352,7 +363,9 @@ export default function ChallengeDetails() {
               <div className="text-left leading-tight">
                 <p className="text-xs font-extrabold text-zinc-800">Amit Saxena</p>
                 <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Industry Leader</span>
-                <p className="text-[10px] text-violet-600 hover:underline cursor-pointer mt-0.5" onClick={() => router.push('/messages')}>Send Direct Message</p>
+                <p className="text-[10px] text-violet-600 hover:underline cursor-pointer mt-0.5" onClick={() => router.push('/messages')}>
+                  Send Direct Message
+                </p>
               </div>
             </div>
           </div>

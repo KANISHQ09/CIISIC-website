@@ -8,9 +8,7 @@ export default async function CellDetailPage(props) {
   const params = await props.params;
   const themeParam = params.theme?.toLowerCase();
 
-  const cell = Object.values(cells).find(
-    (c) => c.theme.toLowerCase() === themeParam
-  );
+  const cell = Object.values(cells).find((c) => c.theme.toLowerCase() === themeParam);
 
   if (!cell) {
     notFound();
@@ -19,25 +17,15 @@ export default async function CellDetailPage(props) {
   return (
     <div className="w-full min-h-screen bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-12 text-left">
-        
         {/* Cell Header */}
         <div className="space-y-6">
-          <div 
-            className="w-16 h-16 rounded-2xl flex items-center justify-center text-white"
-            style={{ backgroundColor: cell.primaryColor }}
-          >
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white" style={{ backgroundColor: cell.primaryColor }}>
             <BrainCircuit className="w-8 h-8" />
           </div>
           <div className="space-y-2">
-            <span className="text-xs uppercase tracking-widest text-neutral-500 font-extrabold">
-              Hosted by {cell.hostName}
-            </span>
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
-              {cell.name}
-            </h1>
-            <p className="text-base sm:text-lg text-neutral-600 leading-relaxed font-medium">
-              {cell.tagline}
-            </p>
+            <span className="text-xs uppercase tracking-widest text-neutral-500 font-extrabold">Hosted by {cell.hostName}</span>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">{cell.name}</h1>
+            <p className="text-base sm:text-lg text-neutral-600 leading-relaxed font-medium">{cell.tagline}</p>
           </div>
         </div>
 
@@ -79,7 +67,8 @@ export default async function CellDetailPage(props) {
           <div className="space-y-2 text-left">
             <h4 className="text-base font-bold">Join the {cell.theme} Cohort</h4>
             <p className="text-xs text-white/80 leading-relaxed max-w-md">
-              Are you a student or faculty mentor from Madhya Pradesh working in {cell.theme}? Apply to get matched with corporate research problems.
+              Are you a student or faculty mentor from Madhya Pradesh working in {cell.theme}? Apply to get matched with corporate research
+              problems.
             </p>
           </div>
           <Link href="/auth/register">

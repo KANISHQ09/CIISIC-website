@@ -22,7 +22,12 @@ export const Login: React.FC = () => {
   const { showToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<LoginFields>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm<LoginFields>({
     resolver: zodResolver(loginSchema)
   });
 
@@ -62,25 +67,29 @@ export const Login: React.FC = () => {
       label: 'Student',
       who: 'Students',
       email: 'student@lnct.ac.in',
-      responsibilities: 'Browse challenges, ask queries, submit proposals, upload documents, track proposal status, communicate with industry through portal.'
+      responsibilities:
+        'Browse challenges, ask queries, submit proposals, upload documents, track proposal status, communicate with industry through portal.'
     },
     INDUSTRY_SPOC: {
       label: 'Industry SPOC',
       who: 'Company representatives',
       email: 'spoc@netlink.com',
-      responsibilities: 'Create and manage problem statements, respond to student queries, review proposals, approve/reject submissions, track challenge progress.'
+      responsibilities:
+        'Create and manage problem statements, respond to student queries, review proposals, approve/reject submissions, track challenge progress.'
     },
     INSTITUTION_SPOC: {
       label: 'Institutional SPOC',
       who: 'College/University coordinators',
       email: 'spoc@lnct.ac.in',
-      responsibilities: 'Register and manage students, monitor student participation, approve institutional registrations (if required), view reports, communicate with students.'
+      responsibilities:
+        'Register and manage students, monitor student participation, approve institutional registrations (if required), view reports, communicate with students.'
     },
     ADMIN: {
       label: 'Platform Admin',
       who: 'CIISIC/CII administrators',
       email: 'admin@ciisic.in',
-      responsibilities: 'Manage users, approve registrations, maintain CII member directory, monitor activity, generate reports, audit logs, platform configuration.'
+      responsibilities:
+        'Manage users, approve registrations, maintain CII member directory, monitor activity, generate reports, audit logs, platform configuration.'
     }
   };
 
@@ -100,7 +109,9 @@ export const Login: React.FC = () => {
 
       {/* Dev shortcuts */}
       <div className="space-y-3">
-        <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider block text-left">Ecosystem Role Guides & Shortcuts</label>
+        <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider block text-left">
+          Ecosystem Role Guides & Shortcuts
+        </label>
         <div className="grid grid-cols-2 gap-2">
           {(Object.keys(rolesInfo) as Array<keyof typeof rolesInfo>).map((roleKey) => (
             <button
@@ -117,7 +128,6 @@ export const Login: React.FC = () => {
             </button>
           ))}
         </div>
-
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

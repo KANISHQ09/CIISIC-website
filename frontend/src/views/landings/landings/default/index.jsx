@@ -25,7 +25,6 @@ import {
 /***************************  PAGE - MAIN  ***************************/
 
 export default function Main() {
-
   return (
     <>
       <Hero17 {...hero} />

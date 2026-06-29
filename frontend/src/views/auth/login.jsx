@@ -15,10 +15,22 @@ const rolesList = [
 
 const GoogleIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 48 48">
-    <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s12-5.373 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-2.641-.21-5.236-.611-7.743z" />
-    <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" />
-    <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" />
-    <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.022 35.026 44 30.038 44 24c0-2.641-.21-5.236-.611-7.743z" />
+    <path
+      fill="#FFC107"
+      d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s12-5.373 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-2.641-.21-5.236-.611-7.743z"
+    />
+    <path
+      fill="#FF3D00"
+      d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"
+    />
+    <path
+      fill="#4CAF50"
+      d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"
+    />
+    <path
+      fill="#1976D2"
+      d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.022 35.026 44 30.038 44 24c0-2.641-.21-5.236-.611-7.743z"
+    />
   </svg>
 );
 
@@ -30,7 +42,9 @@ const CiisicLogo = () => (
       </svg>
     </div>
     <div className="text-left">
-      <span className="text-base font-black tracking-tight text-zinc-900">CII <span className="text-violet-600 font-extrabold">CIISIC</span></span>
+      <span className="text-base font-black tracking-tight text-zinc-900">
+        CII <span className="text-violet-600 font-extrabold">CIISIC</span>
+      </span>
       <p className="text-[8px] text-zinc-400 font-extrabold uppercase tracking-wider -mt-1.5">Collaboration Hub</p>
     </div>
   </div>
@@ -81,7 +95,7 @@ export default function LoginPage() {
 
   const performLogin = async (emailVal, passwordVal) => {
     setIsLoading(true);
-    const roleItem = rolesList.find(r => r.email === emailVal);
+    const roleItem = rolesList.find((r) => r.email === emailVal);
     const roleKey = roleItem ? roleItem.key : 'STUDENT';
 
     try {
@@ -111,7 +125,7 @@ export default function LoginPage() {
 
   const handleRoleSelect = async (roleKey) => {
     setActiveRole(roleKey);
-    const roleItem = rolesList.find(r => r.key === roleKey);
+    const roleItem = rolesList.find((r) => r.key === roleKey);
     if (roleItem) {
       setEmail(roleItem.email);
       setPassword('Password@123');
@@ -206,17 +220,27 @@ export default function LoginPage() {
                   required
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="ml-2 focus:outline-none">
-                  {showPassword ? <EyeOff className="w-4 h-4 text-zinc-400 hover:text-zinc-600 transition-colors" /> : <Eye className="w-4 h-4 text-zinc-400 hover:text-zinc-600 transition-colors" />}
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4 text-zinc-400 hover:text-zinc-600 transition-colors" />
+                  ) : (
+                    <Eye className="w-4 h-4 text-zinc-400 hover:text-zinc-600 transition-colors" />
+                  )}
                 </button>
               </div>
             </div>
 
             <div className="flex items-center justify-between text-xs font-semibold pt-1">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" name="rememberMe" className="rounded border-zinc-300 text-violet-600 focus:ring-violet-500 h-4 w-4" />
+                <input
+                  type="checkbox"
+                  name="rememberMe"
+                  className="rounded border-zinc-300 text-violet-600 focus:ring-violet-500 h-4 w-4"
+                />
                 <span className="text-zinc-600">Keep me signed in</span>
               </label>
-              <a href="#" className="hover:underline text-violet-600 transition-colors">Reset password</a>
+              <a href="#" className="hover:underline text-violet-600 transition-colors">
+                Reset password
+              </a>
             </div>
 
             <button
@@ -242,7 +266,10 @@ export default function LoginPage() {
           </button>
 
           <p className="text-center text-xs font-semibold text-zinc-500">
-            New to our platform? <a href="/auth/register" className="text-violet-600 hover:underline transition-colors">Create Account</a>
+            New to our platform?{' '}
+            <a href="/auth/register" className="text-violet-600 hover:underline transition-colors">
+              Create Account
+            </a>
           </p>
         </div>
       </section>
@@ -277,7 +304,9 @@ export default function LoginPage() {
 
           {/* Metric Stats glassmorphic card */}
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl space-y-4 max-w-xs">
-            <div className="text-white font-bold text-xs uppercase tracking-wider text-left border-b border-white/5 pb-2">Platform Metrics</div>
+            <div className="text-white font-bold text-xs uppercase tracking-wider text-left border-b border-white/5 pb-2">
+              Platform Metrics
+            </div>
             <div className="grid grid-cols-2 gap-4 text-left">
               <div>
                 <div className="text-2xl font-extrabold text-white">4.2k+</div>
@@ -302,7 +331,9 @@ export default function LoginPage() {
         {/* Bottom Footer */}
         <div className="relative z-10 flex items-center justify-between text-neutral-500 text-xs">
           <div>© {new Date().getFullYear()} CIISIC Platform. All rights reserved.</div>
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" className="hover:text-white transition-colors">
+            Privacy Policy
+          </a>
         </div>
       </section>
     </div>

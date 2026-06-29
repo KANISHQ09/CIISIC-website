@@ -12,11 +12,7 @@ interface ChallengeCardProps {
   isBookmarked?: boolean;
 }
 
-export const ChallengeCard: React.FC<ChallengeCardProps> = ({
-  challenge,
-  onBookmarkToggle,
-  isBookmarked = false
-}) => {
+export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, onBookmarkToggle, isBookmarked = false }) => {
   const router = useRouter();
 
   const handleCardClick = () => {
@@ -59,19 +55,13 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({
           <h3 className="text-base font-extrabold text-zinc-900 group-hover:text-violet-600 transition-colors line-clamp-1">
             {challenge.title}
           </h3>
-          <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed">
-            {challenge.description}
-          </p>
+          <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed">{challenge.description}</p>
         </div>
 
         {/* Company & Institution badge */}
         <div className="flex items-center gap-3">
           {challenge.companyLogo ? (
-            <img
-              src={challenge.companyLogo}
-              alt="logo"
-              className="w-9 h-9 rounded-xl object-cover border border-zinc-100"
-            />
+            <img src={challenge.companyLogo} alt="logo" className="w-9 h-9 rounded-xl object-cover border border-zinc-100" />
           ) : (
             <div className="w-9 h-9 rounded-xl bg-violet-50 text-violet-600 font-bold flex items-center justify-center text-xs">
               {challenge.companyName.slice(0, 2)}
@@ -90,7 +80,7 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({
           <Calendar className="w-3.5 h-3.5 text-zinc-400" />
           <span>Deadline: {challenge.deadline}</span>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <StatusBadge status={challenge.difficulty} />
         </div>

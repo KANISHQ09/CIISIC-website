@@ -32,9 +32,7 @@ export default function NotificationsCenter() {
   const handleMarkRead = async (id: string) => {
     const success = await NotificationService.markAsRead(id);
     if (success) {
-      setNotifications(prev =>
-        prev.map(n => (n.id === id ? { ...n, isRead: true } : n))
-      );
+      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)));
       showToast('Notification marked as read.', 'success');
     }
   };
@@ -42,12 +40,12 @@ export default function NotificationsCenter() {
   const handleMarkAllRead = async () => {
     const success = await NotificationService.markAllAsRead();
     if (success) {
-      setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+      setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
       showToast('All notifications marked as read.', 'success');
     }
   };
 
-  const unreadCount = notifications.filter(n => !n.isRead).length;
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   return (
     <div className="space-y-6 text-left pb-12 select-none max-w-xl mx-auto">
@@ -59,7 +57,7 @@ export default function NotificationsCenter() {
             {unreadCount} unread message{unreadCount !== 1 && 's'}
           </p>
         </div>
-        
+
         {unreadCount > 0 && (
           <button
             type="button"
@@ -88,12 +86,8 @@ export default function NotificationsCenter() {
         </div>
       ) : (
         <div className="space-y-4">
-          {notifications.map(n => (
-            <NotificationItem
-              key={n.id}
-              notification={n}
-              onMarkRead={handleMarkRead}
-            />
+          {notifications.map((n) => (
+            <NotificationItem key={n.id} notification={n} onMarkRead={handleMarkRead} />
           ))}
         </div>
       )}

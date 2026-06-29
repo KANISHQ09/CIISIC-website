@@ -11,15 +11,11 @@ const StyledGlassBox = styled(Box)(({ theme }) => ({
   backdropFilter: 'blur(12px)',
   border: '1px solid rgba(255, 255, 255, 0.4)',
   boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.04)',
-  padding: '24px',
+  padding: '24px'
 }));
 
 export default function GlassPanel({ children, ...props }) {
-  return (
-    <StyledGlassBox {...props}>
-      {children}
-    </StyledGlassBox>
-  );
+  return <StyledGlassBox {...props}>{children}</StyledGlassBox>;
 }
 
 GlassPanel.propTypes = {

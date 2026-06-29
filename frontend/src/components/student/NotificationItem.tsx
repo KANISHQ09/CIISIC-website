@@ -8,10 +8,7 @@ interface NotificationItemProps {
   onMarkRead?: (id: string) => void;
 }
 
-export const NotificationItem: React.FC<NotificationItemProps> = ({
-  notification,
-  onMarkRead
-}) => {
+export const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onMarkRead }) => {
   const getIcon = () => {
     switch (notification.type) {
       case 'CHALLENGE':
@@ -60,21 +57,19 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
       }`}
     >
       {/* Icon Badge */}
-      <div className={`w-9.5 h-9.5 rounded-xl border flex items-center justify-center shrink-0 ${getIconBg()}`}>
-        {getIcon()}
-      </div>
+      <div className={`w-9.5 h-9.5 rounded-xl border flex items-center justify-center shrink-0 ${getIconBg()}`}>{getIcon()}</div>
 
       {/* Info */}
       <div className="flex-1 space-y-1 text-left">
         <div className="flex items-start justify-between gap-4">
-          <h4 className={`text-sm tracking-tight leading-snug ${notification.isRead ? 'font-semibold text-zinc-800' : 'font-extrabold text-zinc-950'}`}>
+          <h4
+            className={`text-sm tracking-tight leading-snug ${notification.isRead ? 'font-semibold text-zinc-800' : 'font-extrabold text-zinc-950'}`}
+          >
             {notification.title}
           </h4>
           <span className="text-[10px] text-zinc-400 font-bold shrink-0">{timeAgo(notification.date)}</span>
         </div>
-        <p className="text-xs text-zinc-500 leading-relaxed font-medium">
-          {notification.content}
-        </p>
+        <p className="text-xs text-zinc-500 leading-relaxed font-medium">{notification.content}</p>
       </div>
 
       {/* Actions */}

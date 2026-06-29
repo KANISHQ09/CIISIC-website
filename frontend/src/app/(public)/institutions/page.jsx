@@ -5,24 +5,31 @@ import { institutions } from '@/content/institutions';
 import { Building2, ArrowUpRight, MapPin, Search } from 'lucide-react';
 import Link from 'next/link';
 
+import dynamic from 'next/dynamic';
+import useAuth from '@/hooks/useAuth';
+
+const SuperAdminInstitutions = dynamic(() => import('@/views/admin/institutions'));
+
 export default function InstitutionsPage() {
+  const { role } = useAuth();
+
+  if (role === 'SUPER_ADMIN') {
+    return <SuperAdminInstitutions />;
+  }
+
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredInstitutions = institutions.filter(inst => 
-    inst.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    inst.district.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredInstitutions = institutions.filter(
+    (inst) => inst.name.toLowerCase().includes(searchTerm.toLowerCase()) || inst.district.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="w-full min-h-screen bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-12 text-left">
-        
         {/* Header */}
         <div className="space-y-4">
           <span className="text-xs uppercase tracking-widest text-blue-900 font-extrabold">Cooperating Network</span>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
-            Partner Institutions
-          </h1>
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">Partner Institutions</h1>
           <p className="text-base sm:text-lg text-neutral-600 leading-relaxed font-medium">
             Over 40 academic universities and colleges coordinate verified challenges in Madhya Pradesh.
           </p>
@@ -42,15 +49,13 @@ export default function InstitutionsPage() {
               className="w-full pl-10 pr-4 py-3 border border-zinc-300 rounded-xl text-xs bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
             />
           </div>
-          <span className="text-xs font-bold text-neutral-400 font-mono">
-            {filteredInstitutions.length} chapters found
-          </span>
+          <span className="text-xs font-bold text-neutral-400 font-mono">{filteredInstitutions.length} chapters found</span>
         </div>
 
         {/* List of institutions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredInstitutions.map((inst) => (
-            <div 
+            <div
               key={inst.id}
               className="bg-white border border-zinc-200 rounded-3xl p-6 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[220px] text-left group"
             >
@@ -73,7 +78,10 @@ export default function InstitutionsPage() {
                   <MapPin className="w-3.5 h-3.5 text-zinc-400" />
                   <span>{inst.district}</span>
                 </div>
-                <Link href={`/institutions/${inst.id}`} className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-900 hover:text-blue-700">
+                <Link
+                  href={`/institutions/${inst.id}`}
+                  className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-900 hover:text-blue-700"
+                >
                   <span>View chapter</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </Link>
@@ -81,7 +89,6 @@ export default function InstitutionsPage() {
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );

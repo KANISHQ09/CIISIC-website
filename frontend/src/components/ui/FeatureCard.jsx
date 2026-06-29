@@ -16,7 +16,7 @@ const IconContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: colors.primary.lighter,
-  color: colors.primary.main,
+  color: colors.primary.main
 }));
 
 export default function FeatureCard({ icon: Icon, title, description }) {

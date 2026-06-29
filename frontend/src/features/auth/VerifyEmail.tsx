@@ -65,10 +65,7 @@ export const VerifyEmail: React.FC = () => {
         <div className="space-y-4 p-4 bg-red-50 border border-red-200 rounded-2xl">
           <p className="text-sm font-bold text-red-800">Email verification failed</p>
           <p className="text-xs text-red-700">The verification token is invalid or expired.</p>
-          <button
-            onClick={() => router.push('/auth/login')}
-            className="mt-2 text-xs font-bold text-primary hover:underline cursor-pointer"
-          >
+          <button onClick={() => router.push('/auth/login')} className="mt-2 text-xs font-bold text-primary hover:underline cursor-pointer">
             Go back to Sign In
           </button>
         </div>

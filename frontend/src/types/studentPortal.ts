@@ -41,7 +41,14 @@ export interface Challenge {
   industry: string;
 }
 
-export type ProposalStatus = 'DRAFT' | 'SUBMITTED' | 'INSTITUTION_VERIFIED' | 'UNDER_REVIEW' | 'ACCEPTED' | 'REJECTED' | 'REVISION_REQUESTED';
+export type ProposalStatus =
+  | 'DRAFT'
+  | 'SUBMITTED'
+  | 'INSTITUTION_VERIFIED'
+  | 'UNDER_REVIEW'
+  | 'ACCEPTED'
+  | 'REJECTED'
+  | 'REVISION_REQUESTED';
 
 export interface ProposalVersion {
   version: number;

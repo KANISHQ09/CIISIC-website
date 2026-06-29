@@ -30,7 +30,12 @@ export const Register: React.FC = () => {
   const { showToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterFields>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<RegisterFields>({
     resolver: zodResolver(registerSchema),
     defaultValues: { role: 'STUDENT' }
   });
@@ -48,13 +53,14 @@ export const Register: React.FC = () => {
           email: data.email,
           password: data.password,
           role: data.role,
-          profileData: data.role === 'STUDENT' 
-            ? { enrollmentNo: `CII/ST/${Date.now().toString().slice(-4)}`, skills: [], department: 'General', yearOfStudy: 1 }
-            : data.role === 'INDUSTRY_SPOC'
-            ? { companyName: data.affiliationName || 'New Corporate Partner', industry: 'General', isCIIMember: true }
-            : data.role === 'ADMIN'
-            ? { adminRole: 'Global Administrator', department: 'CII Operations' }
-            : { designation: 'Dean of Placement', department: 'Administration' }
+          profileData:
+            data.role === 'STUDENT'
+              ? { enrollmentNo: `CII/ST/${Date.now().toString().slice(-4)}`, skills: [], department: 'General', yearOfStudy: 1 }
+              : data.role === 'INDUSTRY_SPOC'
+                ? { companyName: data.affiliationName || 'New Corporate Partner', industry: 'General', isCIIMember: true }
+                : data.role === 'ADMIN'
+                  ? { adminRole: 'Global Administrator', department: 'CII Operations' }
+                  : { designation: 'Dean of Placement', department: 'Administration' }
         })
       });
       const result = await response.json();
@@ -163,7 +169,17 @@ export const Register: React.FC = () => {
         </button>
 
         <p className="text-center text-xs font-semibold text-zinc-500 pt-2">
-          Already have an account? <a href="/auth/login" onClick={(e) => { e.preventDefault(); router.push('/auth/login'); }} className="text-violet-600 hover:underline transition-colors">Sign In</a>
+          Already have an account?{' '}
+          <a
+            href="/auth/login"
+            onClick={(e) => {
+              e.preventDefault();
+              router.push('/auth/login');
+            }}
+            className="text-violet-600 hover:underline transition-colors"
+          >
+            Sign In
+          </a>
         </p>
       </form>
     </div>

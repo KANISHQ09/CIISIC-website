@@ -31,7 +31,7 @@ export default function BookmarksExplorer() {
 
   const handleBookmarkToggle = async (id: string) => {
     await ChallengeService.toggleBookmark(id);
-    setBookmarks(prev => prev.filter(b => b.id !== id));
+    setBookmarks((prev) => prev.filter((b) => b.id !== id));
     showToast('Challenge removed from bookmarks.', 'info');
   };
 
@@ -58,13 +58,8 @@ export default function BookmarksExplorer() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {bookmarks.map(c => (
-            <ChallengeCard
-              key={c.id}
-              challenge={c}
-              isBookmarked={true}
-              onBookmarkToggle={() => handleBookmarkToggle(c.id)}
-            />
+          {bookmarks.map((c) => (
+            <ChallengeCard key={c.id} challenge={c} isBookmarked={true} onBookmarkToggle={() => handleBookmarkToggle(c.id)} />
           ))}
         </div>
       )}

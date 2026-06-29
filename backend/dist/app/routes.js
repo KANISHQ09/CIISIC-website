@@ -1,0 +1,38 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const user_controller_1 = require("../modules/users/user.controller");
+const auth_routes_1 = __importDefault(require("../modules/auth/auth.routes"));
+const cell_routes_1 = __importDefault(require("../modules/cells/cell.routes"));
+const institution_routes_1 = __importDefault(require("../modules/institutions/institution.routes"));
+const company_routes_1 = __importDefault(require("../modules/companies/company.routes"));
+const challenge_routes_1 = __importDefault(require("../modules/challenges/challenge.routes"));
+const proposal_routes_1 = __importDefault(require("../modules/proposals/proposal.routes"));
+const review_routes_1 = __importDefault(require("../modules/reviews/review.routes"));
+const message_routes_1 = __importDefault(require("../modules/messages/message.routes"));
+const notification_routes_1 = __importDefault(require("../modules/notifications/notification.routes"));
+const upload_routes_1 = __importDefault(require("../modules/uploads/upload.routes"));
+const search_routes_1 = __importDefault(require("../modules/search/search.routes"));
+const analytics_routes_1 = __importDefault(require("../modules/analytics/analytics.routes"));
+const platform_routes_1 = __importDefault(require("../modules/platform/platform.routes"));
+const router = (0, express_1.Router)();
+const userController = new user_controller_1.UserController();
+// Version 1 Routes
+router.use('/v1/auth', auth_routes_1.default);
+router.use('/v1/cells', cell_routes_1.default);
+router.use('/v1/institutions', institution_routes_1.default);
+router.use('/v1/companies', company_routes_1.default);
+router.use('/v1/challenges', challenge_routes_1.default);
+router.use('/v1/proposals', proposal_routes_1.default);
+router.use('/v1/reviews', review_routes_1.default);
+router.use('/v1/messages', message_routes_1.default);
+router.use('/v1/notifications', notification_routes_1.default);
+router.use('/v1/uploads', upload_routes_1.default);
+router.use('/v1/search', search_routes_1.default);
+router.use('/v1/analytics', analytics_routes_1.default);
+router.use('/v1/platform', platform_routes_1.default);
+router.post('/v1/users/register', userController.register);
+exports.default = router;

@@ -20,7 +20,18 @@ export default function LogoMain() {
   ) : (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {/* Icon portion */}
-      <Box sx={{ bgcolor: 'primary.main', color: 'background.default', px: 1.5, py: 0.5, borderRadius: 1.5, fontWeight: 900, fontSize: '1.1rem', letterSpacing: 0.5 }}>
+      <Box
+        sx={{
+          bgcolor: 'primary.main',
+          color: 'background.default',
+          px: 1.5,
+          py: 0.5,
+          borderRadius: 1.5,
+          fontWeight: 900,
+          fontSize: '1.1rem',
+          letterSpacing: 0.5
+        }}
+      >
         CII
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', lineHeight: 1, textAlign: 'left' }}>

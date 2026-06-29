@@ -11,14 +11,7 @@ interface TimelineItemProps {
   isLast?: boolean;
 }
 
-export const TimelineItem: React.FC<TimelineItemProps> = ({
-  icon,
-  title,
-  subtitle,
-  time,
-  children,
-  isLast = false
-}) => {
+export const TimelineItem: React.FC<TimelineItemProps> = ({ icon, title, subtitle, time, children, isLast = false }) => {
   return (
     <div className="flex gap-4 group">
       {/* Icon & Connection Line */}
@@ -51,13 +44,7 @@ interface TimelineProps {
   feedback?: string;
 }
 
-export const Timeline: React.FC<TimelineProps> = ({
-  comments = [],
-  submissionDate,
-  verificationStatus,
-  status,
-  feedback
-}) => {
+export const Timeline: React.FC<TimelineProps> = ({ comments = [], submissionDate, verificationStatus, status, feedback }) => {
   const getStatusIcon = (currentStatus: string) => {
     switch (currentStatus) {
       case 'ACCEPTED':
@@ -90,7 +77,13 @@ export const Timeline: React.FC<TimelineProps> = ({
 
       {/* Stage 2: Institution Verification */}
       <TimelineItem
-        icon={verificationStatus === 'APPROVED' ? <CheckCircle className="w-4 h-4 text-emerald-600" /> : <ArrowUpCircle className="w-4 h-4 text-zinc-400" />}
+        icon={
+          verificationStatus === 'APPROVED' ? (
+            <CheckCircle className="w-4 h-4 text-emerald-600" />
+          ) : (
+            <ArrowUpCircle className="w-4 h-4 text-zinc-400" />
+          )
+        }
         title={verificationStatus === 'APPROVED' ? 'Institution Approved' : 'Institution Verification Pending'}
         subtitle="Excellence Cell"
         time={formatDate(submissionDate)}

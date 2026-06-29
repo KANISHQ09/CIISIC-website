@@ -32,16 +32,17 @@ export default function MyProposals() {
     fetchProposals();
   }, []);
 
-  const filteredProposals = proposals.filter(p => {
-    const matchesSearch = p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          p.challengeTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          p.companyName.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredProposals = proposals.filter((p) => {
+    const matchesSearch =
+      p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.challengeTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.companyName.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'ALL' || p.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
   const getProposalCount = (statusType: string) => {
-    return proposals.filter(p => p.status === statusType).length;
+    return proposals.filter((p) => p.status === statusType).length;
   };
 
   return (
@@ -138,7 +139,7 @@ export default function MyProposals() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100 text-xs font-semibold text-zinc-700">
-                {filteredProposals.map(p => (
+                {filteredProposals.map((p) => (
                   <tr key={p.id} className="hover:bg-zinc-50/40 transition-colors">
                     <td className="py-4 px-6 text-left">
                       <p className="font-extrabold text-zinc-900 text-sm line-clamp-1">{p.title}</p>
@@ -148,9 +149,7 @@ export default function MyProposals() {
                       <p className="font-bold text-zinc-800 max-w-[200px] truncate">{p.challengeTitle}</p>
                       <p className="text-[10px] text-zinc-400 mt-0.5">{p.companyName}</p>
                     </td>
-                    <td className="py-4 px-6 text-zinc-500 font-medium">
-                      {new Date(p.submissionDate).toLocaleDateString()}
-                    </td>
+                    <td className="py-4 px-6 text-zinc-500 font-medium">{new Date(p.submissionDate).toLocaleDateString()}</td>
                     <td className="py-4 px-6">
                       <StatusBadge status={p.status} />
                     </td>

@@ -28,11 +28,7 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, 200);
   }, []);
 
-  return (
-    <ModalContext.Provider value={{ isOpen, content, openModal, closeModal }}>
-      {children}
-    </ModalContext.Provider>
-  );
+  return <ModalContext.Provider value={{ isOpen, content, openModal, closeModal }}>{children}</ModalContext.Provider>;
 };
 
 export const useModal = () => {

@@ -24,9 +24,7 @@ export default function MetricCard({ title, value, change, trend = 'success', ca
               </Typography>
             )}
           </Stack>
-          {change && (
-            <Badge label={change} color={trend} />
-          )}
+          {change && <Badge label={change} color={trend} />}
         </Stack>
       </Stack>
     </Card>

@@ -15,35 +15,31 @@ const StyledDialog = styled(MuiDialog)(({ theme }) => ({
   '& .MuiPaper-root': {
     borderRadius: radius.card,
     padding: '16px',
-    boxShadow: theme.vars.customShadows.tooltip,
+    boxShadow: theme.vars.customShadows.tooltip
   }
 }));
 
 export default function Dialog({ open, onClose, title, children, actions, ...props }) {
   return (
     <StyledDialog open={open} onClose={onClose} fullWidth maxWidth="sm" {...props}>
-      <DialogTitle sx={{ m: 0, p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Archivo, sans-serif' }}>
+      <DialogTitle
+        sx={{ m: 0, p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Archivo, sans-serif' }}
+      >
         {title}
         {onClose ? (
           <IconButton
             aria-label="close"
             onClick={onClose}
             sx={{
-              color: (theme) => theme.palette.text.secondary,
+              color: (theme) => theme.palette.text.secondary
             }}
           >
             <IconX size={20} />
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent sx={{ p: 2, fontFamily: 'Figtree, sans-serif' }}>
-        {children}
-      </DialogContent>
-      {actions && (
-        <DialogActions sx={{ p: 2, gap: 1 }}>
-          {actions}
-        </DialogActions>
-      )}
+      <DialogContent sx={{ p: 2, fontFamily: 'Figtree, sans-serif' }}>{children}</DialogContent>
+      {actions && <DialogActions sx={{ p: 2, gap: 1 }}>{actions}</DialogActions>}
     </StyledDialog>
   );
 }

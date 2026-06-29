@@ -53,7 +53,9 @@ export default function RegisterPage() {
 
           {/* Metric Stats glassmorphic card */}
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl space-y-4 max-w-xs">
-            <div className="text-white font-bold text-xs uppercase tracking-wider text-left border-b border-white/5 pb-2">Platform Metrics</div>
+            <div className="text-white font-bold text-xs uppercase tracking-wider text-left border-b border-white/5 pb-2">
+              Platform Metrics
+            </div>
             <div className="grid grid-cols-2 gap-4 text-left">
               <div>
                 <div className="text-2xl font-extrabold text-white">4.2k+</div>
@@ -78,7 +80,9 @@ export default function RegisterPage() {
         {/* Bottom Footer */}
         <div className="relative z-10 flex items-center justify-between text-neutral-500 text-xs">
           <div>© {new Date().getFullYear()} CIISIC Platform. All rights reserved.</div>
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" className="hover:text-white transition-colors">
+            Privacy Policy
+          </a>
         </div>
       </section>
     </div>

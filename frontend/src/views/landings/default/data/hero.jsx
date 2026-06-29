@@ -6,7 +6,8 @@ import { SECTION_PATH } from '@/path';
 
 export const hero = {
   headLine: 'Bridging Academia and Industry for Innovation Excellence',
-  captionLine: 'A state-level collaborative platform linking students, academic institutions, and leading industries to tackle real-world challenges through innovation.',
+  captionLine:
+    'A state-level collaborative platform linking students, academic institutions, and leading industries to tackle real-world challenges through innovation.',
   primaryBtn: { children: 'Browse Challenges', href: '/challenges' },
   videoSrc: 'https://d2elhhoq00m1pj.cloudfront.net/saasable-intro.mp4',
   videoThumbnail: '/assets/videos/thumbnails/intro-thumbnail.png',

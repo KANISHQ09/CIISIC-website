@@ -33,9 +33,7 @@ export default function AuthLayout({ children }) {
           p: { xs: 2, sm: 4, md: 6 }
         }}
       >
-        <Box sx={{ width: 1, maxWidth: 440 }}>
-          {children}
-        </Box>
+        <Box sx={{ width: 1, maxWidth: 440 }}>{children}</Box>
       </Grid>
 
       {/* Right Premium Graphic Column */}

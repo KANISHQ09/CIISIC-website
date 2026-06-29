@@ -8,10 +8,19 @@ import Button from './Button';
 
 export default function EmptyState({ icon: Icon, title, description, actionLabel, onAction }) {
   return (
-    <Stack sx={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', py: 6, px: 3, gap: 3, border: `1px dashed ${colors.neutral[300]}`, borderRadius: '16px' }}>
-      {Icon && (
-        <Icon size={48} stroke={1.5} color={colors.neutral[500]} />
-      )}
+    <Stack
+      sx={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        py: 6,
+        px: 3,
+        gap: 3,
+        border: `1px dashed ${colors.neutral[300]}`,
+        borderRadius: '16px'
+      }}
+    >
+      {Icon && <Icon size={48} stroke={1.5} color={colors.neutral[500]} />}
       <Stack sx={{ gap: 1, maxWidth: '400px' }}>
         <Typography variant="h5" sx={{ fontWeight: 600, fontFamily: 'Archivo, sans-serif' }}>
           {title}
@@ -20,11 +29,7 @@ export default function EmptyState({ icon: Icon, title, description, actionLabel
           {description}
         </Typography>
       </Stack>
-      {actionLabel && onAction && (
-        <Button onClick={onAction}>
-          {actionLabel}
-        </Button>
-      )}
+      {actionLabel && onAction && <Button onClick={onAction}>{actionLabel}</Button>}
     </Stack>
   );
 }

@@ -29,10 +29,10 @@ export default function ChallengeExplorer() {
       try {
         const list = await ChallengeService.getChallenges();
         setChallenges(list);
-        
+
         // Fetch bookmarked IDs
         const saved = await ChallengeService.getSavedChallenges();
-        setBookmarks(saved.map(s => s.id));
+        setBookmarks(saved.map((s) => s.id));
       } catch (err) {
         console.error(err);
       } finally {
@@ -48,16 +48,17 @@ export default function ChallengeExplorer() {
       setBookmarks([...bookmarks, id]);
       showToast('Challenge bookmarked successfully!', 'success');
     } else {
-      setBookmarks(bookmarks.filter(bId => bId !== id));
+      setBookmarks(bookmarks.filter((bId) => bId !== id));
       showToast('Challenge bookmark removed.', 'info');
     }
   };
 
-  const filteredChallenges = challenges.filter(c => {
-    const matchesSearch = c.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          c.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          c.skillsRequired.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()));
-    
+  const filteredChallenges = challenges.filter((c) => {
+    const matchesSearch =
+      c.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.skillsRequired.some((s) => s.toLowerCase().includes(searchTerm.toLowerCase()));
+
     const matchesDifficulty = filterDifficulty === 'ALL' || c.difficulty === filterDifficulty;
     const matchesCategory = filterCategory === 'ALL' || c.category === filterCategory;
     const matchesStatus = filterStatus === 'ALL' || c.status === filterStatus;
@@ -66,8 +67,8 @@ export default function ChallengeExplorer() {
     return matchesSearch && matchesDifficulty && matchesCategory && matchesStatus && matchesBookmark;
   });
 
-  const categories = Array.from(new Set(challenges.map(c => c.category)));
-  
+  const categories = Array.from(new Set(challenges.map((c) => c.category)));
+
   return (
     <div className="space-y-6 text-left pb-12 select-none">
       {/* Title */}
@@ -138,8 +139,10 @@ export default function ChallengeExplorer() {
               className="w-full px-3 py-2 border border-zinc-200 bg-white rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-violet-500 font-semibold"
             >
               <option value="ALL">All Categories</option>
-              {categories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
               ))}
             </select>
           </div>
@@ -214,7 +217,7 @@ export default function ChallengeExplorer() {
         </div>
       ) : viewMode === 'GRID' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredChallenges.map(c => (
+          {filteredChallenges.map((c) => (
             <ChallengeCard
               key={c.id}
               challenge={c}
@@ -225,7 +228,7 @@ export default function ChallengeExplorer() {
         </div>
       ) : (
         <div className="space-y-4">
-          {filteredChallenges.map(c => (
+          {filteredChallenges.map((c) => (
             <div
               key={c.id}
               onClick={() => router.push(`/challenges/${c.id}`)}
@@ -258,11 +261,7 @@ export default function ChallengeExplorer() {
                   }}
                   className="p-2 border border-zinc-150 rounded-xl hover:bg-zinc-50 text-zinc-400 hover:text-zinc-900 transition-all focus:outline-none cursor-pointer"
                 >
-                  {bookmarks.includes(c.id) ? (
-                    <BookmarkCheck className="w-4 h-4 text-violet-600" />
-                  ) : (
-                    <Bookmark className="w-4 h-4" />
-                  )}
+                  {bookmarks.includes(c.id) ? <BookmarkCheck className="w-4 h-4 text-violet-600" /> : <Bookmark className="w-4 h-4" />}
                 </button>
                 <span className="text-xs px-2.5 py-1 rounded-full bg-zinc-100 text-zinc-600 font-bold border border-zinc-200">
                   {c.difficulty}

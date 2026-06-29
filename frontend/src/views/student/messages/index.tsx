@@ -14,7 +14,7 @@ export default function MessagesChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [typedMessage, setTypedMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
   // Fetch initial conversations list
@@ -42,10 +42,10 @@ export default function MessagesChat() {
     const fetchMsgs = async () => {
       const msgs = await MessageService.getMessages(activeConv.id);
       setMessages(msgs);
-      
+
       // Mark read
       await MessageService.markConversationRead(activeConv.id);
-      
+
       // Update conversations list badge counts
       const updatedList = await MessageService.getConversations();
       setConversations(updatedList);
@@ -64,7 +64,7 @@ export default function MessagesChat() {
 
     try {
       const newMsg = await MessageService.sendMessage(activeConv.id, typedMessage.trim(), 'student');
-      setMessages(prev => [...prev, newMsg]);
+      setMessages((prev) => [...prev, newMsg]);
       setTypedMessage('');
 
       // Refresh last message preview in list
@@ -74,12 +74,11 @@ export default function MessagesChat() {
       // Simulate SPOC reply 1.5 seconds later
       setTimeout(async () => {
         const reply = await MessageService.simulateReply(activeConv.id);
-        setMessages(prev => [...prev, reply]);
+        setMessages((prev) => [...prev, reply]);
         const listRefresh = await MessageService.getConversations();
         setConversations(listRefresh);
         showToast(`New message from ${activeConv.participantName}`, 'info');
       }, 1500);
-
     } catch {
       showToast('Failed to deliver message', 'error');
     }
@@ -87,9 +86,12 @@ export default function MessagesChat() {
 
   const getRoleBadge = (role: string) => {
     switch (role.toUpperCase()) {
-      case 'SPOC': return 'bg-blue-50 text-blue-700 border-blue-100';
-      case 'COORDINATOR': return 'bg-violet-50 text-violet-700 border-violet-100';
-      default: return 'bg-zinc-100 text-zinc-600 border-zinc-200';
+      case 'SPOC':
+        return 'bg-blue-50 text-blue-700 border-blue-100';
+      case 'COORDINATOR':
+        return 'bg-violet-50 text-violet-700 border-violet-100';
+      default:
+        return 'bg-zinc-100 text-zinc-600 border-zinc-200';
     }
   };
 
@@ -108,9 +110,9 @@ export default function MessagesChat() {
         <div className="p-4 border-b border-zinc-100 shrink-0">
           <h2 className="text-sm font-extrabold text-zinc-900 uppercase tracking-wider">Ecosystem Liaison</h2>
         </div>
-        
+
         <div className="flex-1 overflow-y-auto divide-y divide-zinc-50">
-          {conversations.map(conv => {
+          {conversations.map((conv) => {
             const isActive = activeConv?.id === conv.id;
             return (
               <div
@@ -132,7 +134,9 @@ export default function MessagesChat() {
                       </span>
                     )}
                   </div>
-                  <span className={`inline-block text-[8px] font-bold border rounded px-1.5 py-0.2 uppercase mt-1 tracking-wider ${getRoleBadge(conv.participantRole)}`}>
+                  <span
+                    className={`inline-block text-[8px] font-bold border rounded px-1.5 py-0.2 uppercase mt-1 tracking-wider ${getRoleBadge(conv.participantRole)}`}
+                  >
                     {conv.participantRole}
                   </span>
                   <p className="text-[11px] text-zinc-400 font-medium truncate mt-1.5">{conv.lastMessage}</p>
@@ -157,19 +161,23 @@ export default function MessagesChat() {
 
             {/* Messages box list */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
-              {messages.map(msg => {
+              {messages.map((msg) => {
                 const isStudent = msg.sender === 'student';
                 return (
                   <div key={msg.id} className={`flex ${isStudent ? 'justify-end' : 'justify-start'}`}>
                     <div className="max-w-[70%] text-left space-y-1">
-                      <div className={`p-4 rounded-3xl text-xs font-medium leading-relaxed ${
-                        isStudent
-                          ? 'bg-zinc-950 text-white rounded-tr-none'
-                          : 'bg-white border border-zinc-150 text-zinc-800 rounded-tl-none shadow-sm'
-                      }`}>
+                      <div
+                        className={`p-4 rounded-3xl text-xs font-medium leading-relaxed ${
+                          isStudent
+                            ? 'bg-zinc-950 text-white rounded-tr-none'
+                            : 'bg-white border border-zinc-150 text-zinc-800 rounded-tl-none shadow-sm'
+                        }`}
+                      >
                         {msg.content}
                       </div>
-                      <div className={`flex items-center gap-1 text-[9px] text-zinc-400 font-bold ${isStudent ? 'justify-end' : 'justify-start'}`}>
+                      <div
+                        className={`flex items-center gap-1 text-[9px] text-zinc-400 font-bold ${isStudent ? 'justify-end' : 'justify-start'}`}
+                      >
                         <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                         {isStudent && <CheckCheck className="w-3 h-3 text-violet-500" />}
                       </div>

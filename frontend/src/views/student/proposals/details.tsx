@@ -7,16 +7,7 @@ import { ProposalService } from '@/services/proposalService';
 import { StudentService } from '@/services/studentService';
 import { StatusBadge } from '@/components/student/StatusBadge';
 import { Timeline } from '@/components/student/Timeline';
-import {
-  ArrowLeft,
-  File,
-  Download,
-  Send,
-  Upload,
-  Clock,
-  CheckCircle,
-  FileText
-} from 'lucide-react';
+import { ArrowLeft, File, Download, Send, Upload, Clock, CheckCircle, FileText } from 'lucide-react';
 import useToast from '@/hooks/useToast';
 import { motion } from 'framer-motion';
 
@@ -24,7 +15,7 @@ export default function ProposalDetails() {
   const params = useParams();
   const router = useRouter();
   const { showToast } = useToast();
-  
+
   const proposalId = params?.id as string;
   const [proposal, setProposal] = useState<Proposal | null>(null);
   const [commentText, setCommentText] = useState('');
@@ -58,12 +49,7 @@ export default function ProposalDetails() {
 
     try {
       const student = await StudentService.getProfile();
-      const updated = await ProposalService.addProposalComment(
-        proposal.id,
-        student.name,
-        'Student',
-        commentText.trim()
-      );
+      const updated = await ProposalService.addProposalComment(proposal.id, student.name, 'Student', commentText.trim());
       if (updated) {
         setProposal(updated);
         setCommentText('');
@@ -99,12 +85,7 @@ export default function ProposalDetails() {
     }
 
     try {
-      const updated = await ProposalService.submitRevision(
-        proposal.id,
-        '#',
-        revisionFileName,
-        revisionDesc.trim()
-      );
+      const updated = await ProposalService.submitRevision(proposal.id, '#', revisionFileName, revisionDesc.trim());
       if (updated) {
         setProposal(updated);
         setRevisionFileName('');
@@ -178,9 +159,7 @@ export default function ProposalDetails() {
           {/* Solution context */}
           <div className="bg-white border border-zinc-150 rounded-3xl p-6 shadow-sm space-y-4">
             <h2 className="text-lg font-extrabold text-zinc-900 tracking-tight">Solution Brief</h2>
-            <p className="text-sm text-zinc-600 leading-relaxed font-medium">
-              {proposal.description}
-            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed font-medium">{proposal.description}</p>
 
             <div className="space-y-2 pt-2">
               <h4 className="text-xs font-extrabold text-zinc-800 uppercase tracking-wider">Technical Approach</h4>
@@ -236,9 +215,7 @@ export default function ProposalDetails() {
                         disabled={isUploading}
                       />
                       <Upload className="w-5 h-5 text-zinc-400" />
-                      <span className="text-xs font-bold text-zinc-600">
-                        {isUploading ? 'Uploading...' : 'Choose PDF document'}
-                      </span>
+                      <span className="text-xs font-bold text-zinc-600">{isUploading ? 'Uploading...' : 'Choose PDF document'}</span>
                     </label>
                   ) : (
                     <div className="p-3 border border-zinc-200 bg-zinc-50/30 rounded-xl flex items-center justify-between">
@@ -279,11 +256,16 @@ export default function ProposalDetails() {
           <div className="bg-white border border-zinc-150 rounded-3xl p-6 shadow-sm space-y-4">
             <h3 className="text-sm font-extrabold text-zinc-900 uppercase tracking-wider">Version Logs</h3>
             <div className="space-y-3.5">
-              {proposal.versionHistory.map(ver => (
-                <div key={ver.version} className="flex items-center justify-between text-xs border-b border-zinc-50 pb-2 last:border-0 last:pb-0 text-left">
+              {proposal.versionHistory.map((ver) => (
+                <div
+                  key={ver.version}
+                  className="flex items-center justify-between text-xs border-b border-zinc-50 pb-2 last:border-0 last:pb-0 text-left"
+                >
                   <div>
                     <p className="font-extrabold text-zinc-800">Version {ver.version}</p>
-                    <p className="text-[9px] text-zinc-400 font-bold uppercase mt-0.5">{new Date(ver.submissionDate).toLocaleDateString()}</p>
+                    <p className="text-[9px] text-zinc-400 font-bold uppercase mt-0.5">
+                      {new Date(ver.submissionDate).toLocaleDateString()}
+                    </p>
                   </div>
                   <button className="p-1 text-zinc-400 hover:text-zinc-800 transition-colors">
                     <Download className="w-4.5 h-4.5" />
@@ -295,7 +277,9 @@ export default function ProposalDetails() {
 
           {/* Stepper Timeline activity */}
           <div className="bg-white border border-zinc-150 rounded-3xl p-6 shadow-sm space-y-4">
-            <h3 className="text-sm font-extrabold text-zinc-900 uppercase tracking-wider border-b border-zinc-50 pb-3">Evaluation timeline</h3>
+            <h3 className="text-sm font-extrabold text-zinc-900 uppercase tracking-wider border-b border-zinc-50 pb-3">
+              Evaluation timeline
+            </h3>
             <Timeline
               comments={proposal.comments}
               submissionDate={proposal.submissionDate}
@@ -313,10 +297,7 @@ export default function ProposalDetails() {
                 placeholder="Post message to coordinator..."
                 className="flex-1 px-3 py-2.5 border border-zinc-200 bg-zinc-50/50 rounded-2xl text-[11px] focus:outline-none focus:ring-1 focus:ring-violet-500 focus:bg-white font-semibold text-zinc-800"
               />
-              <button
-                type="submit"
-                className="p-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-2xl transition-colors cursor-pointer"
-              >
+              <button type="submit" className="p-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-2xl transition-colors cursor-pointer">
                 <Send className="w-3.5 h-3.5" />
               </button>
             </form>

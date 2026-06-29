@@ -8,9 +8,7 @@ import Badge from './Badge';
 export default function SectionHeading({ badge, title, subtitle, align = 'left', ...props }) {
   return (
     <Stack sx={{ gap: 1.5, textAlign: align, alignItems: align === 'center' ? 'center' : 'flex-start', ...props }}>
-      {badge && (
-        <Badge label={badge} color="primary" />
-      )}
+      {badge && <Badge label={badge} color="primary" />}
       <Typography variant="h2" sx={{ fontWeight: 700, fontFamily: 'Archivo, sans-serif' }}>
         {title}
       </Typography>

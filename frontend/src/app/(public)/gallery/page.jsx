@@ -17,13 +17,10 @@ export default function GalleryPage() {
   return (
     <div className="w-full min-h-screen bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-12 text-left">
-        
         {/* Header */}
         <div className="space-y-4">
           <span className="text-xs uppercase tracking-widest text-blue-900 font-extrabold">Ecosystem Roster</span>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
-            Excellence Cell Gallery
-          </h1>
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">Excellence Cell Gallery</h1>
           <p className="text-base sm:text-lg text-neutral-600 leading-relaxed font-medium">
             Visual highlights from collaborating University Chapters and active R&D Labs.
           </p>
@@ -32,13 +29,13 @@ export default function GalleryPage() {
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-8 border-t border-zinc-200">
           {galleryImages.map((img, idx) => (
-            <div 
+            <div
               key={idx}
               className="bg-white border border-zinc-200 rounded-[32px] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
             >
               <div className="relative aspect-video w-full bg-slate-100 overflow-hidden">
-                <Image 
-                  src={img.src} 
+                <Image
+                  src={img.src}
                   alt={img.title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -50,14 +47,11 @@ export default function GalleryPage() {
                 <span className="text-[9px] text-[#0F294A] font-extrabold uppercase bg-blue-50 px-2.5 py-0.5 rounded border border-blue-200">
                   {img.host}
                 </span>
-                <h4 className="text-xs font-bold text-neutral-900 leading-snug">
-                  {img.title}
-                </h4>
+                <h4 className="text-xs font-bold text-neutral-900 leading-snug">{img.title}</h4>
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );

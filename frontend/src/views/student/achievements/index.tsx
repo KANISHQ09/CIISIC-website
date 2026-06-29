@@ -111,7 +111,7 @@ export default function AchievementsLeaderboard() {
         <div className="p-6 bg-white border border-zinc-150 rounded-3xl space-y-2 shadow-sm">
           <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Badges Unlocked</span>
           <h3 className="text-3xl font-black text-zinc-900">
-            {badges.filter(b => b.unlocked).length} <span className="text-sm font-semibold text-zinc-400">/ {badges.length}</span>
+            {badges.filter((b) => b.unlocked).length} <span className="text-sm font-semibold text-zinc-400">/ {badges.length}</span>
           </h3>
           <p className="text-xs text-zinc-500 font-medium">Unlock credentials by solving briefs</p>
         </div>
@@ -123,16 +123,16 @@ export default function AchievementsLeaderboard() {
         <div className="lg:col-span-2 space-y-4">
           <h2 className="text-lg font-extrabold text-zinc-900 tracking-tight">Unlocked Badges</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {badges.map(b => (
+            {badges.map((b) => (
               <div
                 key={b.id}
                 className={`p-5 rounded-2xl border flex items-start gap-4 transition-all ${
-                  b.unlocked
-                    ? 'bg-white border-zinc-150 hover:border-zinc-250 shadow-sm'
-                    : 'bg-zinc-50/50 border-zinc-100 opacity-60'
+                  b.unlocked ? 'bg-white border-zinc-150 hover:border-zinc-250 shadow-sm' : 'bg-zinc-50/50 border-zinc-100 opacity-60'
                 }`}
               >
-                <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${b.unlocked ? b.bg : 'bg-zinc-100 border-zinc-200 text-zinc-400'}`}>
+                <div
+                  className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${b.unlocked ? b.bg : 'bg-zinc-100 border-zinc-200 text-zinc-400'}`}
+                >
                   {b.icon}
                 </div>
                 <div className="text-left space-y-1">
@@ -153,26 +153,35 @@ export default function AchievementsLeaderboard() {
         <div className="space-y-4">
           <h2 className="text-lg font-extrabold text-zinc-900 tracking-tight">Public Leaderboard</h2>
           <div className="bg-white border border-zinc-150 rounded-3xl overflow-hidden shadow-sm divide-y divide-zinc-100">
-            {leaderboardList.map(item => {
+            {leaderboardList.map((item) => {
               const isSelf = item.name === profile.name;
               return (
                 <div
                   key={item.rank}
-                  className={`p-4 flex items-center justify-between gap-4 transition-colors ${
-                    isSelf ? 'bg-violet-50/20' : ''
-                  }`}
+                  className={`p-4 flex items-center justify-between gap-4 transition-colors ${isSelf ? 'bg-violet-50/20' : ''}`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black shrink-0 ${
-                      item.rank === 1 ? 'bg-amber-100 text-amber-800' :
-                      item.rank === 2 ? 'bg-zinc-100 text-zinc-800' :
-                      item.rank === 3 ? 'bg-violet-100 text-violet-800 font-bold border border-violet-200' : 'text-zinc-400'
-                    }`}>
+                    <span
+                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black shrink-0 ${
+                        item.rank === 1
+                          ? 'bg-amber-100 text-amber-800'
+                          : item.rank === 2
+                            ? 'bg-zinc-100 text-zinc-800'
+                            : item.rank === 3
+                              ? 'bg-violet-100 text-violet-800 font-bold border border-violet-200'
+                              : 'text-zinc-400'
+                      }`}
+                    >
                       {item.rank}
                     </span>
                     <div className="text-left leading-tight">
                       <p className={`text-xs ${isSelf ? 'font-extrabold text-violet-900' : 'font-bold text-zinc-800'}`}>
-                        {item.name} {isSelf && <span className="text-[9px] font-extrabold bg-violet-100 text-violet-700 px-1 py-0.2 rounded uppercase ml-1">You</span>}
+                        {item.name}{' '}
+                        {isSelf && (
+                          <span className="text-[9px] font-extrabold bg-violet-100 text-violet-700 px-1 py-0.2 rounded uppercase ml-1">
+                            You
+                          </span>
+                        )}
                       </p>
                       <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">{item.college}</span>
                     </div>

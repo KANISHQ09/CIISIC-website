@@ -7,13 +7,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import useToast from '@/hooks/useToast';
 
-const resetPasswordSchema = zod.object({
-  password: zod.string().min(8, 'Password must be at least 8 characters long'),
-  confirmPassword: zod.string()
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Passwords must match',
-  path: ['confirmPassword']
-});
+const resetPasswordSchema = zod
+  .object({
+    password: zod.string().min(8, 'Password must be at least 8 characters long'),
+    confirmPassword: zod.string()
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords must match',
+    path: ['confirmPassword']
+  });
 
 type ResetPasswordFields = zod.infer<typeof resetPasswordSchema>;
 
@@ -23,7 +25,11 @@ export const ResetPassword: React.FC = () => {
   const { showToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<ResetPasswordFields>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<ResetPasswordFields>({
     resolver: zodResolver(resetPasswordSchema)
   });
 

@@ -24,9 +24,7 @@ export const RouteTransitionProvider: React.FC<{ children: React.ReactNode }> = 
 
   return (
     <TransitionContext.Provider value={{ isTransitioning }}>
-      <div style={{ opacity: isTransitioning ? 0 : 1, transition: 'opacity 150ms ease-in-out' }}>
-        {children}
-      </div>
+      <div style={{ opacity: isTransitioning ? 0 : 1, transition: 'opacity 150ms ease-in-out' }}>{children}</div>
     </TransitionContext.Provider>
   );
 };

@@ -6,16 +6,7 @@ import { Challenge } from '@/types/studentPortal';
 import { ChallengeService } from '@/services/challengeService';
 import { ProposalService } from '@/services/proposalService';
 import { StudentService } from '@/services/studentService';
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle,
-  FileText,
-  UploadCloud,
-  File,
-  X,
-  AlertCircle
-} from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle, FileText, UploadCloud, File, X, AlertCircle } from 'lucide-react';
 import useToast from '@/hooks/useToast';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -23,7 +14,7 @@ export default function ProposalSubmissionWizard() {
   const params = useParams();
   const router = useRouter();
   const { showToast } = useToast();
-  
+
   const challengeId = params?.id as string;
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -49,7 +40,7 @@ export default function ProposalSubmissionWizard() {
       try {
         const item = await ChallengeService.getChallengeById(challengeId);
         setChallenge(item);
-        
+
         // Load existing draft if present
         const savedDraft = localStorage.getItem(`draft_proposal_${challengeId}`);
         if (savedDraft) {
@@ -195,9 +186,7 @@ export default function ProposalSubmissionWizard() {
         <div className="space-y-4">
           {/* Stepper Heading */}
           <div className="space-y-1">
-            <span className="text-[10px] font-extrabold text-violet-600 uppercase tracking-widest block">
-              Step {currentStep} of 5
-            </span>
+            <span className="text-[10px] font-extrabold text-violet-600 uppercase tracking-widest block">Step {currentStep} of 5</span>
             <h1 className="text-xl font-extrabold text-zinc-900 tracking-tight leading-tight">
               {currentStep === 1 && 'Basic Solution Details'}
               {currentStep === 2 && 'Problem Context & Analysis'}
@@ -296,18 +285,14 @@ export default function ProposalSubmissionWizard() {
               <div className="space-y-5 flex-1 flex flex-col justify-center">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-zinc-700">Technical Documentation Uploader</label>
-                  <p className="text-[10px] text-zinc-400 font-medium">Please upload a single PDF file (Max 10 MB) summarizing schematics and layouts.</p>
+                  <p className="text-[10px] text-zinc-400 font-medium">
+                    Please upload a single PDF file (Max 10 MB) summarizing schematics and layouts.
+                  </p>
                 </div>
 
                 {!fileName ? (
                   <label className="border-2 border-dashed border-zinc-200 bg-zinc-50/30 hover:bg-zinc-50 rounded-3xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer group transition-colors">
-                    <input
-                      type="file"
-                      accept="application/pdf"
-                      onChange={handleFileUpload}
-                      className="hidden"
-                      disabled={isUploading}
-                    />
+                    <input type="file" accept="application/pdf" onChange={handleFileUpload} className="hidden" disabled={isUploading} />
                     <div className="w-12 h-12 rounded-2xl bg-white border border-zinc-150 shadow-sm flex items-center justify-center text-zinc-400 group-hover:text-violet-600 transition-colors">
                       <UploadCloud className="w-6 h-6" />
                     </div>
@@ -369,7 +354,8 @@ export default function ProposalSubmissionWizard() {
                 <div className="flex items-start gap-2 text-[10px] text-zinc-500 font-medium leading-relaxed bg-amber-50/50 border border-amber-100 rounded-2xl p-4">
                   <AlertCircle className="w-4.5 h-4.5 text-amber-500 shrink-0" />
                   <span>
-                    Submitting routes this proposal to the LNCT Excellence Cell coordinator. Once verified, it will be published to the industry review panel.
+                    Submitting routes this proposal to the LNCT Excellence Cell coordinator. Once verified, it will be published to the
+                    industry review panel.
                   </span>
                 </div>
               </div>

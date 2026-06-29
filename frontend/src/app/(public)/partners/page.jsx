@@ -8,13 +8,10 @@ export default function PartnersPage() {
   return (
     <div className="w-full min-h-screen bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-12 text-left">
-        
         {/* Header */}
         <div className="space-y-4">
           <span className="text-xs uppercase tracking-widest text-blue-900 font-extrabold">Cooperating Industry</span>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
-            Corporate Partners
-          </h1>
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">Corporate Partners</h1>
           <p className="text-base sm:text-lg text-neutral-600 leading-relaxed font-medium">
             Discover the leading enterprise organizations hosting technical challenges and placement opportunities on CIISIC.
           </p>
@@ -23,7 +20,7 @@ export default function PartnersPage() {
         {/* Partners Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-8 border-t border-zinc-200">
           {partners.map((partner, idx) => (
-            <div 
+            <div
               key={idx}
               className="bg-white border border-zinc-200 rounded-[32px] p-6 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[200px] text-left group"
             >
@@ -33,9 +30,7 @@ export default function PartnersPage() {
                     <Building2 className="w-4.5 h-4.5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#0F172A] group-hover:text-blue-900 transition-colors">
-                      {partner.name}
-                    </h4>
+                    <h4 className="text-xs font-bold text-[#0F172A] group-hover:text-blue-900 transition-colors">{partner.name}</h4>
                     <p className="text-[10px] text-neutral-400 font-bold uppercase mt-0.5">{partner.type}</p>
                   </div>
                 </div>
@@ -54,7 +49,6 @@ export default function PartnersPage() {
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );
