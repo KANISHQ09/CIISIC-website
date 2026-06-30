@@ -10,7 +10,7 @@ const other = {
       id: 'changelog',
       title: 'Changelog',
       type: 'item',
-      url: 'https://phoenixcoded.gitbook.io/saasable/admin/global/changelog',
+      url: 'https://ciisic.gitbook.io/ciisic/admin/global/changelog',
       target: true,
       icon: 'IconHistory'
     },
@@ -18,7 +18,7 @@ const other = {
       id: 'documentation',
       title: 'Documentation',
       type: 'item',
-      url: 'https://phoenixcoded.gitbook.io/saasable/admin',
+      url: 'https://ciisic.gitbook.io/ciisic/admin',
       target: true,
       icon: 'IconNotes'
     },

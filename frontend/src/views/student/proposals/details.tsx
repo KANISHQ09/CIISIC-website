@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Proposal } from '@/types/studentPortal';
 import { ProposalService } from '@/services/proposalService';
 import { StudentService } from '@/services/studentService';
+import { UploadService } from '@/services/uploadService';
 import { StatusBadge } from '@/components/student/StatusBadge';
 import { Timeline } from '@/components/student/Timeline';
 import { ArrowLeft, File, Download, Send, Upload, Clock, CheckCircle, FileText } from 'lucide-react';
@@ -25,6 +26,7 @@ export default function ProposalDetails() {
   const [showRevisionForm, setShowRevisionForm] = useState(false);
   const [revisionDesc, setRevisionDesc] = useState('');
   const [revisionFileName, setRevisionFileName] = useState('');
+  const [uploadedFileUrl, setUploadedFileUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
@@ -60,7 +62,7 @@ export default function ProposalDetails() {
     }
   };
 
-  const handleUploadRevisionFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadRevisionFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -70,11 +72,16 @@ export default function ProposalDetails() {
     }
 
     setIsUploading(true);
-    setTimeout(() => {
-      setRevisionFileName(file.name);
-      setIsUploading(false);
+    try {
+      const res = await UploadService.uploadFile(file);
+      setRevisionFileName(res.fileName);
+      setUploadedFileUrl(res.fileUrl);
       showToast('Revision PDF uploaded successfully!', 'success');
-    }, 1500);
+    } catch {
+      showToast('Failed to upload revision PDF.', 'error');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleSubmitRevision = async (e: React.FormEvent) => {
@@ -85,11 +92,12 @@ export default function ProposalDetails() {
     }
 
     try {
-      const updated = await ProposalService.submitRevision(proposal.id, '#', revisionFileName, revisionDesc.trim());
+      const updated = await ProposalService.submitRevision(proposal.id, uploadedFileUrl || '#', revisionFileName, revisionDesc.trim());
       if (updated) {
         setProposal(updated);
         setRevisionFileName('');
         setRevisionDesc('');
+        setUploadedFileUrl('');
         setShowRevisionForm(false);
         showToast('Revision submitted successfully!', 'success');
       }

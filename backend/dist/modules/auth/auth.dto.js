@@ -6,7 +6,12 @@ exports.RegisterStudentSchema = zod_1.z
     .object({
     name: zod_1.z.string().min(2, 'Name must be at least 2 characters'),
     email: zod_1.z.string().email('Invalid email address'),
-    password: zod_1.z.string().min(8, 'Password must be at least 8 characters long'),
+    password: zod_1.z.string()
+        .min(8, 'Password must be at least 8 characters long')
+        .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .regex(/[0-9]/, 'Password must contain at least one number')
+        .regex(/[^a-zA-Z0-9]/, 'Password must contain at least one special character'),
     role: zod_1.z.enum([
         'STUDENT',
         'INDUSTRY_SPOC',
@@ -44,7 +49,12 @@ exports.ForgotPasswordSchema = zod_1.z
 exports.ResetPasswordSchema = zod_1.z
     .object({
     token: zod_1.z.string().min(1, 'Reset token is required'),
-    password: zod_1.z.string().min(8, 'Password must be at least 8 characters long'),
+    password: zod_1.z.string()
+        .min(8, 'Password must be at least 8 characters long')
+        .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .regex(/[0-9]/, 'Password must contain at least one number')
+        .regex(/[^a-zA-Z0-9]/, 'Password must contain at least one special character'),
 })
     .strict();
 exports.ChangePasswordSchema = zod_1.z

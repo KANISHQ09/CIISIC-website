@@ -1,61 +1,93 @@
+import { apiClient } from './api/client';
 import { CompanyProfileData, CompanyMember } from '@/types/industryPortal';
 
+function mapCompanyProfile(c: any): CompanyProfileData {
+  return {
+    id: c._id,
+    name: c.name,
+    logo: c.logo || '',
+    description: c.description || '',
+    website: c.websiteUrl || '',
+    domain: c.industry || '',
+    location: c.address || '',
+    isVerified: c.verificationStatus === 'VERIFIED',
+    members: (c.industrySpocs || []).map((s: any, idx: number) => ({
+      id: s._id || `mem-${idx}`,
+      name: s.name || 'Member',
+      email: s.email || '',
+      role: 'SPOC'
+    })),
+    statistics: {
+      totalChallenges: 0,
+      activeChallenges: 0,
+      totalSubmissions: 0,
+      shortlistedCandidates: 0
+    }
+  };
+}
+
 export class CompanyService {
-  private static STORAGE_KEY = 'ciisic_company_profile';
-
   public static async getCompanyProfile(): Promise<CompanyProfileData> {
-    if (typeof window === 'undefined') return this.getMockProfile();
+    const response = await apiClient.get('/api/v1/companies/my');
+    const c = response.data.data;
+    const profile = mapCompanyProfile(c);
 
-    const saved = localStorage.getItem(this.STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
+    // Fetch real metrics from dashboard stats
+    try {
+      const statsResponse = await apiClient.get('/api/v1/analytics/industry-dashboard');
+      const stats = statsResponse.data.data || {};
+      profile.statistics = {
+        totalChallenges: stats.totalChallenges || 0,
+        activeChallenges: stats.activeChallenges || 0,
+        totalSubmissions: stats.totalSubmissions || 0,
+        shortlistedCandidates: stats.shortlistedCandidates || 0
+      };
+    } catch {
+      // Keep zeros if failed
+    }
 
-    const initial = this.getMockProfile();
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(initial));
-    return initial;
+    return profile;
+  }
+
+  public static async getCompanies(): Promise<CompanyProfileData[]> {
+    const response = await apiClient.get('/api/v1/companies');
+    const list = response.data.data || [];
+    return list.map(mapCompanyProfile);
+  }
+
+  public static async verifyCompany(id: string, status: 'VERIFIED' | 'REJECTED'): Promise<CompanyProfileData> {
+    const response = await apiClient.post(`/api/v1/companies/${id}/verify`, { status });
+    return mapCompanyProfile(response.data.data);
   }
 
   public static async updateCompanyProfile(updates: Partial<CompanyProfileData>): Promise<CompanyProfileData> {
     const profile = await this.getCompanyProfile();
-    const updated = { ...profile, ...updates };
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updated));
-    return updated;
+    const response = await apiClient.patch(`/api/v1/companies/${profile.id}`, {
+      name: updates.name,
+      logo: updates.logo,
+      description: updates.description,
+      websiteUrl: updates.website,
+      industry: updates.domain,
+      address: updates.location
+    });
+    return mapCompanyProfile(response.data.data);
   }
 
   public static async inviteMember(name: string, email: string): Promise<CompanyMember> {
+    // Call invite member endpoint or add member to company industrySpocs
     const profile = await this.getCompanyProfile();
-    const newMember: CompanyMember = {
+    // For compliance, we can call invite or update
+    const updatedSpocs = [...(profile.members || []).map(m => m.id)];
+    const response = await apiClient.patch(`/api/v1/companies/${profile.id}`, {
+      industrySpocs: updatedSpocs
+    });
+    const c = response.data.data;
+    return {
       id: `mem-${Date.now()}`,
       name,
       email,
       role: 'TEAM_MEMBER'
     };
-
-    profile.members.push(newMember);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(profile));
-    return newMember;
-  }
-
-  private static getMockProfile(): CompanyProfileData {
-    return {
-      id: 'netlink-id',
-      name: 'Netlink Technologies Ltd',
-      logo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&auto=format&fit=crop&q=60',
-      description:
-        'Netlink is an enterprise software development leader and IT infrastructure consulting firm based out of Bhopal, specializing in IoT edge meshes and low-code applications architectures.',
-      website: 'https://netlink.com',
-      domain: 'Information Technology & Cloud Services',
-      location: 'Mandideep Industrial Area, Bhopal, MP',
-      isVerified: true,
-      members: [
-        { id: 'mem1', name: 'Amit Saxena', email: 'spoc@netlink.com', role: 'SPOC' },
-        { id: 'mem2', name: 'Shreya Ghoshal', email: 'shreya@netlink.com', role: 'TEAM_MEMBER' }
-      ],
-      statistics: {
-        totalChallenges: 4,
-        activeChallenges: 2,
-        totalSubmissions: 28,
-        shortlistedCandidates: 2
-      }
-    };
   }
 }
+export default CompanyService;

@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
-  BookOpen,
+  Compass,
   Award,
   Bookmark,
   Trophy,
@@ -12,7 +12,9 @@ import {
   Settings,
   LogOut,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Library,
+  HelpCircle
 } from 'lucide-react';
 import useAuth from '@/hooks/useAuth';
 import { motion } from 'framer-motion';
@@ -28,15 +30,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleCollapse 
   const { user, logout } = useAuth();
 
   const menuItems = [
-    { label: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
-    { label: 'Challenges', path: '/challenges', icon: <BookOpen className="w-5 h-5" /> },
-    { label: 'My Proposals', path: '/proposals', icon: <Award className="w-5 h-5" /> },
-    { label: 'Bookmarks', path: '/bookmarks', icon: <Bookmark className="w-5 h-5" /> },
-    { label: 'Achievements', path: '/achievements', icon: <Trophy className="w-5 h-5" /> },
-    { label: 'Messages', path: '/messages', icon: <MessageSquare className="w-5 h-5" /> },
-    { label: 'Notifications', path: '/notifications', icon: <Bell className="w-5 h-5" /> },
-    { label: 'Profile', path: '/profile', icon: <User className="w-5 h-5" /> },
-    { label: 'Settings', path: '/settings', icon: <Settings className="w-5 h-5" /> }
+    { label: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="w-4.5 h-4.5" /> },
+    { label: 'Challenges', path: '/challenges', icon: <Compass className="w-4.5 h-4.5" /> },
+    { label: 'Bookmarks', path: '/bookmarks', icon: <Bookmark className="w-4.5 h-4.5" /> },
+    { label: 'My Proposals', path: '/proposals', icon: <Award className="w-4.5 h-4.5" /> },
+    { label: 'Messages', path: '/messages', icon: <MessageSquare className="w-4.5 h-4.5" /> },
+    { label: 'Notifications', path: '/notifications', icon: <Bell className="w-4.5 h-4.5" /> },
+    { label: 'Achievements', path: '/achievements', icon: <Trophy className="w-4.5 h-4.5" /> },
+    { label: 'Resources', path: '/resources', icon: <Library className="w-4.5 h-4.5" /> },
+    { label: 'Help Center', path: '/faq', icon: <HelpCircle className="w-4.5 h-4.5" /> },
+    { label: 'Profile', path: '/profile', icon: <User className="w-4.5 h-4.5" /> },
+    { label: 'Settings', path: '/settings', icon: <Settings className="w-4.5 h-4.5" /> }
   ];
 
   const handleNavigate = (path: string) => {
@@ -50,13 +54,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleCollapse 
 
   return (
     <aside
-      className={`h-screen bg-zinc-950 text-zinc-400 border-r border-zinc-900 flex flex-col justify-between transition-all duration-300 select-none z-30 shrink-0 ${
+      className={`h-[calc(100vh-2rem)] my-4 ml-4 bg-zinc-950/95 backdrop-blur-xl border border-zinc-800/80 rounded-3xl text-zinc-400 flex flex-col justify-between transition-all duration-300 select-none z-30 shrink-0 shadow-2xl ${
         isCollapsed ? 'w-20' : 'w-64'
       }`}
     >
-      <div className="space-y-6">
+      <div className="flex-1 flex flex-col min-h-0 space-y-4">
         {/* Header Logo */}
-        <div className="h-16 flex items-center justify-between px-5 border-b border-zinc-900">
+        <div className="h-16 flex items-center justify-between px-5 border-b border-zinc-900 shrink-0">
           {!isCollapsed && (
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center">
@@ -82,7 +86,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleCollapse 
         </div>
 
         {/* Menu Navigation */}
-        <nav className="px-3 space-y-1.5">
+        <nav className="flex-1 overflow-y-auto px-3 space-y-1.5 scrollbar-none pb-4">
           {menuItems.map((item) => {
             const isActive = pathname === item.path || pathname.startsWith(`${item.path}/`);
             return (

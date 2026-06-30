@@ -192,9 +192,9 @@ export const feature = {
       content: 'Boost visibility with SEO-friendly features for better search rankings.'
     },
     {
-      title: 'Check Out Our Pricing Plan',
-      content: 'Choose the plan that aligns with your SaaS product requirements.',
-      actionBtn: { children: 'Pricing Plan', href: BUY_NOW_URL, ...linkProps }
+      title: 'Check Out Our Metrics Plan',
+      content: 'Choose the plan that aligns with your innovation platform requirements.',
+      actionBtn: { children: 'Metrics Plan', href: BUY_NOW_URL, ...linkProps }
     }
   ]
 };

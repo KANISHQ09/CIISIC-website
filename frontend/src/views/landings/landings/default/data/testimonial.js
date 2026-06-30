@@ -12,7 +12,7 @@ export const testimonial = {
     {
       title: 'Customizability',
       ratings: 5,
-      review: `We integrated SaaSable into our project and are extremely pleased with the results. The code quality is excellent, and the architecture is thoughtfully designed. The components are not only visually appealing but also flexible and easily customizable, allowing us to save significant development time. This enabled us to focus fully on essential aspects of our project. Moreover, the support is exceptional-always quick, helpful, and responsive. Highly recommended for any professional project!`,
+      review: `We integrated CIISIC into our project and are extremely pleased with the results. The code quality is excellent, and the architecture is thoughtfully designed. The components are not only visually appealing but also flexible and easily customizable, allowing us to save significant development time. This enabled us to focus fully on essential aspects of our project. Moreover, the support is exceptional-always quick, helpful, and responsive. Highly recommended for any professional project!`,
       profile: { avatar: '', name: 'Dmitri H.', role: '' }
     },
     {

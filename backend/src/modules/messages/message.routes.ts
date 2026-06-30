@@ -6,6 +6,7 @@ const router = Router();
 const controller = new MessageController();
 
 // Protected Message routes
+router.get('/conversations', authenticate as any, controller.getUserConversations);
 router.post('/conversations', authenticate as any, controller.getOrCreateConversation);
 router.get('/', authenticate as any, controller.getMessages);
 router.post('/', authenticate as any, controller.sendMessage);

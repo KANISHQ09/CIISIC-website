@@ -56,7 +56,7 @@ const options = [
   { label: 'Metrics', path: PAGE_PATH.metrics },
   { label: 'Navbar', path: PAGE_PATH.navbar },
   { label: 'New Password', path: PAGE_PATH.newPassword },
-  { label: 'Pricing', path: PAGE_PATH.pricing },
+  { label: 'Metrics', path: PAGE_PATH.metrics },
   { label: 'Process', path: PAGE_PATH.process },
   { label: 'Privacy Policy', path: PAGE_PATH.privacyPolicy },
   { label: 'Register', path: PAGE_PATH.register },
@@ -173,7 +173,7 @@ export default function SectionHero({ heading, search = true, offer = false, bre
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  placeholder="Search for blocks... (e.g., Hero, Testimonial, Pricing)"
+                  placeholder="Search for blocks... (e.g., Hero, Testimonial, Metrics)"
                   variant="outlined"
                   slotProps={{
                     input: {

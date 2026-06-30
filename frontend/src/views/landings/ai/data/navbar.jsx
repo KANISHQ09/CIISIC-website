@@ -26,14 +26,14 @@ const menuItems = [
   },
   {
     title: 'Payments',
-    content: 'Get help with billing and payment options.'
+    content: 'Get help with scoring and payment options.'
   }
 ];
 
 export const navItems = [
   { id: 'products   ', title: 'Products' },
   { id: 'components', title: 'Components', link: SECTION_PATH },
-  { id: 'crm-theme', title: 'CRM Theme', link: '/' },
+  { id: 'crm-theme', title: 'Collaboration Directory Theme', link: '/' },
   {
     id: 'resource',
     title: 'Resource',

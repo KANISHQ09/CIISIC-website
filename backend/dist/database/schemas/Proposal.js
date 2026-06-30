@@ -59,6 +59,14 @@ const ProposalSchema = new mongoose_1.Schema({
             timestamp: { type: Date, default: Date.now },
         },
     ],
+    comments: [
+        {
+            authorName: { type: String, required: true },
+            authorRole: { type: String, required: true },
+            content: { type: String, required: true },
+            createdAt: { type: Date, default: Date.now },
+        },
+    ],
     isDeleted: { type: Boolean, default: false, index: true },
     deletedAt: { type: Date },
     deletedBy: { type: String },

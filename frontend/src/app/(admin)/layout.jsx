@@ -13,15 +13,29 @@ const ReviewerLayout = dynamic(() => import('@/layouts/ReviewerLayout'));
 
 /***************************  LAYOUT - ADMIN, STUDENT, INDUSTRY, INSTITUTION & REVIEWER  ***************************/
 
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLoading } from '@/components/DashboardLoading';
+
 export default function Layout({ children }) {
   const { role, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && !role) {
+      const redirectUrl = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '';
+      const loginUrl = redirectUrl ? `/auth/login?redirect=${encodeURIComponent(redirectUrl)}` : '/auth/login';
+      router.push(loginUrl);
+    }
+  }, [role, isLoading, router]);
 
   if (isLoading) {
-    return (
-      <div className="h-screen w-screen flex items-center justify-center bg-zinc-50">
-        <div className="w-8 h-8 rounded-full border-4 border-zinc-200 border-t-violet-600 animate-spin" />
-      </div>
-    );
+    return <DashboardLoading />;
+  }
+
+  if (!role) {
+    return null;
   }
 
   if (role === 'STUDENT') {

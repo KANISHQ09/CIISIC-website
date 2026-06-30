@@ -14,6 +14,10 @@ export const seedDatabase = async (): Promise<void> => {
         name: 'LNCT Group of Colleges',
         code: 'LNCT',
         location: 'Bhopal, Madhya Pradesh',
+        email: 'info@lnct.ac.in',
+        address: 'Kalchuri Nagar, Raisen Road',
+        state: 'Madhya Pradesh',
+        city: 'Bhopal',
       });
       logger.info(`Seeded LNCT Institution: ${institution._id}`);
     }

@@ -15,7 +15,7 @@ import { navbar10Height } from '../Navbar10';
 import ButtonAnimationWrapper from '@/components/ButtonAnimationWrapper';
 import ContainerWrapper from '@/components/ContainerWrapper';
 import Logo from '@/components/logo';
-import { MenuPopper, NavMenu, NavMenuDrawer, NavPrimaryButton, NavSecondaryButton } from '@/components/navbar';
+import { MenuPopper, NavMenu, NavMenuDrawer, NavPrimaryButton } from '@/components/navbar';
 import SvgIcon from '@/components/SvgIcon';
 import { withAlpha } from '@/utils/colorUtils';
 
@@ -24,10 +24,10 @@ import { withAlpha } from '@/utils/colorUtils';
 /**
  *
  * Demos:
- * - [NavbarContent10](https://www.saasable.io/blocks/navbar/navbar10)
+ * - [NavbarContent10](https://www.ciisic.org/blocks/navbar/navbar10)
  *
  * API:
- * - [NavbarContent10 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/navbar/navbar-content/navbarcontent10#props-details)
+ * - [NavbarContent10 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/navbar/navbar-content/navbarcontent10#props-details)
  */
 
 export default function NavbarContent10({ landingBaseUrl, navItems, primaryBtn, secondaryBtn, animated }) {
@@ -60,29 +60,26 @@ export default function NavbarContent10({ landingBaseUrl, navItems, primaryBtn, 
       )}
       <Stack direction="row" sx={{ gap: { xs: 1, md: 1.5 } }}>
         {!downSM && (
-          <>
-            <NavSecondaryButton {...secondaryBtn} />
-            <ButtonAnimationWrapper>
-              {animated ? (
-                <motion.div
-                  initial={{ borderRadius: '50px' }}
-                  animate={{
-                    boxShadow: [
-                      `0px 0px 0px 0px ${withAlpha(theme.vars.palette.primary.main, 0.7)}`,
-                      `0px 0px 0px 8px ${withAlpha(theme.vars.palette.primary.main, 0)}`,
-                      `0px 0px 0px 0px ${withAlpha(theme.vars.palette.primary.main, 0)}`
-                    ],
-                    borderRadius: '50px'
-                  }}
-                  transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
-                >
-                  <NavPrimaryButton {...primaryBtn} />
-                </motion.div>
-              ) : (
+          <ButtonAnimationWrapper>
+            {animated ? (
+              <motion.div
+                initial={{ borderRadius: '50px' }}
+                animate={{
+                  boxShadow: [
+                    `0px 0px 0px 0px ${withAlpha(theme.vars.palette.primary.main, 0.7)}`,
+                    `0px 0px 0px 8px ${withAlpha(theme.vars.palette.primary.main, 0)}`,
+                    `0px 0px 0px 0px ${withAlpha(theme.vars.palette.primary.main, 0)}`
+                  ],
+                  borderRadius: '50px'
+                }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
+              >
                 <NavPrimaryButton {...primaryBtn} />
-              )}
-            </ButtonAnimationWrapper>
-          </>
+              </motion.div>
+            ) : (
+              <NavPrimaryButton {...primaryBtn} />
+            )}
+          </ButtonAnimationWrapper>
         )}
         {downMD && (
           <Box sx={{ flexGrow: 1 }}>
@@ -107,8 +104,7 @@ export default function NavbarContent10({ landingBaseUrl, navItems, primaryBtn, 
                   </Box>
                 )}
                 {downSM && (
-                  <Stack direction="row" sx={{ justifyContent: 'space-between', gap: 1, px: 2, py: 2.5, mx: -2, bgcolor: 'grey.100' }}>
-                    <NavSecondaryButton {...secondaryBtn} />
+                  <Stack direction="row" sx={{ justifyContent: 'flex-end', gap: 1, px: 2, py: 2.5, mx: -2, bgcolor: 'grey.100' }}>
                     <ButtonAnimationWrapper>
                       <NavPrimaryButton {...primaryBtn} />
                     </ButtonAnimationWrapper>

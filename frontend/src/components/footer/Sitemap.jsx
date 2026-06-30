@@ -36,7 +36,7 @@ const menuItems = [
       },
       {
         label: 'Blog',
-        link: { href: 'https://blog.saasable.io/', ...linkProps }
+        link: { href: 'https://blog.ciisic.org/', ...linkProps }
       },
       {
         label: 'Refund Policy',
@@ -50,12 +50,12 @@ const menuItems = [
     title: 'Support',
     menu: [
       {
-        label: 'Pricing',
-        link: { href: 'https://mui.com/store/items/saasable-multipurpose-ui-kit-and-dashboard/', ...linkProps }
+        label: 'Metrics',
+        link: { href: 'https://mui.com/store/items/ciisic-multipurpose-ui-kit-and-dashboard/', ...linkProps }
       },
       {
         label: 'FAQ',
-        link: { href: 'https://phoenixcoded.gitbook.io/saasable/faq', ...linkProps }
+        link: { href: 'https://ciisic.gitbook.io/ciisic/faq', ...linkProps }
       },
       {
         label: 'Support',
@@ -79,7 +79,7 @@ const menuItems = [
       {
         label: 'Why Phoenixcoded?',
         link: {
-          href: 'https://blog.saasable.io/a-decade-of-expertise-the-phoenixcoded-story-and-why-you-should-trust-us',
+          href: 'https://blog.ciisic.org/a-decade-of-expertise-the-ciisic-story-and-why-you-should-trust-us',
           ...linkProps
         }
       },

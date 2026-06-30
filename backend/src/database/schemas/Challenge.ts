@@ -33,6 +33,9 @@ export interface IChallenge extends Document {
   reviewerId?: Types.ObjectId;
   evaluationCriteria?: string;
   tags: string[];
+  category?: string;
+  industry?: string;
+  skillsRequired?: string[];
   version: number;
 }
 
@@ -77,6 +80,9 @@ const ChallengeSchema = new Schema<IChallenge>(
     reviewerId: { type: Schema.Types.ObjectId, ref: 'User', index: true },
     evaluationCriteria: { type: String },
     tags: [{ type: String, index: true }],
+    category: { type: String },
+    industry: { type: String },
+    skillsRequired: [{ type: String }],
   },
   {
     timestamps: true,

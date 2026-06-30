@@ -8,13 +8,21 @@ import * as zod from 'zod';
 import useAuth from '@/hooks/useAuth';
 import useToast from '@/hooks/useToast';
 
-const registerSchema = zod.object({
-  name: zod.string().min(2, 'Name must be at least 2 characters long'),
-  email: zod.string().email('Please enter a valid email address'),
-  password: zod.string().min(8, 'Password must be at least 8 characters long'),
-  role: zod.enum(['STUDENT', 'INDUSTRY_SPOC', 'INSTITUTION_SPOC', 'ADMIN']),
-  affiliationName: zod.string().optional()
-});
+const registerSchema = zod
+  .object({
+    name: zod.string().min(2, 'Name must be at least 2 characters long'),
+    institution: zod.string().min(2, 'Institution is required'),
+    course: zod.string().min(2, 'Course is required'),
+    branch: zod.string().min(2, 'Branch is required'),
+    year: zod.coerce.number().min(1, 'Year must be at least 1').max(5, 'Year must be 5 or less'),
+    email: zod.string().email('Please enter a valid email address'),
+    password: zod.string().min(8, 'Password must be at least 8 characters long'),
+    confirmPassword: zod.string().min(8, 'Confirm Password must be at least 8 characters long')
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword']
+  });
 
 type RegisterFields = zod.infer<typeof registerSchema>;
 
@@ -33,14 +41,10 @@ export const Register: React.FC = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors }
   } = useForm<RegisterFields>({
-    resolver: zodResolver(registerSchema),
-    defaultValues: { role: 'STUDENT' }
+    resolver: zodResolver(registerSchema)
   });
-
-  const selectedRole = watch('role');
 
   const onSubmit = async (data: RegisterFields) => {
     setIsLoading(true);
@@ -52,15 +56,16 @@ export const Register: React.FC = () => {
           name: data.name,
           email: data.email,
           password: data.password,
-          role: data.role,
-          profileData:
-            data.role === 'STUDENT'
-              ? { enrollmentNo: `CII/ST/${Date.now().toString().slice(-4)}`, skills: [], department: 'General', yearOfStudy: 1 }
-              : data.role === 'INDUSTRY_SPOC'
-                ? { companyName: data.affiliationName || 'New Corporate Partner', industry: 'General', isCIIMember: true }
-                : data.role === 'ADMIN'
-                  ? { adminRole: 'Global Administrator', department: 'CII Operations' }
-                  : { designation: 'Dean of Placement', department: 'Administration' }
+          role: 'STUDENT',
+          profileData: {
+            enrollmentNo: `CII/ST/${Date.now().toString().slice(-4)}`,
+            skills: [],
+            department: data.branch,
+            yearOfStudy: data.year,
+            course: data.course,
+            branch: data.branch,
+            institutionName: data.institution
+          }
         })
       });
       const result = await response.json();
@@ -68,8 +73,8 @@ export const Register: React.FC = () => {
       if (result.success) {
         document.cookie = `ciisic_token=${result.token}; path=/; max-age=86400; SameSite=Strict`;
         login(result.token, result.user);
-        showToast('Account registered successfully!', 'success');
-        router.push('/dashboard');
+        showToast('Student account registered successfully!', 'success');
+        router.push('/portal/student/dashboard');
       } else {
         showToast(result.error || 'Registration failed', 'error');
       }
@@ -83,11 +88,11 @@ export const Register: React.FC = () => {
   return (
     <div className="w-full max-w-sm mx-auto space-y-5">
       <div className="space-y-1 text-left">
-        <h2 className="text-2xl font-extrabold text-zinc-900 tracking-tight leading-tight">Create Account</h2>
-        <p className="text-xs text-zinc-500 font-medium">Join the CIISIC Institutional Cooperation Network</p>
+        <h2 className="text-2xl font-extrabold text-zinc-900 tracking-tight leading-tight">Create Student Account</h2>
+        <p className="text-xs text-zinc-500 font-medium">Join the CIISIC Student Solver Platform</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5 pb-8">
         <div className="space-y-1 text-left">
           <label className="text-xs font-bold text-zinc-700">Full Name</label>
           <GlassInputWrapper>
@@ -100,6 +105,66 @@ export const Register: React.FC = () => {
             />
           </GlassInputWrapper>
           {errors.name && <p className="text-[10px] text-red-600 font-medium mt-0.5">{errors.name.message}</p>}
+        </div>
+
+        <div className="space-y-1 text-left">
+          <label className="text-xs font-bold text-zinc-700">Institution</label>
+          <GlassInputWrapper>
+            <input
+              {...register('institution')}
+              type="text"
+              placeholder="e.g. LNCT Bhopal"
+              className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 placeholder:text-zinc-400 font-medium"
+              required
+            />
+          </GlassInputWrapper>
+          {errors.institution && <p className="text-[10px] text-red-600 font-medium mt-0.5">{errors.institution.message}</p>}
+        </div>
+
+        <div className="grid grid-cols-2 gap-3.5">
+          <div className="space-y-1 text-left">
+            <label className="text-xs font-bold text-zinc-700">Course</label>
+            <GlassInputWrapper>
+              <input
+                {...register('course')}
+                type="text"
+                placeholder="B.Tech"
+                className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 placeholder:text-zinc-400 font-medium"
+                required
+              />
+            </GlassInputWrapper>
+            {errors.course && <p className="text-[10px] text-red-600 font-medium mt-0.5">{errors.course.message}</p>}
+          </div>
+
+          <div className="space-y-1 text-left">
+            <label className="text-xs font-bold text-zinc-700">Branch</label>
+            <GlassInputWrapper>
+              <input
+                {...register('branch')}
+                type="text"
+                placeholder="Computer Science"
+                className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 placeholder:text-zinc-400 font-medium"
+                required
+              />
+            </GlassInputWrapper>
+            {errors.branch && <p className="text-[10px] text-red-600 font-medium mt-0.5">{errors.branch.message}</p>}
+          </div>
+        </div>
+
+        <div className="space-y-1 text-left">
+          <label className="text-xs font-bold text-zinc-700">Year of Study</label>
+          <GlassInputWrapper>
+            <input
+              {...register('year')}
+              type="number"
+              min="1"
+              max="5"
+              placeholder="e.g. 3"
+              className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 placeholder:text-zinc-400 font-medium"
+              required
+            />
+          </GlassInputWrapper>
+          {errors.year && <p className="text-[10px] text-red-600 font-medium mt-0.5">{errors.year.message}</p>}
         </div>
 
         <div className="space-y-1 text-left">
@@ -116,49 +181,35 @@ export const Register: React.FC = () => {
           {errors.email && <p className="text-[10px] text-red-600 font-medium mt-0.5">{errors.email.message}</p>}
         </div>
 
-        <div className="space-y-1 text-left">
-          <label className="text-xs font-bold text-zinc-700">Password</label>
-          <GlassInputWrapper>
-            <input
-              {...register('password')}
-              type="password"
-              placeholder="••••••••"
-              className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 placeholder:text-zinc-400 font-medium"
-              required
-            />
-          </GlassInputWrapper>
-          {errors.password && <p className="text-[10px] text-red-600 font-medium mt-0.5">{errors.password.message}</p>}
-        </div>
-
-        <div className="space-y-1 text-left">
-          <label className="text-xs font-bold text-zinc-700">Register As</label>
-          <GlassInputWrapper>
-            <select
-              {...register('role')}
-              className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 font-medium cursor-pointer"
-            >
-              <option value="STUDENT">Student Candidate</option>
-              <option value="INDUSTRY_SPOC">Corporate Industry SPOC</option>
-              <option value="INSTITUTION_SPOC">Academic Institution SPOC</option>
-              <option value="ADMIN">Platform Admin</option>
-            </select>
-          </GlassInputWrapper>
-        </div>
-
-        {selectedRole !== 'STUDENT' && selectedRole !== 'ADMIN' && (
+        <div className="grid grid-cols-2 gap-3.5">
           <div className="space-y-1 text-left">
-            <label className="text-xs font-bold text-zinc-700">Company or Institution Name</label>
+            <label className="text-xs font-bold text-zinc-700">Password</label>
             <GlassInputWrapper>
               <input
-                {...register('affiliationName')}
-                type="text"
-                placeholder="e.g. Netlink Technologies or LNCT University"
+                {...register('password')}
+                type="password"
+                placeholder="••••••••"
                 className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 placeholder:text-zinc-400 font-medium"
                 required
               />
             </GlassInputWrapper>
+            {errors.password && <p className="text-[10px] text-red-600 font-medium mt-0.5">{errors.password.message}</p>}
           </div>
-        )}
+
+          <div className="space-y-1 text-left">
+            <label className="text-xs font-bold text-zinc-700">Confirm</label>
+            <GlassInputWrapper>
+              <input
+                {...register('confirmPassword')}
+                type="password"
+                placeholder="••••••••"
+                className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 placeholder:text-zinc-400 font-medium"
+                required
+              />
+            </GlassInputWrapper>
+            {errors.confirmPassword && <p className="text-[10px] text-red-600 font-medium mt-0.5">{errors.confirmPassword.message}</p>}
+          </div>
+        </div>
 
         <button
           type="submit"

@@ -34,13 +34,13 @@ import { SECTION_COMMON_PY } from '@/utils/constant';
 /**
  *
  * Demos:
- * - [Pricing9](https://www.saasable.io/blocks/pricing/pricing9)
+ * - [Metrics9](https://www.ciisic.org/blocks/metrics/metrics9)
  *
  * API
- * - [Pricing9 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/pricing/pricing9#props-details)
+ * - [Metrics9 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/metrics/metrics9#props-details)
  */
 
-export default function Pricing9({ heading, caption, features, plans }) {
+export default function Metrics9({ heading, caption, features, plans }) {
   const theme = useTheme();
 
   return (
@@ -178,4 +178,4 @@ export default function Pricing9({ heading, caption, features, plans }) {
   );
 }
 
-Pricing9.propTypes = { heading: PropTypes.string, caption: PropTypes.string, features: PropTypes.array, plans: PropTypes.array };
+Metrics9.propTypes = { heading: PropTypes.string, caption: PropTypes.string, features: PropTypes.array, plans: PropTypes.array };

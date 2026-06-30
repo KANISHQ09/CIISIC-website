@@ -2,8 +2,8 @@
   "name": "ciisic-platform-frontend",
   "version": "2.1.0",
   "author": {
-    "email": "phoenixcoded@gmail.com",
-    "name": "phoenixcoded"
+    "email": "support@ciisic.in",
+    "name": "CIISIC Tech Team"
   },
   "scripts": {
     "dev": "next dev",
@@ -38,6 +38,7 @@
     "react-slick": "^0.31.0",
     "simplebar-react": "3.3.2",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.8.3",
     "stylis": "4.3.6",
     "stylis-plugin-rtl": "2.1.1",
     "swr": "2.4.0",

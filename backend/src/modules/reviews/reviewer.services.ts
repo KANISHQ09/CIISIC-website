@@ -33,6 +33,10 @@ export class EvaluationService {
       throw new NotFoundError('Proposal not found');
     }
 
+    if (proposal.reviewerId?.toString() !== userId) {
+      throw new ValidationError('Forbidden: You are not the assigned reviewer for this proposal');
+    }
+
     const totalScore = ScoringService.calculateWeightedScore(data);
 
     const review = await ReviewModel.create({
@@ -153,6 +157,10 @@ export class DiscussionService {
     const proposal = await ProposalModel.findById(proposalId);
     if (!proposal) {
       throw new NotFoundError('Proposal not found');
+    }
+
+    if (proposal.reviewerId?.toString() !== userId) {
+      throw new ValidationError('Forbidden: You are not the assigned reviewer for this proposal');
     }
 
     proposal.decisionHistory.push({

@@ -6,6 +6,7 @@ const router = Router();
 const controller = new CompanyController();
 
 // Public Company Directory
+router.get('/my', authenticate as any, controller.getMyCompany);
 router.get('/', controller.getCompanies);
 router.get('/:id', controller.getCompanyById);
 

@@ -35,10 +35,10 @@ import { SECTION_COMMON_PY } from '@/utils/constant';
 /**
  *
  * Demos:
- * - [FAQ6](https://www.saasable.io/blocks/faq/faq6)
+ * - [FAQ6](https://www.ciisic.org/blocks/faq/faq6)
  *
  * API:
- * - [FAQ6 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/faq/faq6#props-details)
+ * - [FAQ6 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/faq/faq6#props-details)
  */
 
 export default function Faq6({ heading, caption, defaultExpanded, faqList, getInTouch, categories, activeCategory }) {

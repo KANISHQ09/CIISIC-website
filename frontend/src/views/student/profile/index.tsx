@@ -87,13 +87,13 @@ export default function StudentProfileView() {
                 Verified Student
               </span>
             </div>
-            <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">{profile.major} Major</p>
+            <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">{profile.department || 'Innovation Hub'} Department</p>
             <div className="flex items-center gap-3 text-xs text-zinc-400 font-semibold">
               <span className="flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5" /> Bhopal, India
               </span>
               <span className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5" /> Batch of {profile.graduationYear}
+                <Calendar className="w-3.5 h-3.5" /> Year {profile.yearOfStudy} (Accrued: {profile.points} XP)
               </span>
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function StudentProfileView() {
             <span className="text-violet-600 font-extrabold">Level {profile.level}</span>
           </div>
           <ProgressBar value={profile.completionPercentage} showLabel={false} />
-          <p className="text-[9px] text-zinc-400 font-bold uppercase mt-1">Endorsed by LNCT Excellence Cell</p>
+          <p className="text-[9px] text-zinc-400 font-bold uppercase mt-1">Endorsed by Excellence Cell</p>
         </div>
       </div>
 
@@ -122,7 +122,15 @@ export default function StudentProfileView() {
                 <Building className="w-5 h-5 text-zinc-400 mt-0.5 shrink-0" />
                 <div className="leading-tight">
                   <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Institution</span>
-                  <span className="text-xs font-extrabold text-zinc-800">{profile.college}</span>
+                  <span className="text-xs font-extrabold text-zinc-800">{profile.institutionName || 'Affiliated Institution'}</span>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <GraduationCap className="w-5 h-5 text-zinc-400 mt-0.5 shrink-0" />
+                <div className="leading-tight">
+                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Academic Ref / Year</span>
+                  <span className="text-xs font-extrabold text-zinc-800">Year {profile.yearOfStudy}</span>
                 </div>
               </div>
 
@@ -130,7 +138,7 @@ export default function StudentProfileView() {
                 <GraduationCap className="w-5 h-5 text-zinc-400 mt-0.5 shrink-0" />
                 <div className="leading-tight">
                   <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Enrollment ID</span>
-                  <span className="text-xs font-extrabold text-zinc-800">{profile.enrollmentId}</span>
+                  <span className="text-xs font-extrabold text-zinc-800">{profile.enrollmentNo || 'Pending Enrollment'}</span>
                 </div>
               </div>
 
@@ -139,14 +147,6 @@ export default function StudentProfileView() {
                 <div className="leading-tight">
                   <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Student Email</span>
                   <span className="text-xs font-extrabold text-zinc-800">{profile.email}</span>
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <Phone className="w-5 h-5 text-zinc-400 mt-0.5 shrink-0" />
-                <div className="leading-tight">
-                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">CGPA Points</span>
-                  <span className="text-xs font-extrabold text-zinc-800">{profile.cgpa} / 10.0</span>
                 </div>
               </div>
             </div>
@@ -177,17 +177,21 @@ export default function StudentProfileView() {
                 </div>
                 <div className="text-left leading-tight">
                   <p className="text-xs font-extrabold text-zinc-800 truncate max-w-[180px]">
-                    {profile.resumeUrl.split('/').pop() || 'madhavan_resume.pdf'}
+                    {profile.resumeName || profile.resumeUrl?.split('/').pop() || 'madhavan_resume.pdf'}
                   </p>
                   <span className="text-[10px] text-zinc-400 font-bold uppercase">Endorsed PDF</span>
                 </div>
               </div>
-              <button
-                onClick={() => showToast('Resume downloaded', 'success')}
-                className="py-1.5 px-3 border border-zinc-200 hover:bg-zinc-50 rounded-xl text-[10px] font-bold transition-all cursor-pointer"
-              >
-                Download
-              </button>
+              {profile.resumeUrl && (
+                <a
+                  href={profile.resumeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="py-1.5 px-3 border border-zinc-200 hover:bg-zinc-50 rounded-xl text-[10px] font-bold transition-all cursor-pointer inline-block"
+                >
+                  Download
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -201,7 +205,7 @@ export default function StudentProfileView() {
             </h3>
             <div className="space-y-4 text-left font-semibold text-xs text-zinc-700">
               <a
-                href={profile.githubUrl}
+                href={profile.socialLinks?.github || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2.5 hover:text-violet-600 transition-colors"
@@ -210,7 +214,7 @@ export default function StudentProfileView() {
                 <span>GitHub Portfolio</span>
               </a>
               <a
-                href={profile.linkedinUrl}
+                href={profile.socialLinks?.linkedin || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2.5 hover:text-violet-600 transition-colors"

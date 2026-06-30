@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import useAuth from '@/hooks/useAuth';
 import useToast from '@/hooks/useToast';
+import { ShieldAlert, LogIn, Lock } from 'lucide-react';
 
 const loginSchema = zod.object({
   email: zod.string().email('Please enter a valid email address'),
@@ -25,8 +26,7 @@ export const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    setValue
+    formState: { errors }
   } = useForm<LoginFields>({
     resolver: zodResolver(loginSchema)
   });
@@ -34,7 +34,6 @@ export const Login: React.FC = () => {
   const onSubmit = async (data: LoginFields) => {
     setIsLoading(true);
     try {
-      // Simulate API token request
       const response = await fetch('/api/v1/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -60,103 +59,69 @@ export const Login: React.FC = () => {
     }
   };
 
-  const [selectedRole, setSelectedRole] = useState<'STUDENT' | 'INDUSTRY_SPOC' | 'INSTITUTION_SPOC' | 'ADMIN'>('STUDENT');
-
-  const rolesInfo = {
-    STUDENT: {
-      label: 'Student',
-      who: 'Students',
-      email: 'student@lnct.ac.in',
-      responsibilities:
-        'Browse challenges, ask queries, submit proposals, upload documents, track proposal status, communicate with industry through portal.'
-    },
-    INDUSTRY_SPOC: {
-      label: 'Industry SPOC',
-      who: 'Company representatives',
-      email: 'spoc@netlink.com',
-      responsibilities:
-        'Create and manage problem statements, respond to student queries, review proposals, approve/reject submissions, track challenge progress.'
-    },
-    INSTITUTION_SPOC: {
-      label: 'Institutional SPOC',
-      who: 'College/University coordinators',
-      email: 'spoc@lnct.ac.in',
-      responsibilities:
-        'Register and manage students, monitor student participation, approve institutional registrations (if required), view reports, communicate with students.'
-    },
-    ADMIN: {
-      label: 'Platform Admin',
-      who: 'CIISIC/CII administrators',
-      email: 'admin@ciisic.in',
-      responsibilities:
-        'Manage users, approve registrations, maintain CII member directory, monitor activity, generate reports, audit logs, platform configuration.'
-    }
-  };
-
-  const handleRoleSelect = (roleKey: 'STUDENT' | 'INDUSTRY_SPOC' | 'INSTITUTION_SPOC' | 'ADMIN') => {
-    setSelectedRole(roleKey);
-    setValue('email', rolesInfo[roleKey].email);
-    setValue('password', 'Password@123');
-    showToast(`Loaded ${rolesInfo[roleKey].label} dev credentials`, 'info');
-  };
+  const isSessionExpired = searchParams.get('session_expired') === 'true';
 
   return (
-    <div className="w-full max-w-md mx-auto space-y-8 p-8 bg-white rounded-3xl border border-zinc-200 shadow-md">
+    <div className="w-full max-w-md mx-auto space-y-8 p-8 bg-white/80 backdrop-blur-md rounded-3xl border border-zinc-200 shadow-lg text-left select-none animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-extrabold text-neutral-900 tracking-tight">Access the CIISIC Collaboration Portal</h2>
-        <p className="text-xs text-neutral-500 font-medium">Select a role credential or log in via email</p>
+        <h2 className="text-2xl font-extrabold text-neutral-900 tracking-tight flex items-center justify-center gap-2">
+          <LogIn className="w-6 h-6 text-violet-600" /> Sign In
+        </h2>
+        <p className="text-xs text-neutral-500 font-medium">
+          Log in with your institutional or corporate credentials
+        </p>
       </div>
 
-      {/* Dev shortcuts */}
-      <div className="space-y-3">
-        <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider block text-left">
-          Ecosystem Role Guides & Shortcuts
-        </label>
-        <div className="grid grid-cols-2 gap-2">
-          {(Object.keys(rolesInfo) as Array<keyof typeof rolesInfo>).map((roleKey) => (
-            <button
-              key={roleKey}
-              type="button"
-              onClick={() => handleRoleSelect(roleKey)}
-              className={`py-2 px-2 border rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                selectedRole === roleKey
-                  ? 'border-primary bg-primary/5 text-primary'
-                  : 'border-zinc-200 hover:bg-neutral-50 text-neutral-600'
-              }`}
-            >
-              {rolesInfo[roleKey].label}
-            </button>
-          ))}
+      {isSessionExpired && (
+        <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-2.5 text-xs text-amber-800 font-semibold animate-in slide-in-from-top-2 duration-300">
+          <ShieldAlert className="w-4.5 h-4.5 text-amber-600 shrink-0" />
+          <div className="leading-relaxed">
+            <p className="font-bold">Session Expired</p>
+            <p className="text-[11px] font-medium text-amber-700 mt-0.5">
+              Your security session has expired. Please authenticate again to access your workspace.
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <div className="space-y-1 text-left">
+        <div className="space-y-1.5 text-left">
           <label className="text-xs font-bold text-neutral-700">Email Address</label>
-          <input
-            {...register('email')}
-            type="email"
-            placeholder="example@ciisic.in"
-            className="w-full px-4 py-3 border border-zinc-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-          />
-          {errors.email && <p className="text-[11px] text-red-600 font-medium mt-1">{errors.email.message}</p>}
+          <div className="rounded-2xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-50 transition-colors focus-within:border-violet-500 focus-within:bg-white focus-within:ring-1 focus-within:ring-violet-500">
+            <input
+              {...register('email')}
+              type="email"
+              placeholder="example@ciisic.in"
+              className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 placeholder:text-zinc-400 font-semibold"
+              required
+            />
+          </div>
+          {errors.email && <p className="text-[11px] text-red-650 font-semibold mt-1">{errors.email.message}</p>}
         </div>
 
-        <div className="space-y-1 text-left">
-          <label className="text-xs font-bold text-neutral-700">Password</label>
-          <input
-            {...register('password')}
-            type="password"
-            placeholder="••••••••"
-            className="w-full px-4 py-3 border border-zinc-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-          />
-          {errors.password && <p className="text-[11px] text-red-600 font-medium mt-1">{errors.password.message}</p>}
+        <div className="space-y-1.5 text-left">
+          <div className="flex justify-between items-center">
+            <label className="text-xs font-bold text-neutral-700">Password</label>
+            <a href="/auth/forgot-password" className="text-[11px] font-bold text-violet-600 hover:underline">
+              Forgot?
+            </a>
+          </div>
+          <div className="rounded-2xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-50 transition-colors focus-within:border-violet-500 focus-within:bg-white focus-within:ring-1 focus-within:ring-violet-500">
+            <input
+              {...register('password')}
+              type="password"
+              placeholder="••••••••"
+              className="w-full bg-transparent text-sm p-3.5 focus:outline-none text-zinc-950 placeholder:text-zinc-400 font-semibold"
+              required
+            />
+          </div>
+          {errors.password && <p className="text-[11px] text-red-650 font-semibold mt-1">{errors.password.message}</p>}
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3.5 px-4 bg-primary text-white hover:bg-primary-dark font-semibold text-sm rounded-full shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+          className="w-full py-3.5 px-4 bg-zinc-900 hover:bg-zinc-800 text-white font-semibold text-sm rounded-full shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
         >
           {isLoading ? 'Signing In...' : 'Sign In'}
         </button>

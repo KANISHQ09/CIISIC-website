@@ -4,7 +4,7 @@ import { DOCS_URL } from '@/path';
 
 export const integration = {
   headLine: 'Tailored for Every Industry',
-  captionLine: 'From Project Management to AI, see how our UI Kit helps you build SaaS applications tailored for a variety of industries.',
+  captionLine: 'From Project Management to AI, see how our UI Kit helps you build innovation databases tailored for a variety of industries.',
   primaryBtn: {
     children: 'Documentation',
     startIcon: <SvgIcon name="tabler-help" color="background.default" />,
@@ -14,7 +14,7 @@ export const integration = {
   },
   tagList: [
     { label: 'Project Management' },
-    { label: 'Customer Relationship Management (CRM)' },
+    { label: 'Customer Relationship Management (Collaboration Directory)' },
     { label: 'HR & Recruitment' },
     { label: 'Finance & Accounting' },
     { label: 'E-commerce Solutions' },

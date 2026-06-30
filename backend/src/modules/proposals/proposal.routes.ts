@@ -9,6 +9,7 @@ const controller = new ProposalController();
 router.get('/', authenticate as any, controller.getProposals);
 router.get('/analytics/proposals', authenticate as any, controller.getAnalytics);
 router.get('/timeline/:proposalId', authenticate as any, controller.getTimeline);
+router.post('/:id/comment', authenticate as any, controller.addComment);
 router.get('/:id', authenticate as any, controller.getProposalById);
 router.post('/', authenticate as any, requireRole(['STUDENT']) as any, controller.createDraft);
 router.post(

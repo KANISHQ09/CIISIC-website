@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const user_controller_1 = require("../modules/users/user.controller");
+const authMiddleware_1 = require("../shared/middleware/authMiddleware");
 const auth_routes_1 = __importDefault(require("../modules/auth/auth.routes"));
 const cell_routes_1 = __importDefault(require("../modules/cells/cell.routes"));
 const institution_routes_1 = __importDefault(require("../modules/institutions/institution.routes"));
@@ -18,6 +19,7 @@ const upload_routes_1 = __importDefault(require("../modules/uploads/upload.route
 const search_routes_1 = __importDefault(require("../modules/search/search.routes"));
 const analytics_routes_1 = __importDefault(require("../modules/analytics/analytics.routes"));
 const platform_routes_1 = __importDefault(require("../modules/platform/platform.routes"));
+const audit_routes_1 = __importDefault(require("../modules/audit/audit.routes"));
 const router = (0, express_1.Router)();
 const userController = new user_controller_1.UserController();
 // Version 1 Routes
@@ -34,5 +36,11 @@ router.use('/v1/uploads', upload_routes_1.default);
 router.use('/v1/search', search_routes_1.default);
 router.use('/v1/analytics', analytics_routes_1.default);
 router.use('/v1/platform', platform_routes_1.default);
-router.post('/v1/users/register', userController.register);
+router.use('/v1/audit', audit_routes_1.default);
+router.get('/v1/users', authMiddleware_1.authenticate, (0, authMiddleware_1.requireRole)(['SUPER_ADMIN']), userController.getUsers);
+router.post('/v1/users', authMiddleware_1.authenticate, (0, authMiddleware_1.requireRole)(['SUPER_ADMIN']), userController.createUser);
+router.patch('/v1/users/:id/status', authMiddleware_1.authenticate, (0, authMiddleware_1.requireRole)(['SUPER_ADMIN']), userController.updateUserStatus);
+router.patch('/v1/users/:id/verify', authMiddleware_1.authenticate, (0, authMiddleware_1.requireRole)(['SUPER_ADMIN']), userController.verifyUser);
+router.get('/v1/profile', authMiddleware_1.authenticate, userController.getProfile);
+router.patch('/v1/profile', authMiddleware_1.authenticate, userController.updateProfile);
 exports.default = router;

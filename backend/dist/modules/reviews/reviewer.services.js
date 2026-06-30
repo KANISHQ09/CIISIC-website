@@ -36,6 +36,9 @@ class EvaluationService {
         if (!proposal) {
             throw new AppError_1.NotFoundError('Proposal not found');
         }
+        if (proposal.reviewerId?.toString() !== userId) {
+            throw new AppError_1.ValidationError('Forbidden: You are not the assigned reviewer for this proposal');
+        }
         const totalScore = ScoringService.calculateWeightedScore(data);
         const review = await Review_1.default.create({
             ...data,
@@ -126,6 +129,9 @@ class DiscussionService {
         const proposal = await Proposal_1.default.findById(proposalId);
         if (!proposal) {
             throw new AppError_1.NotFoundError('Proposal not found');
+        }
+        if (proposal.reviewerId?.toString() !== userId) {
+            throw new AppError_1.ValidationError('Forbidden: You are not the assigned reviewer for this proposal');
         }
         proposal.decisionHistory.push({
             status: 'COMMENT_ADDED',

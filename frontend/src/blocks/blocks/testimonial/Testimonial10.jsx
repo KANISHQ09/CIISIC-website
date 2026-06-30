@@ -24,10 +24,10 @@ import { SECTION_COMMON_PY } from '@/utils/constant';
 /**
  *
  * Demos:
- * - [Testimonial10](https://www.saasable.io/blocks/testimonial/testimonial10)
+ * - [Testimonial10](https://www.ciisic.org/blocks/testimonial/testimonial10)
  *
  * API:
- * - [Testimonial10 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/testimonial/testimonial10#props-details)
+ * - [Testimonial10 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/testimonial/testimonial10#props-details)
  */
 
 export default function Testimonial10({ heading, caption, testimonials }) {

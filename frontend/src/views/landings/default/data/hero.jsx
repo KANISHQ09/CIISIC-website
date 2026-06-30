@@ -9,7 +9,7 @@ export const hero = {
   captionLine:
     'A state-level collaborative platform linking students, academic institutions, and leading industries to tackle real-world challenges through innovation.',
   primaryBtn: { children: 'Browse Challenges', href: '/challenges' },
-  videoSrc: 'https://d2elhhoq00m1pj.cloudfront.net/saasable-intro.mp4',
+  videoSrc: 'https://d2elhhoq00m1pj.cloudfront.net/ciisic-intro.mp4',
   videoThumbnail: '/assets/videos/thumbnails/intro-thumbnail.png',
   listData: [
     { image: '/assets/images/shared/celebration.svg', title: 'Excellence Cells' },

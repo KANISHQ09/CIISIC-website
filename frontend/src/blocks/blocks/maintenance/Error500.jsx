@@ -21,7 +21,7 @@ import Error500Server from '@/images/maintenance/Error500Server';
 /**
  *
  * Demos:
- * - [Error500](https://www.saasable.io/blocks/error500)
+ * - [Error500](https://www.ciisic.org/blocks/error500)
  */
 
 export default function Error500Page({ primaryBtn, heading }) {

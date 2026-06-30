@@ -8,7 +8,8 @@ import { CellManagementService } from '@/services/cellManagementService';
 import { StatsCard } from '@/components/industry/StatsCard';
 import { VerificationCard } from '@/components/institution/VerificationCard';
 import { StudentAcademicRecord, ExcellenceCell, VerificationStatus } from '@/types/institutionPortal';
-import { Users2, BookmarkCheck, TrendingUp, Clock, Layers, Megaphone, ArrowRight, ShieldAlert } from 'lucide-react';
+import { DashboardError } from '@/components/DashboardError';
+import { Users2, BookmarkCheck, TrendingUp, Layers, Megaphone, ArrowRight, ShieldAlert } from 'lucide-react';
 import useToast from '@/hooks/useToast';
 
 export default function InstitutionDashboard() {
@@ -19,8 +20,12 @@ export default function InstitutionDashboard() {
   const [pendingStudents, setPendingStudents] = useState<StudentAcademicRecord[]>([]);
   const [cells, setCells] = useState<ExcellenceCell[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   const fetchDashboardData = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
       const [statsData, studentsList, cellsList] = await Promise.all([
         InstitutionService.getDashboardStats(),
@@ -30,8 +35,9 @@ export default function InstitutionDashboard() {
       setStats(statsData);
       setPendingStudents(studentsList.filter((s) => s.verificationStatus === 'PENDING'));
       setCells(cellsList.slice(0, 3));
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setError(err.message || 'Unable to fetch academic console. Please check backend connection.');
     } finally {
       setIsLoading(false);
     }
@@ -39,7 +45,7 @@ export default function InstitutionDashboard() {
 
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+  }, [retryCount]);
 
   const handleVerify = async (id: string, status: VerificationStatus) => {
     try {
@@ -53,16 +59,29 @@ export default function InstitutionDashboard() {
     }
   };
 
+  if (error) {
+    return <DashboardError message={error} onRetry={() => setRetryCount((c) => c + 1)} />;
+  }
+
   if (isLoading || !stats) {
     return (
-      <div className="h-96 flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-4 border-zinc-200 border-t-indigo-600 animate-spin" />
+      <div className="space-y-6 text-left pb-12 select-none animate-pulse">
+        <div className="bg-zinc-200 rounded-3xl h-48" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-zinc-150 rounded-2xl h-24" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 bg-zinc-200 rounded-3xl h-64" />
+          <div className="bg-zinc-200 rounded-3xl h-64" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 text-left pb-12 select-none animate-in fade-in slide-in-from-bottom-2 duration-300">
+    <div className="space-y-6 text-left pb-12 select-none animate-in fade-in duration-300">
       {/* Welcome Banner */}
       <div className="bg-gradient-to-tr from-slate-900 via-neutral-900 to-indigo-950 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-md">
         <div className="absolute top-[-30%] right-[-10%] w-64 h-64 rounded-full bg-indigo-600/10 blur-[80px]" />
@@ -127,8 +146,14 @@ export default function InstitutionDashboard() {
             </div>
 
             {pendingStudents.length === 0 ? (
-              <div className="py-10 text-center border border-zinc-100 border-dashed rounded-2xl bg-zinc-50/20 text-zinc-400 font-bold text-xs">
-                All student registrations are verified.
+              <div className="py-8 text-center space-y-3">
+                <p className="text-xs text-zinc-500 font-medium">No students registered yet.</p>
+                <button
+                  onClick={() => router.push('/students')}
+                  className="py-1.5 px-4 bg-indigo-600 text-white rounded-xl text-[10px] font-bold hover:bg-indigo-700 transition-colors cursor-pointer shadow-sm active:scale-[0.98]"
+                >
+                  Invite Students
+                </button>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

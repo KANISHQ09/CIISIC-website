@@ -8,7 +8,7 @@ export { integration } from './integration';
 export { metrics } from './metrics';
 export { navbar } from './navbar';
 export { other, other3 } from './other';
-export { pricing } from './pricing';
+export { metrics } from './metrics';
 export { smallHero, smallHero1, smallHero4 } from './small-hero';
 export { team } from './team';
 export { testimonial } from './testimonial';

@@ -3,24 +3,51 @@
 import React, { useState, useEffect } from 'react';
 import { AdminService } from '@/services/adminService';
 import { SystemHealthStatus } from '@/types/adminPortal';
-import { Users, Building, Landmark, ShieldCheck, BookOpen, Activity, HeartPulse, TrendingUp, FileText } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Users, Building, Landmark, ShieldCheck, BookOpen, Activity, HeartPulse, TrendingUp } from 'lucide-react';
+import { DashboardError } from '@/components/DashboardError';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
-    AdminService.getDashboardStats().then((data) => {
-      setStats(data);
-      setIsLoading(false);
-    });
-  }, []);
+    setIsLoading(true);
+    setError(null);
+    AdminService.getDashboardStats()
+      .then((data) => {
+        setStats(data);
+      })
+      .catch((err: any) => {
+        console.error(err);
+        setError(err.message || 'Unable to fetch administrative controller system metrics.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [retryCount]);
+
+  if (error) {
+    return <DashboardError message={error} onRetry={() => setRetryCount((c) => c + 1)} />;
+  }
 
   if (isLoading || !stats) {
     return (
-      <div className="h-96 flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-4 border-zinc-200 border-t-blue-600 animate-spin" />
+      <div className="space-y-6 text-left pb-12 select-none animate-pulse">
+        <div className="border-b border-zinc-100 pb-4">
+          <div className="h-8 w-64 bg-zinc-200 rounded-lg mb-2" />
+          <div className="h-4 w-96 bg-zinc-150 rounded" />
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="bg-zinc-150 rounded-2xl h-24" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 bg-zinc-200 rounded-3xl h-64" />
+          <div className="bg-zinc-200 rounded-3xl h-64" />
+        </div>
       </div>
     );
   }
@@ -35,7 +62,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-6 text-left pb-12 select-none animate-in fade-in slide-in-from-bottom-2 duration-300">
+    <div className="space-y-6 text-left pb-12 select-none animate-in fade-in duration-300">
       {/* Title */}
       <div className="border-b border-zinc-100 pb-4">
         <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 leading-tight">Governance Control Center</h1>

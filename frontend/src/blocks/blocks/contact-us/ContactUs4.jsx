@@ -55,10 +55,10 @@ function ContactCard({ icon, title, content, link }) {
 /**
  *
  * Demos:
- * - [ContactUs4](https://www.saasable.io/blocks/contact-us/contact-us4)
+ * - [ContactUs4](https://www.ciisic.org/blocks/contact-us/contact-us4)
  *
  * API:
- * - [ContactUs4 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/contact-us/contactus4#props-details)
+ * - [ContactUs4 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/contact-us/contactus4#props-details)
  */
 
 export default function ContactUs4({ heading, caption, list, showForm = true }) {

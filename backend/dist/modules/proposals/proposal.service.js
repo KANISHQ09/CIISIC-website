@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProposalService = void 0;
 const proposal_repository_1 = require("./proposal.repository");
+const Proposal_1 = __importDefault(require("../../database/schemas/Proposal"));
 const AppError_1 = require("../../shared/errors/AppError");
 const AuditLog_1 = __importDefault(require("../../database/schemas/AuditLog"));
 const ActivityLog_1 = __importDefault(require("../../database/schemas/ActivityLog"));
@@ -43,15 +44,24 @@ class ProposalService {
         return proposal;
     }
     async getProposalById(id) {
-        const proposal = await this.proposalRepository.findById(id);
+        const proposal = await Proposal_1.default.findById(id)
+            .populate('challengeId')
+            .populate('companyId')
+            .populate('solverId')
+            .populate('reviewerId')
+            .exec();
         if (!proposal) {
             throw new AppError_1.NotFoundError('Proposal not found');
         }
         return proposal;
     }
     async getProposals(filter = {}) {
-        const result = await this.proposalRepository.paginate(filter, { limit: 100 });
-        return result.docs;
+        return Proposal_1.default.find(filter)
+            .populate('challengeId')
+            .populate('companyId')
+            .populate('solverId')
+            .sort({ createdAt: -1 })
+            .exec();
     }
     async submitProposal(id, userId, userName) {
         const proposal = await this.proposalRepository.findById(id);

@@ -24,10 +24,10 @@ import { SECTION_COMMON_PY } from '@/utils/constant';
 /**
  *
  * Demos:
- * - [Feature21](https://www.saasable.io/blocks/feature/feature21)
+ * - [Feature21](https://www.ciisic.org/blocks/feature/feature21)
  *
  * API
- * - [Feature21 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/feature/feature21#props-details)
+ * - [Feature21 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/feature/feature21#props-details)
  */
 
 export default function Feature21({ heading, caption, image, features, primaryBtn, secondaryBtn }) {

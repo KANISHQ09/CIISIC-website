@@ -120,7 +120,7 @@ const menuItems = [
 /**
  *
  * Demos:
- * - [PrivacyPolicy1](https://www.saasable.io/blocks/privacy-policy/privacy-policy1)
+ * - [PrivacyPolicy1](https://www.ciisic.org/blocks/privacy-policy/privacy-policy1)
  */
 
 export default function PrivacyPolicy1() {

@@ -57,4 +57,10 @@ export class MessageService {
       content,
     });
   }
+
+  public async getUserConversations(userId: string): Promise<IConversation[]> {
+    return ConversationModel.find({ participants: userId })
+      .populate('participants', 'name email role')
+      .exec();
+  }
 }

@@ -6,7 +6,7 @@ import { jwtConfig } from '../../config/jwt';
 import { UserRepository } from '../users/user.repository';
 import { SessionRepository, RefreshTokenRepository } from './auth.repository';
 import { AuthenticationError, ConflictError, NotFoundError } from '../../shared/errors/AppError';
-import { IUser } from '../../database/schemas/User';
+import UserModel, { IUser } from '../../database/schemas/User';
 import StudentProfileModel from '../../database/schemas/StudentProfile';
 import InstitutionModel from '../../database/schemas/Institution';
 import AuditLogModel from '../../database/schemas/AuditLog';
@@ -57,6 +57,7 @@ export class AuthService {
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(dto.password, salt);
 
+    const verificationToken = dto.role === 'STUDENT' ? uuidv4() : undefined;
     // Create User
     const user = await this.userRepository.create({
       name: dto.name,
@@ -64,6 +65,7 @@ export class AuthService {
       passwordHash,
       role: dto.role === 'ADMIN' ? 'SUPER_ADMIN' : dto.role,
       isVerified: dto.role === 'STUDENT' ? false : true, // Non-students invited by admins are pre-verified
+      verificationToken,
     });
 
     if (user.role === 'STUDENT') {
@@ -102,6 +104,10 @@ export class AuthService {
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
       throw new AuthenticationError('Invalid credentials');
+    }
+
+    if (!user.isVerified) {
+      throw new AuthenticationError('Please verify your email address before signing in.');
     }
 
     const isValid = await bcrypt.compare(password, user.passwordHash);
@@ -244,5 +250,44 @@ export class AuthService {
       session.isDeleted = true;
       await session.save();
     }
+  }
+
+  public async verifyEmail(token: string): Promise<void> {
+    const user = await UserModel.findOne({ verificationToken: token });
+    if (!user) {
+      throw new NotFoundError('Invalid or expired verification token');
+    }
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    await user.save();
+  }
+
+  public async forgotPassword(email: string): Promise<string> {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new NotFoundError('No account found with this email address');
+    }
+    const resetToken = uuidv4();
+    user.resetPasswordToken = resetToken;
+    const expires = new Date();
+    expires.setHours(expires.getHours() + 1); // 1 hour expiry
+    user.resetPasswordExpires = expires;
+    await user.save();
+    return resetToken;
+  }
+
+  public async resetPassword(token: string, dto: any): Promise<void> {
+    const user = await UserModel.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: new Date() }
+    });
+    if (!user) {
+      throw new AuthenticationError('Password reset token is invalid or has expired');
+    }
+    const salt = await bcrypt.genSalt(12);
+    user.passwordHash = await bcrypt.hash(dto.password, salt);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
   }
 }

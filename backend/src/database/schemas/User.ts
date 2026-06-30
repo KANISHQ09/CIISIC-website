@@ -7,6 +7,7 @@ export interface IUser extends Document {
   role: 'STUDENT' | 'INDUSTRY_SPOC' | 'INSTITUTION_SPOC' | 'REVIEWER' | 'SUPER_ADMIN';
   isVerified: boolean;
   isDeleted: boolean;
+  isSuspended?: boolean;
   deletedAt?: Date;
   deletedBy?: string;
   createdBy?: string;
@@ -14,6 +15,9 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   version: number;
+  verificationToken?: string;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
 }
 
 const UserSchema = new Schema<IUser>(
@@ -28,7 +32,11 @@ const UserSchema = new Schema<IUser>(
       index: true,
     },
     isVerified: { type: Boolean, default: false },
+    verificationToken: { type: String },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
     isDeleted: { type: Boolean, default: false, index: true },
+    isSuspended: { type: Boolean, default: false },
     deletedAt: { type: Date },
     deletedBy: { type: String },
     createdBy: { type: String },

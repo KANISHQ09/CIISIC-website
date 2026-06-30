@@ -19,8 +19,10 @@ export const VerifyEmail: React.FC = () => {
 
     const verify = async () => {
       try {
-        const response = await fetch(`/api/v1/auth/verify-email?token=${token}`, {
-          method: 'GET'
+        const response = await fetch('/api/v1/auth/verify-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
         });
         const result = await response.json();
 

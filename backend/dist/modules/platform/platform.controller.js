@@ -7,6 +7,8 @@ exports.PlatformController = void 0;
 const platform_services_1 = require("./platform.services");
 const response_1 = require("../../shared/responses/response");
 const mongoose_1 = __importDefault(require("mongoose"));
+const PlatformPermission_1 = __importDefault(require("../../database/schemas/PlatformPermission"));
+const ContactMessage_1 = __importDefault(require("../../database/schemas/ContactMessage"));
 class PlatformController {
     // CMS Endpoints
     getPage = async (req, res, next) => {
@@ -137,6 +139,48 @@ class PlatformController {
     getLiveness = async (req, res, next) => {
         try {
             (0, response_1.sendResponse)({ res, message: 'Platform liveness status: alive', data: { alive: true } });
+        }
+        catch (error) {
+            next(error);
+        }
+    };
+    getPermissions = async (req, res, next) => {
+        try {
+            const list = await PlatformPermission_1.default.find({});
+            if (list.length === 0) {
+                const defaults = [
+                    { key: 'submit_proposal', label: 'Upload Solution Proposals', allowedRoles: ['STUDENT', 'SUPER_ADMIN'] },
+                    { key: 'create_challenge', label: 'Create Corporate Challenge Statement', allowedRoles: ['INDUSTRY_SPOC', 'SUPER_ADMIN'] },
+                    { key: 'evaluate_solution', label: 'Evaluate & Score Solution Sheets', allowedRoles: ['INDUSTRY_SPOC', 'REVIEWER', 'SUPER_ADMIN'] },
+                    { key: 'verify_student', label: 'Verify Registrant Enrollment Accounts', allowedRoles: ['INSTITUTION_SPOC', 'SUPER_ADMIN'] },
+                    { key: 'view_audit_logs', label: 'View Immutable Audit Timeline Logs', allowedRoles: ['SUPER_ADMIN'] }
+                ];
+                const created = await PlatformPermission_1.default.insertMany(defaults);
+                (0, response_1.sendResponse)({ res, message: 'Platform permission definitions retrieved', data: created });
+                return;
+            }
+            (0, response_1.sendResponse)({ res, message: 'Platform permission definitions retrieved', data: list });
+        }
+        catch (error) {
+            next(error);
+        }
+    };
+    updatePermission = async (req, res, next) => {
+        try {
+            const { key } = req.params;
+            const { allowedRoles } = req.body;
+            const perm = await PlatformPermission_1.default.findOneAndUpdate({ key }, { allowedRoles }, { new: true, upsert: true });
+            (0, response_1.sendResponse)({ res, message: 'Platform permission updated successfully', data: perm });
+        }
+        catch (error) {
+            next(error);
+        }
+    };
+    submitContactForm = async (req, res, next) => {
+        try {
+            const { name, email, subject, message } = req.body;
+            const msg = await ContactMessage_1.default.create({ name, email, subject, message });
+            (0, response_1.sendResponse)({ res, message: 'Contact message submitted successfully', data: msg });
         }
         catch (error) {
             next(error);

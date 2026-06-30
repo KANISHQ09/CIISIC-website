@@ -6,6 +6,8 @@ const authMiddleware_1 = require("../../shared/middleware/authMiddleware");
 const router = (0, express_1.Router)();
 const controller = new challenge_controller_1.ChallengeController();
 // Public challenges searches
+router.get('/bookmarks/list', authMiddleware_1.authenticate, controller.getBookmarks);
+router.post('/:id/bookmark', authMiddleware_1.authenticate, controller.toggleBookmark);
 router.get('/', controller.getChallenges);
 router.get('/:id', controller.getChallengeById);
 // Protected challenges lifecycle management

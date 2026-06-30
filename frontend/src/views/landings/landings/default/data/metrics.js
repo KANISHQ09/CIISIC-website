@@ -1,6 +1,6 @@
 export const metrics = {
   heading: 'Endless Possibilities',
-  caption: 'Everything you need to design both the marketing site and the admin interface for your SaaS product.',
+  caption: 'Everything you need to design both the marketing site and the admin interface for your innovation platform.',
   blockDetail: [
     { animationDelay: 0.1, counter: 200, defaultUnit: '+', caption: 'Blocks' },
     { animationDelay: 0.2, counter: 50, defaultUnit: '+', caption: 'Admin Pages' },

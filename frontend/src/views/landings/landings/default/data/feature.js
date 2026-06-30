@@ -73,7 +73,7 @@ export const feature5 = {
 
 export const feature20 = {
   heading: 'Comprehensive UI Kit Tailored to your Need',
-  caption: 'Ready to transform your SaaS designs with one powerful UI Kit?',
+  caption: 'Ready to transform your academic-industry cooperation designs with one powerful UI Kit?',
   actionBtn: { children: 'Buy Now', href: BUY_NOW_URL, ...linkProps },
   secondaryBtn: { children: 'Explore Blocks', href: SECTION_PATH },
   features: [
@@ -117,7 +117,7 @@ export const feature21 = {
   primaryBtn: { children: 'Free Figma', href: 'https://www.figma.com/community/file/1425095061180549847', ...linkProps },
   secondaryBtn: {
     children: 'Preview Pro Figma',
-    href: 'https://www.figma.com/design/mlkXfeqxUKqIo0GQhPBqPb/SaasAble---UI-Kit---Preview-only?node-id=11-1833&t=JBHOIIEuYZpmN6v8-1',
+    href: 'https://www.figma.com/design/mlkXfeqxUKqIo0GQhPBqPb/CIISIC---UI-Kit---Preview-only?node-id=11-1833&t=JBHOIIEuYZpmN6v8-1',
     ...linkProps
   },
   features: [
@@ -193,9 +193,9 @@ export const feature = {
       content: 'Boost visibility with SEO-friendly features for better search rankings.'
     },
     {
-      title: 'Check Out Our Pricing Plan',
-      content: 'Choose the plan that aligns with your SaaS product requirements.',
-      actionBtn: { children: 'Pricing Plan', href: BUY_NOW_URL, ...linkProps }
+      title: 'Check Out Our Metrics Plan',
+      content: 'Choose the plan that aligns with your innovation platform requirements.',
+      actionBtn: { children: 'Metrics Plan', href: BUY_NOW_URL, ...linkProps }
     }
   ]
 };

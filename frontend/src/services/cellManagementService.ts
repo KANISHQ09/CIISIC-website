@@ -1,51 +1,25 @@
+import { apiClient } from './api/client';
 import { ExcellenceCell } from '@/types/institutionPortal';
 
 export class CellManagementService {
-  private static STORAGE_KEY = 'ciisic_institution_cells';
-
   public static async getCells(): Promise<ExcellenceCell[]> {
-    if (typeof window === 'undefined') return this.getMockCells();
-
-    const saved = localStorage.getItem(this.STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
-
-    const initial = this.getMockCells();
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(initial));
-    return initial;
+    const response = await apiClient.get('/api/v1/cells');
+    const list = response.data.data || [];
+    return list.map((c: any) => ({
+      id: c._id,
+      cellName: c.name,
+      coordinatorName: c.facultySpocs?.[0]?.name || 'Dr. Alok Verma',
+      domainFocus: c.researchDomain || c.theme || '',
+      projectsCount: 0,
+      studentCount: 0,
+      researchAreas: c.description ? [c.description] : [],
+      eventsCount: 0
+    }));
   }
 
-  private static getMockCells(): ExcellenceCell[] {
-    return [
-      {
-        id: 'cell1',
-        cellName: 'Agritech Cell',
-        coordinatorName: 'Dr. Alok Verma',
-        domainFocus: 'Agricultural IoT & Edge Telemetry',
-        projectsCount: 14,
-        studentCount: 85,
-        researchAreas: ['Soil moisture sensors', 'LoRaWAN networks', 'Automated drip triggers'],
-        eventsCount: 4
-      },
-      {
-        id: 'cell2',
-        cellName: 'Clean Energy Cell',
-        coordinatorName: 'Prof. Shruti Mishra',
-        domainFocus: 'Bio-Sciences & Biofuel kinetics',
-        projectsCount: 8,
-        studentCount: 42,
-        researchAreas: ['Catalyst suspension dynamics', 'Biofuel viscosity formulas'],
-        eventsCount: 2
-      },
-      {
-        id: 'cell3',
-        cellName: 'Smart Mobility Cell',
-        coordinatorName: 'Dr. Vivek Soni',
-        domainFocus: 'BMS Edge firmware & Thermal controls',
-        projectsCount: 12,
-        studentCount: 64,
-        researchAreas: ['Pre-emptive lithium runaway warnings', 'ANSYS temperature models'],
-        eventsCount: 3
-      }
-    ];
+  public static async createCell(data: { name: string; theme: string; description: string; hostInstitutionId: string; researchDomain: string }): Promise<any> {
+    const response = await apiClient.post('/api/v1/cells', data);
+    return response.data.data;
   }
 }
+export default CellManagementService;

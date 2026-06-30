@@ -5,11 +5,17 @@ import { authenticate, requireRole } from '../../shared/middleware/authMiddlewar
 const router = Router();
 const controller = new InstitutionController();
 
+// Protected Institution Management
+router.get('/my', authenticate as any, controller.getMyInstitution);
+router.get('/faculty', authenticate as any, controller.getFaculty);
+router.get('/students', authenticate as any, requireRole(['INSTITUTION_SPOC', 'SUPER_ADMIN']) as any, controller.getStudents);
+router.patch('/students/:id/verify', authenticate as any, requireRole(['INSTITUTION_SPOC', 'SUPER_ADMIN']) as any, controller.verifyStudent);
+
 // Public Institution Directory
 router.get('/', controller.getInstitutions);
 router.get('/:id', controller.getInstitutionById);
 
-// Protected Institution Management
+// Protected Institution Management Actions
 router.post(
   '/',
   authenticate as any,

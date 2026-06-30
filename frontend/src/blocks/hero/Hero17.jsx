@@ -35,10 +35,10 @@ const options = { root: null, rootMargin: '0px', threshold: 0.6 };
 /**
  *
  * Demos:
- * - [Hero17](https://www.saasable.io/blocks/hero/hero17)
+ * - [Hero17](https://www.ciisic.org/blocks/hero/hero17)
  *
  * API:
- * - [Hero17 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/hero/hero17#props-details)
+ * - [Hero17 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/hero/hero17#props-details)
  */
 
 export default function Hero17({ chip, headLine, captionLine, primaryBtn, videoSrc, videoThumbnail, listData }) {

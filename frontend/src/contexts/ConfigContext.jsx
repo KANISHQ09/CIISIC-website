@@ -14,7 +14,7 @@ export const ConfigContext = createContext(undefined);
 /***************************  CONFIG PROVIDER  ***************************/
 
 export function ConfigProvider({ children }) {
-  const { state, setState, setField, resetState } = useLocalStorage('sass-able-react-mui-admin-next-free', config);
+  const { state, setState, setField, resetState } = useLocalStorage('ciisic_theme_config', config);
 
   const memoizedValue = useMemo(() => ({ state, setState, setField, resetState }), [state, setField, setState, resetState]);
 

@@ -142,6 +142,10 @@ export interface StudentProfile {
   points: number;
   level: number;
   rank: number;
+  enrollmentNo: string;
+  department: string;
+  yearOfStudy: number;
+  institutionName: string;
 }
 
 export interface Badge {

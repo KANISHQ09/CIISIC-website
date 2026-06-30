@@ -4,8 +4,8 @@ function path(urlChunks) {
 
 export const SECTION_PATH = '/sections';
 export const ADMIN_PATH = '/dashboard';
-export const BUY_NOW_URL = '#';
-export const FREEBIES_URL = '#';
+export const BUY_NOW_URL = '/auth/login';
+export const FREEBIES_URL = '/auth/register';
 export const DOCS_URL = '/resources';
 const BLOCK_PATH = '/blocks';
 const AUTH_PATH = 'auth';
@@ -42,7 +42,7 @@ export const PAGE_PATH = {
   navbar: path([SECTION_PATH, 'navbar']),
   onboard: path([SECTION_PATH, 'onboard']),
   other: path([SECTION_PATH, 'other']),
-  pricing: path([SECTION_PATH, 'pricing']),
+  metrics: path([SECTION_PATH, 'metrics']),
   process: path([SECTION_PATH, 'process']),
   privacyPolicy: path([SECTION_PATH, 'privacy-policy']),
   proPage: path([SECTION_PATH, 'pro-page']),
@@ -59,7 +59,7 @@ export const PAGE_PATH = {
   careerPage: '/career',
   contactPage: '/contact',
   faqPage: '/faq',
-  pricingPage: '/pricing',
+  metricsPage: '/metrics',
   privacyPolicyPage: '/privacy-policy',
   termsConditionPage: '/terms-condition'
 };
@@ -262,17 +262,17 @@ export const PRIVIEW_PATH = {
     other2: path([BLOCK_PATH, 'other', 'other2']),
     other3: path([BLOCK_PATH, 'other', 'other3'])
   },
-  pricing: {
-    pricing1: path([BLOCK_PATH, 'pricing', 'pricing1']),
-    pricing2: path([BLOCK_PATH, 'pricing', 'pricing2']),
-    pricing3: path([BLOCK_PATH, 'pricing', 'pricing3']),
-    pricing4: path([BLOCK_PATH, 'pricing', 'pricing4']),
-    pricing5: path([BLOCK_PATH, 'pricing', 'pricing5']),
-    pricing6: path([BLOCK_PATH, 'pricing', 'pricing6']),
-    pricing7: path([BLOCK_PATH, 'pricing', 'pricing7']),
-    pricing8: path([BLOCK_PATH, 'pricing', 'pricing8']),
-    pricing9: path([BLOCK_PATH, 'pricing', 'pricing9']),
-    pricing10: path([BLOCK_PATH, 'pricing', 'pricing10'])
+  metrics: {
+    metrics1: path([BLOCK_PATH, 'metrics', 'metrics1']),
+    metrics2: path([BLOCK_PATH, 'metrics', 'metrics2']),
+    metrics3: path([BLOCK_PATH, 'metrics', 'metrics3']),
+    metrics4: path([BLOCK_PATH, 'metrics', 'metrics4']),
+    metrics5: path([BLOCK_PATH, 'metrics', 'metrics5']),
+    metrics6: path([BLOCK_PATH, 'metrics', 'metrics6']),
+    metrics7: path([BLOCK_PATH, 'metrics', 'metrics7']),
+    metrics8: path([BLOCK_PATH, 'metrics', 'metrics8']),
+    metrics9: path([BLOCK_PATH, 'metrics', 'metrics9']),
+    metrics10: path([BLOCK_PATH, 'metrics', 'metrics10'])
   },
   process: {
     process1: path([BLOCK_PATH, 'process', 'process1']),

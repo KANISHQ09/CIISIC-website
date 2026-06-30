@@ -24,10 +24,10 @@ import { withAlpha } from '@/utils/colorUtils';
 /**
  *
  * Demos:
- * - [MegaMenu5](https://www.saasable.io/blocks/megamenu/megamenu5)
+ * - [MegaMenu5](https://www.ciisic.org/blocks/megamenu/megamenu5)
  *
  * API
- * - [MegaMenu5 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/megamenu/megamenu5#props-details)
+ * - [MegaMenu5 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/megamenu/megamenu5#props-details)
  */
 
 export default function MegaMenu5({ menuItems, bannerData, popperWidth = 750 }) {

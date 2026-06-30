@@ -18,7 +18,7 @@ import {
   hero,
   integration,
   other,
-  pricing,
+  metrics,
   testimonial
 } from './data';
 
@@ -52,7 +52,7 @@ export default function Main() {
         sections={[
           { importFunc: () => import('@/blocks/testimonial').then((module) => ({ default: module.Testimonial10 })), props: testimonial },
           { importFunc: () => import('@/blocks/clientele').then((module) => ({ default: module.Clientele3 })), props: clientele },
-          { importFunc: () => import('@/blocks/pricing').then((module) => ({ default: module.Pricing9 })), props: pricing }
+          { importFunc: () => import('@/blocks/metrics').then((module) => ({ default: module.Metrics9 })), props: metrics }
         ]}
         offset="200px"
       />

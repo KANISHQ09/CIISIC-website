@@ -32,10 +32,10 @@ import Star from '@/images/graphics/Star';
 /**
  *
  * Demos:
- * - [Feature20](https://www.saasable.io/blocks/feature/feature20)
+ * - [Feature20](https://www.ciisic.org/blocks/feature/feature20)
  *
  * API
- * - [Feature20 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/feature/feature20#props-details)
+ * - [Feature20 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/feature/feature20#props-details)
  */
 
 export default function Feature20({ heading, caption, image, features, actionBtn, secondaryBtn }) {

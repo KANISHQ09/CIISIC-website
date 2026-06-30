@@ -66,7 +66,7 @@ export const landingMegamenu = {
     toggleBtn: { children: 'Landings' },
     menuItems: [
       {
-        title: 'CRM',
+        title: 'Collaboration Directory',
         theme: Themes.THEME_CRM,
         image: '/assets/images/mega-menu/crm-light.svg',
         status: 'Pro'
@@ -166,12 +166,12 @@ export const pagesMegamenu = {
       {
         title: 'General',
         itemsList: [
-          { title: 'About', link: { href: 'https://stage.saasable.io/about', ...linkProps } },
+          { title: 'About', link: { href: 'https://stage.ciisic.org/about', ...linkProps } },
           { title: 'Career', status: 'Pro' },
           { title: 'Privacy Policy', link: { href: PAGE_PATH.privacyPolicyPage, ...linkProps } },
           { title: 'Contact Us', status: 'Pro' },
           { title: 'FAQs', status: 'Pro' },
-          { title: 'Pricing', status: 'Pro' }
+          { title: 'Metrics', status: 'Pro' }
         ]
       },
       {
@@ -186,7 +186,7 @@ export const pagesMegamenu = {
       {
         title: 'External',
         itemsList: [
-          { title: 'Blog', link: { href: 'https://blog.saasable.io/', ...linkProps } },
+          { title: 'Blog', link: { href: 'https://blog.ciisic.org/', ...linkProps } },
           { title: 'Documentation', link: { href: DOCS_URL, ...linkProps } },
           { title: 'Support', link: { href: branding.company.socialLink.support, ...linkProps } },
           {

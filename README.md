@@ -15,7 +15,7 @@ A production-ready Innovation Portal and Ecosystem manager coordinating students
 ## Directory Structure
 
 ```text
-/saasable-ui
+/ciisic-ui
 ├── backend/            # Express, Mongoose, Socket.IO APIs code
 ├── frontend/           # Next.js App Router UI portals
 ├── docker-compose.yml  # Composite container orchestration config

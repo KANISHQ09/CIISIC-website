@@ -6,8 +6,9 @@ import useAuth from '@/hooks/useAuth';
 export const Header: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user, role, logout } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const getBreadcrumbs = () => {
     const paths = pathname.split('/').filter(Boolean);
@@ -26,6 +27,7 @@ export const Header: React.FC = () => {
   };
 
   const breadcrumbs = getBreadcrumbs();
+  const initials = user?.name ? user.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase() : 'LN';
 
   return (
     <header className="h-16 sticky top-0 bg-white/85 backdrop-blur-md border-b border-zinc-150 flex items-center justify-between px-6 z-20 select-none">
@@ -82,9 +84,18 @@ export const Header: React.FC = () => {
             onClick={() => setShowDropdown(!showDropdown)}
             className="flex items-center gap-2 focus:outline-none cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 font-extrabold flex items-center justify-center text-xs border border-zinc-150">
-              LN
-            </div>
+            {!imgError && user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt="avatar"
+                onError={() => setImgError(true)}
+                className="w-8 h-8 rounded-lg object-cover border border-zinc-150"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-650 font-extrabold flex items-center justify-center text-xs border border-zinc-150 uppercase shadow-xs">
+                {initials}
+              </div>
+            )}
           </button>
 
           {showDropdown && (
@@ -94,6 +105,7 @@ export const Header: React.FC = () => {
                 <div className="px-4 py-2 border-b border-zinc-100">
                   <p className="text-xs font-bold text-zinc-900 truncate">{user?.name || 'Academic Lead'}</p>
                   <p className="text-[10px] text-zinc-400 font-medium truncate">{user?.email || 'spoc@college.edu'}</p>
+                  <p className="text-[9px] text-indigo-650 font-bold uppercase tracking-wider mt-0.5">{role}</p>
                 </div>
 
                 <button

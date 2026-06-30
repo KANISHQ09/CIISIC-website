@@ -6,6 +6,7 @@ const authMiddleware_1 = require("../../shared/middleware/authMiddleware");
 const router = (0, express_1.Router)();
 const controller = new company_controller_1.CompanyController();
 // Public Company Directory
+router.get('/my', authMiddleware_1.authenticate, controller.getMyCompany);
 router.get('/', controller.getCompanies);
 router.get('/:id', controller.getCompanyById);
 // Protected Company Management

@@ -30,7 +30,7 @@ export default function Copyright() {
           © 2024 {branding.brandName}
         </Typography>
         <Divider orientation="vertical" flexItem sx={copyrightSX} />
-        <Link {...linkProps} href="https://saasable.io/privacy-policy">
+        <Link {...linkProps} href="https://ciisic.org/privacy-policy">
           Privacy Policy
         </Link>
         <Divider orientation="vertical" flexItem />

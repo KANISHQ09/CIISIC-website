@@ -2,6 +2,13 @@ import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosResp
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  if (match) return match[2];
+  return null;
+}
+
 export const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
@@ -29,7 +36,7 @@ const processQueue = (error: any, token: string | null = null) => {
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('ciisic_token');
+      const token = getCookie('ciisic_token');
       if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -69,7 +76,6 @@ apiClient.interceptors.response.use(
         const { token } = refreshResponse.data.data;
 
         if (typeof window !== 'undefined') {
-          localStorage.setItem('ciisic_token', token);
           document.cookie = `ciisic_token=${token}; path=/; max-age=86400; SameSite=Strict`;
         }
 
@@ -85,8 +91,7 @@ apiClient.interceptors.response.use(
         isRefreshing = false;
 
         if (typeof window !== 'undefined') {
-          localStorage.removeItem('ciisic_token');
-          localStorage.removeItem('ciisic_user');
+          document.cookie = 'ciisic_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
           window.location.href = '/auth/login';
         }
         return Promise.reject(refreshError);

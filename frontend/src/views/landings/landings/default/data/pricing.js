@@ -3,9 +3,9 @@ import { BUY_NOW_URL, FREEBIES_URL } from '@/path';
 
 const linkProps = { target: '_blank', rel: 'noopener noreferrer' };
 
-export const pricing = {
+export const metrics = {
   heading: 'The Affordable Unfair Advantage',
-  caption: 'Choose the plan that aligns with your SaaS product requirements.',
+  caption: 'Choose the plan that aligns with your innovation platform requirements.',
   features: [
     { id: 1, label: '1 Demo Landing' },
     { id: 2, label: '7 Demo Landing' },

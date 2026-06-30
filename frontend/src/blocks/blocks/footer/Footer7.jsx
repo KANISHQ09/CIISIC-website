@@ -29,7 +29,7 @@ import { SECTION_COMMON_PY } from '@/utils/constant';
 /**
  *
  * Demos:
- * - [Footer7](https://www.saasable.io/blocks/footer/footer7)
+ * - [Footer7](https://www.ciisic.org/blocks/footer/footer7)
  */
 
 const linkProps = { target: '_blank', rel: 'noopener noreferrer' };
@@ -49,7 +49,7 @@ const data = [
       },
       {
         label: 'Blog',
-        link: { href: 'https://blog.saasable.io/', ...linkProps }
+        link: { href: 'https://blog.ciisic.org/', ...linkProps }
       },
       {
         label: 'Refund Policy',
@@ -63,12 +63,12 @@ const data = [
     title: 'Support',
     menu: [
       {
-        label: 'Pricing',
-        link: { href: 'https://mui.com/store/items/saasable-multipurpose-ui-kit-and-dashboard/', ...linkProps }
+        label: 'Metrics',
+        link: { href: 'https://mui.com/store/items/ciisic-multipurpose-ui-kit-and-dashboard/', ...linkProps }
       },
       {
         label: 'FAQs',
-        link: { href: 'https://phoenixcoded.gitbook.io/saasable/faq', ...linkProps }
+        link: { href: 'https://ciisic.gitbook.io/ciisic/faq', ...linkProps }
       },
       {
         label: 'Support',
@@ -92,13 +92,13 @@ const data = [
       {
         label: 'Why Phoenixcoded?',
         link: {
-          href: 'https://blog.saasable.io/a-decade-of-expertise-the-phoenixcoded-story-and-why-you-should-trust-us',
+          href: 'https://blog.ciisic.org/a-decade-of-expertise-the-ciisic-story-and-why-you-should-trust-us',
           ...linkProps
         }
       },
       {
         label: 'About',
-        link: { href: 'https://saasable.io/about', ...linkProps }
+        link: { href: 'https://ciisic.org/about', ...linkProps }
       },
       {
         label: 'Contact Us',

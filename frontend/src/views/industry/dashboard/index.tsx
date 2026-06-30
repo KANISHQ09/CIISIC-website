@@ -2,26 +2,28 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
 import { IndustryService } from '@/services/industryService';
 import { ChallengeManagementService } from '@/services/challengeManagementService';
 import { ProposalReviewService } from '@/services/proposalReviewService';
 import { StatsCard } from '@/components/industry/StatsCard';
-import { FileText, BookmarkCheck, Zap, Building, PlusCircle, ArrowRight, TrendingUp, Clock, Briefcase } from 'lucide-react';
-import useToast from '@/hooks/useToast';
+import { DashboardError } from '@/components/DashboardError';
+import { FileText, BookmarkCheck, PlusCircle, ArrowRight, TrendingUp, Clock, Briefcase } from 'lucide-react';
 import { ChallengeManagement } from '@/types/industryPortal';
 import { Proposal } from '@/types/studentPortal';
 
 export default function IndustryDashboard() {
   const router = useRouter();
-  const { showToast } = useToast();
   const [stats, setStats] = useState<any>(null);
   const [challenges, setChallenges] = useState<ChallengeManagement[]>([]);
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
         const [statsData, chData, prData] = await Promise.all([
           IndustryService.getDashboardStats(),
@@ -31,25 +33,39 @@ export default function IndustryDashboard() {
         setStats(statsData);
         setChallenges(chData.slice(0, 3));
         setProposals(prData.filter((p) => p.status === 'SUBMITTED' || p.status === 'UNDER_REVIEW').slice(0, 4));
-      } catch (err) {
+      } catch (err: any) {
         console.error(err);
+        setError(err.message || 'Unable to fetch corporate partner workspace. Please check backend connection.');
       } finally {
         setIsLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [retryCount]);
+
+  if (error) {
+    return <DashboardError message={error} onRetry={() => setRetryCount((c) => c + 1)} />;
+  }
 
   if (isLoading || !stats) {
     return (
-      <div className="h-96 flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-4 border-zinc-200 border-t-blue-600 animate-spin" />
+      <div className="space-y-6 text-left pb-12 select-none animate-pulse">
+        <div className="bg-zinc-200 rounded-3xl h-48" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-zinc-150 rounded-2xl h-24" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 bg-zinc-200 rounded-3xl h-64" />
+          <div className="bg-zinc-200 rounded-3xl h-64" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 text-left pb-12 select-none animate-in fade-in slide-in-from-bottom-2 duration-300">
+    <div className="space-y-6 text-left pb-12 select-none animate-in fade-in duration-300">
       {/* Welcome Banner */}
       <div className="bg-gradient-to-tr from-slate-900 via-zinc-900 to-blue-950 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-md">
         <div className="absolute top-[-30%] right-[-10%] w-64 h-64 rounded-full bg-blue-600/10 blur-[80px]" />
@@ -155,24 +171,36 @@ export default function IndustryDashboard() {
               </button>
             </div>
 
-            <div className="space-y-3">
-              {challenges.map((c) => (
-                <div
-                  key={c.id}
-                  onClick={() => router.push(`/challenges/${c.id}`)}
-                  className="p-4 border border-zinc-100 hover:border-blue-200 rounded-2xl flex items-center justify-between gap-4 transition-all cursor-pointer"
+            {challenges.length === 0 ? (
+              <div className="py-8 text-center space-y-3">
+                <p className="text-xs text-zinc-500 font-medium">No challenges posted yet.</p>
+                <button
+                  onClick={() => router.push('/challenges/create')}
+                  className="py-1.5 px-4 bg-blue-600 text-white rounded-xl text-[10px] font-bold hover:bg-blue-700 transition-colors cursor-pointer shadow-sm active:scale-[0.98]"
                 >
-                  <div className="text-left leading-tight space-y-1">
-                    <p className="text-xs font-extrabold text-zinc-800">{c.title}</p>
-                    <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">{c.category}</span>
+                  Create Challenge
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {challenges.map((c) => (
+                  <div
+                    key={c.id}
+                    onClick={() => router.push(`/challenges/${c.id}`)}
+                    className="p-4 border border-zinc-100 hover:border-blue-200 rounded-2xl flex items-center justify-between gap-4 transition-all cursor-pointer"
+                  >
+                    <div className="text-left leading-tight space-y-1">
+                      <p className="text-xs font-extrabold text-zinc-800">{c.title}</p>
+                      <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">{c.category}</span>
+                    </div>
+                    <div className="text-right leading-tight">
+                      <p className="text-xs font-black text-zinc-800">{c.submissionsCount} Solvers</p>
+                      <span className="text-[10px] text-zinc-400 font-bold">{c.pendingCount} pending review</span>
+                    </div>
                   </div>
-                  <div className="text-right leading-tight">
-                    <p className="text-xs font-black text-zinc-800">{c.submissionsCount} Solvers</p>
-                    <span className="text-[10px] text-zinc-400 font-bold">{c.pendingCount} pending review</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

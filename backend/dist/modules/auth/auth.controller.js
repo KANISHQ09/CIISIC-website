@@ -42,6 +42,9 @@ class AuthController {
             if (!parsed.success) {
                 throw new AppError_1.ValidationError('Registration validation failed', parsed.error.format());
             }
+            if (parsed.data.role !== 'STUDENT') {
+                throw new AppError_1.ValidationError('Public self-registration is restricted to Student Solvers only.');
+            }
             const user = await this.authService.registerStudent(parsed.data);
             (0, response_1.sendResponse)({
                 res,
@@ -177,6 +180,55 @@ class AuthController {
                 res,
                 message: 'Current authenticated session identity retrieved',
                 data: { user },
+            });
+        }
+        catch (error) {
+            next(error);
+        }
+    };
+    verifyEmail = async (req, res, next) => {
+        try {
+            const { token } = req.body;
+            if (!token) {
+                throw new AppError_1.ValidationError('Verification token is required');
+            }
+            await this.authService.verifyEmail(token);
+            (0, response_1.sendResponse)({
+                res,
+                message: 'Email verified successfully.',
+            });
+        }
+        catch (error) {
+            next(error);
+        }
+    };
+    forgotPassword = async (req, res, next) => {
+        try {
+            const parsed = auth_dto_1.ForgotPasswordSchema.safeParse(req.body);
+            if (!parsed.success) {
+                throw new AppError_1.ValidationError('Validation failed', parsed.error.format());
+            }
+            const resetToken = await this.authService.forgotPassword(parsed.data.email);
+            (0, response_1.sendResponse)({
+                res,
+                message: 'Password reset link sent to your institutional email.',
+                data: { resetToken } // Returned for dev testing ease but handles securely
+            });
+        }
+        catch (error) {
+            next(error);
+        }
+    };
+    resetPassword = async (req, res, next) => {
+        try {
+            const parsed = auth_dto_1.ResetPasswordSchema.safeParse(req.body);
+            if (!parsed.success) {
+                throw new AppError_1.ValidationError('Validation failed', parsed.error.format());
+            }
+            await this.authService.resetPassword(parsed.data.token, parsed.data);
+            (0, response_1.sendResponse)({
+                res,
+                message: 'Password reset successful.',
             });
         }
         catch (error) {

@@ -12,7 +12,7 @@ export const testimonial = {
     {
       bgImage: '/assets/images/testimonial/avatar-bg1.svg',
       videoSrc: '/assets/videos/test.mp4',
-      review: 'Implementing CRM has revolutionized our sales process. The intuitive interface and robust features make managing leads.',
+      review: 'Implementing Collaboration Directory has revolutionized our sales process. The intuitive interface and robust features make managing leads.',
       ratings: 3,
       profile: { avatar: '/assets/images/user/avatar1.png', name: 'Maria', role: 'UI/UX Designer' }
     }

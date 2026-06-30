@@ -46,6 +46,12 @@ export interface IProposal extends Document {
     modifiedBy: Types.ObjectId;
     timestamp: Date;
   }>;
+  comments: Array<{
+    authorName: string;
+    authorRole: string;
+    content: string;
+    createdAt: Date;
+  }>;
   isDeleted: boolean;
   deletedAt?: Date;
   deletedBy?: string;
@@ -108,6 +114,14 @@ const ProposalSchema = new Schema<IProposal>(
         snapshot: { type: String },
         modifiedBy: { type: Schema.Types.ObjectId, ref: 'User' },
         timestamp: { type: Date, default: Date.now },
+      },
+    ],
+    comments: [
+      {
+        authorName: { type: String, required: true },
+        authorRole: { type: String, required: true },
+        content: { type: String, required: true },
+        createdAt: { type: Date, default: Date.now },
       },
     ],
     isDeleted: { type: Boolean, default: false, index: true },

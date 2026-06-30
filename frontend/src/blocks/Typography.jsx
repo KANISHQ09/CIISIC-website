@@ -201,7 +201,7 @@ function FontSizeBlock({ desktop, tablet, mobile, type }) {
 /**
  *
  * Demos:
- * - [Typography](https://www.saasable.io/sections/typography)
+ * - [Typography](https://www.ciisic.org/sections/typography)
  */
 
 export default function TypographyPage() {

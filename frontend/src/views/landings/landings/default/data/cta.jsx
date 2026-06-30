@@ -10,7 +10,7 @@ export const cta4 = {
   headLine: 'Why Trust Phoenixcoded for Your Dashboard Template Needs?',
   primaryBtn: {
     children: 'Read Our story',
-    href: 'https://blog.saasable.io/a-decade-of-expertise-the-phoenixcoded-story-and-why-you-should-trust-us',
+    href: 'https://blog.ciisic.org/a-decade-of-expertise-the-ciisic-story-and-why-you-should-trust-us',
     target: '_blank',
     rel: 'noopener noreferrer'
   },

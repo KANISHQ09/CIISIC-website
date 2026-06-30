@@ -120,7 +120,7 @@ const menuItems = [
 /**
  *
  * Demos:
- * - [Terms Condition](https://www.saasable.io/sections/terms-condition)
+ * - [Terms Condition](https://www.ciisic.org/sections/terms-condition)
  */
 
 export default function TermsConditionPage() {

@@ -42,6 +42,9 @@ const ChallengeSchema = new mongoose_1.Schema({
     reviewerId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', index: true },
     evaluationCriteria: { type: String },
     tags: [{ type: String, index: true }],
+    category: { type: String },
+    industry: { type: String },
+    skillsRequired: [{ type: String }],
 }, {
     timestamps: true,
     optimisticConcurrency: true,

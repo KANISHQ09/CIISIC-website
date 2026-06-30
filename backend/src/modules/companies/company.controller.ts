@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { CompanyService } from './company.service';
 import { sendResponse } from '../../shared/responses/response';
+import CompanyModel from '../../database/schemas/Company';
+import { NotFoundError } from '../../shared/errors/AppError';
 
 export class CompanyController {
   private readonly companyService: CompanyService;
@@ -8,6 +10,23 @@ export class CompanyController {
   constructor() {
     this.companyService = new CompanyService();
   }
+
+  public getMyCompany = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const user = (req as any).user;
+      const company = await CompanyModel.findOne({ industrySpocs: user.id, isDeleted: { $ne: true } });
+      if (!company) {
+        throw new NotFoundError('No company associated with this account');
+      }
+      sendResponse({
+        res,
+        message: 'My company profile retrieved successfully',
+        data: company,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public getCompanies = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {

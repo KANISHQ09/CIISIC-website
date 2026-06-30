@@ -58,7 +58,7 @@ export const feature11 = {
     {
       icon: 'custom-scoreboard',
       title: 'Scorecards',
-      content: 'Effortlessly handle and optimize subscriptions with it.'
+      content: 'Effortlessly handle and optimize chapters with it.'
     },
     {
       icon: 'custom-developer',

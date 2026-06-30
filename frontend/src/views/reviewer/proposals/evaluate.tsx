@@ -98,7 +98,7 @@ export default function ReviewerEvaluation() {
           <h3 className="text-xs font-extrabold text-zinc-900 uppercase tracking-wider border-b border-zinc-50 pb-3">
             Technical Solution Spec
           </h3>
-          <p className="text-xs text-zinc-650 font-semibold leading-relaxed whitespace-pre-line">{proposal.abstract}</p>
+          <p className="text-xs text-zinc-650 font-semibold leading-relaxed whitespace-pre-line">{proposal.description}</p>
         </div>
 
         {/* Right pane: Evaluation score sliders */}

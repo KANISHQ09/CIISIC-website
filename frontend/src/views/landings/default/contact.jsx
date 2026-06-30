@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import { Mail, Phone, MapPin, CheckCircle2, Clock } from 'lucide-react';
 import useToast from '@/hooks/useToast';
+import { apiClient } from '@/services/api/client';
 
 const contactSchema = zod.object({
   name: zod.string().min(2, 'Name must be at least 2 characters long'),
@@ -29,8 +30,12 @@ export default function Contact() {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      // Simulate endpoint dispatch
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      await apiClient.post('/api/v1/platform/contact', {
+        name: data.name,
+        email: data.email,
+        subject: 'General Helpdesk Query',
+        message: data.message
+      });
       setIsSubmitted(true);
       showToast('Helpline message dispatched successfully.', 'success');
     } catch {

@@ -6,14 +6,17 @@ import { Challenge } from '@/types/studentPortal';
 import { ChallengeService } from '@/services/challengeService';
 import { ProposalService } from '@/services/proposalService';
 import { StudentService } from '@/services/studentService';
+import { UploadService } from '@/services/uploadService';
 import { ArrowLeft, ArrowRight, CheckCircle, FileText, UploadCloud, File, X, AlertCircle } from 'lucide-react';
 import useToast from '@/hooks/useToast';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/providers/auth-provider';
 
 export default function ProposalSubmissionWizard() {
   const params = useParams();
   const router = useRouter();
   const { showToast } = useToast();
+  const { user } = useAuth();
 
   const challengeId = params?.id as string;
   const [challenge, setChallenge] = useState<Challenge | null>(null);
@@ -28,6 +31,7 @@ export default function ProposalSubmissionWizard() {
   const [description, setDescription] = useState('');
   const [approach, setApproach] = useState('');
   const [fileName, setFileName] = useState('');
+  const [fileUrl, setFileUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
   // Autosave status
@@ -49,6 +53,7 @@ export default function ProposalSubmissionWizard() {
           setDescription(draft.description || '');
           setApproach(draft.approach || '');
           setFileName(draft.fileName || '');
+          setFileUrl(draft.fileUrl || '');
         }
       } catch (err) {
         console.error(err);
@@ -68,16 +73,17 @@ export default function ProposalSubmissionWizard() {
         title: proposalTitle,
         description,
         approach,
-        fileName
+        fileName,
+        fileUrl
       };
       localStorage.setItem(`draft_proposal_${challengeId}`, JSON.stringify(draft));
       setAutosaveStatus('Draft Saved');
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [proposalTitle, description, approach, fileName, challengeId, currentStep]);
+  }, [proposalTitle, description, approach, fileName, fileUrl, challengeId, currentStep]);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -87,15 +93,21 @@ export default function ProposalSubmissionWizard() {
     }
 
     setIsUploading(true);
-    setTimeout(() => {
-      setFileName(file.name);
-      setIsUploading(false);
+    try {
+      const res = await UploadService.uploadFile(file);
+      setFileName(res.fileName);
+      setFileUrl(res.fileUrl);
       showToast('PDF uploaded successfully!', 'success');
-    }, 1500);
+    } catch {
+      showToast('Failed to upload PDF.', 'error');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleRemoveFile = () => {
     setFileName('');
+    setFileUrl('');
   };
 
   const handleSubmit = async () => {
@@ -106,12 +118,12 @@ export default function ProposalSubmissionWizard() {
         challengeId: challenge.id,
         challengeTitle: challenge.title,
         companyName: challenge.companyName,
-        studentId: 'dev-user-id',
+        studentId: user?.id || 'unknown',
         studentName: student.name,
         title: proposalTitle,
         description,
         technicalApproach: approach,
-        fileUrl: '#',
+        fileUrl: fileUrl || '#',
         fileName: fileName || 'proposal_solution.pdf',
         status: 'SUBMITTED'
       });

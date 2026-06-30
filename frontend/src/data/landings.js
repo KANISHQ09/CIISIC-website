@@ -4,7 +4,7 @@ import { Themes } from '@/config';
 
 export const landings = [
   {
-    title: 'CRM',
+    title: 'Collaboration Directory',
     theme: Themes.THEME_CRM,
     image: '/assets/images/mega-menu/crm-light.svg',
     status: 'Pro'

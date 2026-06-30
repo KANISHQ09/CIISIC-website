@@ -39,25 +39,31 @@ export function middleware(request: NextRequest) {
     // Enforce role-based route gates
     if (pathname.startsWith('/portal/student') || pathname.startsWith('/dashboard/student')) {
       if (role !== 'STUDENT') {
-        return NextResponse.redirect(new URL('/', request.url));
+        return NextResponse.redirect(new URL('/unauthorized', request.url));
       }
     }
 
     if (pathname.startsWith('/portal/industry') || pathname.startsWith('/dashboard/industry')) {
       if (role !== 'INDUSTRY_SPOC') {
-        return NextResponse.redirect(new URL('/', request.url));
+        return NextResponse.redirect(new URL('/unauthorized', request.url));
       }
     }
 
     if (pathname.startsWith('/portal/institution') || pathname.startsWith('/dashboard/institution')) {
       if (role !== 'INSTITUTION_SPOC') {
-        return NextResponse.redirect(new URL('/', request.url));
+        return NextResponse.redirect(new URL('/unauthorized', request.url));
       }
     }
 
     if (pathname.startsWith('/portal/admin') || pathname.startsWith('/admin')) {
       if (role !== 'SUPER_ADMIN' && role !== 'CII_ADMIN') {
-        return NextResponse.redirect(new URL('/', request.url));
+        return NextResponse.redirect(new URL('/unauthorized', request.url));
+      }
+    }
+
+    if (pathname.startsWith('/portal/reviewer') || pathname.startsWith('/reviewer')) {
+      if (role !== 'REVIEWER') {
+        return NextResponse.redirect(new URL('/unauthorized', request.url));
       }
     }
   }
@@ -66,5 +72,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/portal/:path*', '/dashboard/:path*', '/admin/:path*', '/auth/:path*']
+  matcher: ['/portal/:path*', '/dashboard/:path*', '/admin/:path*', '/auth/:path*', '/reviewer/:path*']
 };

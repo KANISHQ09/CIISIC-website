@@ -66,4 +66,25 @@ export class MessageController {
       next(error);
     }
   };
+
+  public getUserConversations = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const userId = (req as any).user?.id;
+      if (!userId) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      const conversations = await this.messageService.getUserConversations(userId);
+      sendResponse({
+        res,
+        message: 'Conversations list retrieved successfully',
+        data: conversations,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Search, Bell, User, Settings, LogOut, ChevronRight } from 'lucide-react';
+import { Search, Bell, User, Settings, LogOut, ChevronRight, Sparkles, ChevronDown, Compass, MessageSquare } from 'lucide-react';
 import useAuth from '@/hooks/useAuth';
 import { NotificationService } from '@/services/notificationService';
 
 export const Header: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user, role, logout } = useAuth();
   const [unreadCount, setUnreadCount] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showQuickActions, setShowQuickActions] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
     const fetchUnread = async () => {
-      const count = await NotificationService.getUnreadCount();
-      setUnreadCount(count);
+      try {
+        const count = await NotificationService.getUnreadCount();
+        setUnreadCount(count);
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetchUnread();
   }, [pathname]);
@@ -36,6 +42,7 @@ export const Header: React.FC = () => {
   };
 
   const breadcrumbs = getBreadcrumbs();
+  const initials = user?.name ? user.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase() : 'ST';
 
   return (
     <header className="h-16 sticky top-0 bg-white/85 backdrop-blur-md border-b border-zinc-150 flex items-center justify-between px-6 z-20 select-none">
@@ -75,6 +82,44 @@ export const Header: React.FC = () => {
           />
         </div>
 
+        {/* Quick Actions Dropdown */}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setShowQuickActions(!showQuickActions)}
+            className="px-3.5 py-2.5 bg-violet-600 hover:bg-violet-750 text-white rounded-xl text-xs font-black shadow-sm transition-all flex items-center gap-1.5 cursor-pointer focus:outline-none"
+          >
+            <Sparkles className="w-3.5 h-3.5" /> Quick Actions <ChevronDown className="w-3.5 h-3.5" />
+          </button>
+          {showQuickActions && (
+            <>
+              <div className="fixed inset-0 z-10" onClick={() => setShowQuickActions(false)} />
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-zinc-150 rounded-2xl shadow-xl py-2 z-20 text-left animate-in fade-in slide-in-from-top-2 duration-200">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowQuickActions(false);
+                    router.push('/challenges');
+                  }}
+                  className="w-full px-4 py-2.5 text-xs font-bold text-zinc-600 hover:bg-zinc-50 hover:text-zinc-950 transition-colors flex items-center gap-2 cursor-pointer border-0 bg-transparent text-left"
+                >
+                  <Compass className="w-4 h-4 text-violet-600" /> Explore Challenges
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowQuickActions(false);
+                    router.push('/messages');
+                  }}
+                  className="w-full px-4 py-2.5 text-xs font-bold text-zinc-600 hover:bg-zinc-50 hover:text-zinc-950 transition-colors flex items-center gap-2 cursor-pointer border-0 bg-transparent text-left"
+                >
+                  <MessageSquare className="w-4 h-4 text-violet-600" /> Message Industry
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+
         {/* Notifications Alert Bell */}
         <button
           type="button"
@@ -96,11 +141,18 @@ export const Header: React.FC = () => {
             onClick={() => setShowDropdown(!showDropdown)}
             className="flex items-center gap-2 focus:outline-none cursor-pointer"
           >
-            <img
-              src={user?.avatar || 'https://randomuser.me/api/portraits/men/32.jpg'}
-              alt="avatar"
-              className="w-8 h-8 rounded-lg object-cover border border-zinc-150"
-            />
+            {!imgError && user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt="avatar"
+                onError={() => setImgError(true)}
+                className="w-8 h-8 rounded-lg object-cover border border-zinc-150"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-violet-600 to-indigo-650 text-white flex items-center justify-center font-bold text-xs shadow-sm uppercase border border-zinc-150">
+                {initials}
+              </div>
+            )}
           </button>
 
           {showDropdown && (
@@ -111,6 +163,7 @@ export const Header: React.FC = () => {
                 <div className="px-4 py-2 border-b border-zinc-100">
                   <p className="text-xs font-bold text-zinc-900 truncate">{user?.name}</p>
                   <p className="text-[10px] text-zinc-400 font-medium truncate">{user?.email}</p>
+                  <p className="text-[9px] text-violet-600 font-bold uppercase tracking-wider mt-0.5">{role}</p>
                 </div>
 
                 <button

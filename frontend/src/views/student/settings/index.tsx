@@ -34,8 +34,8 @@ export default function StudentSettings() {
         if (item) {
           setName(item.name);
           setEmail(item.email);
-          setGithubUrl(item.githubUrl || '');
-          setLinkedinUrl(item.linkedinUrl || '');
+          setGithubUrl(item.socialLinks?.github || '');
+          setLinkedinUrl(item.socialLinks?.linkedin || '');
         }
       } catch (err) {
         console.error(err);
@@ -54,8 +54,10 @@ export default function StudentSettings() {
       const updated = await StudentService.updateProfile({
         name,
         email,
-        githubUrl,
-        linkedinUrl
+        socialLinks: {
+          github: githubUrl,
+          linkedin: linkedinUrl
+        }
       });
       if (updated) {
         setProfile(updated);

@@ -1,5 +1,5 @@
 import { ProposalRepository } from './proposal.repository';
-import { IProposal } from '../../database/schemas/Proposal';
+import ProposalModel, { IProposal } from '../../database/schemas/Proposal';
 import { NotFoundError, ValidationError } from '../../shared/errors/AppError';
 import AuditLogModel from '../../database/schemas/AuditLog';
 import ActivityLogModel from '../../database/schemas/ActivityLog';
@@ -46,7 +46,12 @@ export class ProposalService {
   }
 
   public async getProposalById(id: string): Promise<IProposal> {
-    const proposal = await this.proposalRepository.findById(id);
+    const proposal = await ProposalModel.findById(id)
+      .populate('challengeId')
+      .populate('companyId')
+      .populate('solverId')
+      .populate('reviewerId')
+      .exec();
     if (!proposal) {
       throw new NotFoundError('Proposal not found');
     }
@@ -54,8 +59,12 @@ export class ProposalService {
   }
 
   public async getProposals(filter: any = {}): Promise<IProposal[]> {
-    const result = await this.proposalRepository.paginate(filter, { limit: 100 });
-    return result.docs;
+    return ProposalModel.find(filter)
+      .populate('challengeId')
+      .populate('companyId')
+      .populate('solverId')
+      .sort({ createdAt: -1 })
+      .exec();
   }
 
   public async submitProposal(id: string, userId: string, userName: string): Promise<IProposal> {

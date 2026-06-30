@@ -6,6 +6,8 @@ const router = Router();
 const controller = new ChallengeController();
 
 // Public challenges searches
+router.get('/bookmarks/list', authenticate as any, controller.getBookmarks);
+router.post('/:id/bookmark', authenticate as any, controller.toggleBookmark);
 router.get('/', controller.getChallenges);
 router.get('/:id', controller.getChallengeById);
 

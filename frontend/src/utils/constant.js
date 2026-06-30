@@ -269,19 +269,19 @@ export const FIGMA_LINK = {
       other3: BUY_NOW_URL
     }
   },
-  pricing: {
+  metrics: {
     link: BUY_NOW_URL,
     variant: {
-      pricing1: BUY_NOW_URL,
-      pricing2: BUY_NOW_URL,
-      pricing3: BUY_NOW_URL,
-      pricing4: BUY_NOW_URL,
-      pricing5: BUY_NOW_URL,
-      pricing6: BUY_NOW_URL,
-      pricing7: BUY_NOW_URL,
-      pricing8: BUY_NOW_URL,
-      pricing9: BUY_NOW_URL,
-      pricing10: BUY_NOW_URL
+      metrics1: BUY_NOW_URL,
+      metrics2: BUY_NOW_URL,
+      metrics3: BUY_NOW_URL,
+      metrics4: BUY_NOW_URL,
+      metrics5: BUY_NOW_URL,
+      metrics6: BUY_NOW_URL,
+      metrics7: BUY_NOW_URL,
+      metrics8: BUY_NOW_URL,
+      metrics9: BUY_NOW_URL,
+      metrics10: BUY_NOW_URL
     }
   },
   process: {

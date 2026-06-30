@@ -12,7 +12,7 @@ export default function SamplePage() {
     <ComponentsWrapper title="Sample Page">
       <PresentationCard title="Basic Card">
         <Typography variant="body2" color="text.secondary">
-          SaasAble offers both a full version and a seed version. The seed version contains minimal code, making it a great starting point
+          CIISIC offers both a full version and a seed version. The seed version contains minimal code, making it a great starting point
           for your project. You can then migrate specific features or changes from the full version as needed. We recommend beginning with
           the seed version for a more streamlined setup.
         </Typography>

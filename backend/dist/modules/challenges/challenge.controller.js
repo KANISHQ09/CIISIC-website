@@ -1,9 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChallengeController = void 0;
 const challenge_service_1 = require("./challenge.service");
 const response_1 = require("../../shared/responses/response");
 const AppError_1 = require("../../shared/errors/AppError");
+const StudentProfile_1 = __importDefault(require("../../database/schemas/StudentProfile"));
 class ChallengeController {
     challengeService;
     constructor() {
@@ -130,6 +134,59 @@ class ChallengeController {
                 res,
                 message: 'Reviewer allocated to challenge successfully',
                 data: challenge,
+            });
+        }
+        catch (error) {
+            next(error);
+        }
+    };
+    toggleBookmark = async (req, res, next) => {
+        try {
+            const userId = req.user?.id;
+            const challengeId = req.params.id;
+            if (!userId) {
+                throw new AppError_1.ValidationError('Authentication required');
+            }
+            const profile = await StudentProfile_1.default.findOne({ userId });
+            if (!profile) {
+                throw new AppError_1.ValidationError('Student profile not found');
+            }
+            if (!profile.bookmarkedChallenges) {
+                profile.bookmarkedChallenges = [];
+            }
+            const idIndex = profile.bookmarkedChallenges.indexOf(challengeId);
+            let bookmarked = false;
+            if (idIndex > -1) {
+                profile.bookmarkedChallenges.splice(idIndex, 1);
+            }
+            else {
+                profile.bookmarkedChallenges.push(challengeId);
+                bookmarked = true;
+            }
+            await profile.save();
+            (0, response_1.sendResponse)({
+                res,
+                message: bookmarked ? 'Challenge bookmarked' : 'Bookmark removed',
+                data: { bookmarked },
+            });
+        }
+        catch (error) {
+            next(error);
+        }
+    };
+    getBookmarks = async (req, res, next) => {
+        try {
+            const userId = req.user?.id;
+            if (!userId) {
+                throw new AppError_1.ValidationError('Authentication required');
+            }
+            const profile = await StudentProfile_1.default.findOne({ userId })
+                .populate('bookmarkedChallenges')
+                .exec();
+            (0, response_1.sendResponse)({
+                res,
+                message: 'Bookmarks fetched successfully',
+                data: profile?.bookmarkedChallenges || [],
             });
         }
         catch (error) {

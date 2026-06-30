@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { UserController } from '../modules/users/user.controller';
+import { authenticate, requireRole } from '../shared/middleware/authMiddleware';
 import authRoutes from '../modules/auth/auth.routes';
 import cellRoutes from '../modules/cells/cell.routes';
 import institutionRoutes from '../modules/institutions/institution.routes';
@@ -13,6 +14,8 @@ import uploadRoutes from '../modules/uploads/upload.routes';
 import searchRoutes from '../modules/search/search.routes';
 import analyticsRoutes from '../modules/analytics/analytics.routes';
 import platformRoutes from '../modules/platform/platform.routes';
+
+import auditRoutes from '../modules/audit/audit.routes';
 
 const router = Router();
 const userController = new UserController();
@@ -31,6 +34,14 @@ router.use('/v1/uploads', uploadRoutes);
 router.use('/v1/search', searchRoutes);
 router.use('/v1/analytics', analyticsRoutes);
 router.use('/v1/platform', platformRoutes);
-router.post('/v1/users/register', userController.register);
+router.use('/v1/audit', auditRoutes);
+
+router.get('/v1/users', authenticate as any, requireRole(['SUPER_ADMIN']) as any, userController.getUsers);
+router.post('/v1/users', authenticate as any, requireRole(['SUPER_ADMIN']) as any, userController.createUser);
+router.patch('/v1/users/:id/status', authenticate as any, requireRole(['SUPER_ADMIN']) as any, userController.updateUserStatus);
+router.patch('/v1/users/:id/verify', authenticate as any, requireRole(['SUPER_ADMIN']) as any, userController.verifyUser);
+
+router.get('/v1/profile', authenticate as any, userController.getProfile);
+router.patch('/v1/profile', authenticate as any, userController.updateProfile);
 
 export default router;

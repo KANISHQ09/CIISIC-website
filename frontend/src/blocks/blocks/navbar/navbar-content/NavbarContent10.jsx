@@ -24,10 +24,10 @@ import { withAlpha } from '@/utils/colorUtils';
 /**
  *
  * Demos:
- * - [NavbarContent10](https://www.saasable.io/blocks/navbar/navbar10)
+ * - [NavbarContent10](https://www.ciisic.org/blocks/navbar/navbar10)
  *
  * API:
- * - [NavbarContent10 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/navbar/navbar-content/navbarcontent10#props-details)
+ * - [NavbarContent10 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/navbar/navbar-content/navbarcontent10#props-details)
  */
 
 export default function NavbarContent10({ landingBaseUrl, navItems, primaryBtn, secondaryBtn, animated }) {

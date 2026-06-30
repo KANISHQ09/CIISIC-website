@@ -9,6 +9,7 @@ const controller = new proposal_controller_1.ProposalController();
 router.get('/', authMiddleware_1.authenticate, controller.getProposals);
 router.get('/analytics/proposals', authMiddleware_1.authenticate, controller.getAnalytics);
 router.get('/timeline/:proposalId', authMiddleware_1.authenticate, controller.getTimeline);
+router.post('/:id/comment', authMiddleware_1.authenticate, controller.addComment);
 router.get('/:id', authMiddleware_1.authenticate, controller.getProposalById);
 router.post('/', authMiddleware_1.authenticate, (0, authMiddleware_1.requireRole)(['STUDENT']), controller.createDraft);
 router.post('/:id/submit', authMiddleware_1.authenticate, (0, authMiddleware_1.requireRole)(['STUDENT']), controller.submitProposal);

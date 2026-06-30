@@ -8,7 +8,7 @@ export const faq = {
   faqList: [
     {
       question: `Is ${branding.brandName} only for SaaS web apps?`,
-      answer: `While ${branding.brandName} is designed with SaaS applications in mind, it’s not limited to SaaS products. ${branding.brandName} is multipurpose and can be used for a variety of websites and applications, whether it’s for an agency, digital product, CRM, blog, AI platform, or any other system. ${branding.brandName} is versatile and adaptable to fit any use case, SaaS or not. It’s built for all types of projects!`,
+      answer: `While ${branding.brandName} is designed with innovation databases in mind, it’s not limited to innovation platforms. ${branding.brandName} is multipurpose and can be used for a variety of websites and applications, whether it’s for an agency, digital product, Collaboration Directory, blog, AI platform, or any other system. ${branding.brandName} is versatile and adaptable to fit any use case, SaaS or not. It’s built for all types of projects!`,
       category: 'General'
     },
     {
@@ -51,7 +51,7 @@ export const faq = {
           { primary: `Comply with License Terms` }
         ]
       },
-      category: 'Pricing & Licenses'
+      category: 'Metrics & Licenses'
     },
     {
       question: `Can I use ${branding.brandName} for multiple projects?`,
@@ -65,14 +65,14 @@ export const faq = {
           { primary: `Comply with License Terms` }
         ]
       },
-      category: 'Pricing & Licenses'
+      category: 'Metrics & Licenses'
     },
 
     {
       question: 'Do you offer refunds?',
       answer:
         'Yes, we offer refunds, but only if you provide a valid reason to support your claim. For more details, please review our MUI Store Refund Policy.',
-      category: 'Pricing'
+      category: 'Metrics'
     },
     {
       question: 'Do I get access to future updates?',
@@ -98,6 +98,6 @@ export const faq = {
   getInTouch: {
     link: { children: 'Get in Touch', href: branding.company.socialLink.support, target: '_blank', rel: 'noopener noreferrer' }
   },
-  categories: ['General', 'Pricing & Licenses', 'Support & Updates'],
+  categories: ['General', 'Metrics & Licenses', 'Support & Updates'],
   activeCategory: 'General'
 };

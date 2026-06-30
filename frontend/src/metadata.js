@@ -46,40 +46,40 @@ export const mainMetadata = {
 /***************************  SEO METADATA - SECTIONS  ***************************/
 
 const sectionCommonMeta = {
-  title: 'Blocks',
-  description: `Explore ${branding.brandName} extensive library of 200+ customizable UI blocks, designed to build cohesive SaaS applications effortlessly. From hero sections to pricing tables and admin components, find everything you need to create stunning, functional interfaces.`
+  title: 'Innovation Directories',
+  description: `Explore ${branding.brandName} directories of challenges, active excellence cells, and academic institutions cooperating to bridge the industry-academia gap.`
 };
 
 const aboutPageCommonMeta = {
-  title: 'About',
-  description: `${branding.brandName} is a complete SaaS UI kit designed to streamline front-end and admin interface design with 200+ customizable blocks, saving time and ensuring consistent, cohesive user experiences across your application.`
+  title: 'About CIISIC',
+  description: `${branding.brandName} is a dedicated platform designed to foster collaboration between the Confederation of Indian Industry (CII), academic institutions, student innovators, and expert reviewers.`
 };
 
 const careerPageCommonMeta = {
-  title: 'Career',
-  description: `Join ${branding.brandName} growing team and help shape the future of SaaS design. Explore exciting career opportunities in design, development, and more, and be part of a creative, forward-thinking environment dedicated to innovation.`
+  title: 'Careers',
+  description: `Join the team driving industrial-academic cooperation and innovation excellence across India.`
 };
 
 const faqPageCommonMeta = {
   title: 'FAQ',
-  description: `Find answers to common questions about ${branding.brandName} UI kit, features, pricing, and more. Our FAQ page provides clear, concise information to help you make the most of ${branding.brandName} and streamline your design workflow.`
+  description: `Find answers to common questions about CIISIC challenge submissions, student verifications, reviewer scorecards, and excellence cells.`
 };
 
-const pricingPageCommonMeta = {
-  title: 'Pricing',
-  description: `Discover flexible pricing plans for ${branding.brandName} complete UI kit, designed to fit teams of all sizes. Choose the plan that best suits your needs and get access to powerful design tools to build seamless SaaS applications.`
+const metricsPageCommonMeta = {
+  title: 'Innovation Statistics',
+  description: `Track metrics and statistics of active research collaborations, verified students, and completed industry project evaluations.`
 };
 
 const comingSoonPageCommonMeta = { title: 'Coming soon', description: 'Coming soon' };
 
 const privacyPolicyCommonMeta = {
   title: 'Privacy Policy',
-  description: `${branding.brandName} privacy policy page outlines our commitment to data protection, detailing how user information is collected, stored, and managed to ensure transparency and build trust with your audience.`
+  description: `${branding.brandName} privacy policy details how student, institution, industry, and reviewer data is securely stored, processed, and protected.`
 };
 
 const contactUsCommonMeta = {
-  title: 'Contact US',
-  description: `${branding.brandName} contact us page is crafted to generate excitement and capture leads, providing a visually appealing placeholder for upcoming launches and a subscription option for early notifications.`
+  title: 'Contact CIISIC Support',
+  description: `Get in touch with the CIISIC team for partnership inquiries, support, or system assistance.`
 };
 
 const error404PageCommonMeta = { title: 'Error 404', description: 'Error 404' };
@@ -87,7 +87,7 @@ const error500PageCommonMeta = { title: 'Error 500', description: 'Error 500' };
 
 const underMaintenanceCommonMeta = {
   title: 'Under Maintenance',
-  description: `${branding.brandName} under maintenance page informs users of temporary unavailability with a clean, branded design, providing clear messaging and expected uptime to maintain transparency and minimize user inconvenience.`
+  description: `${branding.brandName} is undergoing scheduled system updates to improve performance for industrial-academic cooperation.`
 };
 
 export const SEO_CONTENT = {
@@ -95,7 +95,7 @@ export const SEO_CONTENT = {
   aboutPage: { ...aboutPageCommonMeta, openGraph: { ...aboutPageCommonMeta, ...ogCommonMetadata, url: PAGE_PATH.aboutPage } },
   careerPage: { ...careerPageCommonMeta, openGraph: { ...careerPageCommonMeta, ...ogCommonMetadata, url: PAGE_PATH.careerPage } },
   faqPage: { ...faqPageCommonMeta, openGraph: { ...faqPageCommonMeta, ...ogCommonMetadata, url: PAGE_PATH.faqPage } },
-  pricingPage: { ...pricingPageCommonMeta, openGraph: { ...pricingPageCommonMeta, ...ogCommonMetadata, url: PAGE_PATH.pricingPage } },
+  metricsPage: { ...metricsPageCommonMeta, openGraph: { ...metricsPageCommonMeta, ...ogCommonMetadata, url: PAGE_PATH.metricsPage } },
   comingSoonPage: {
     ...comingSoonPageCommonMeta,
     openGraph: { ...comingSoonPageCommonMeta, ...ogCommonMetadata, url: PAGE_PATH.comingSoon }
@@ -112,195 +112,195 @@ export const SEO_CONTENT = {
     openGraph: { ...underMaintenanceCommonMeta, ...ogCommonMetadata, url: PAGE_PATH.underMaintenance }
   },
   featurePage: {
-    title: 'Feature',
-    description: 'Discover advanced features tailored to meet your project’s unique needs with seamless performance and customization.'
+    title: 'Industry Challenges',
+    description: 'Discover active industrial challenge briefs posted by verified corporate partners needing innovation solutions.'
   },
   blogPage: {
-    title: 'Blog',
-    description: 'Explore blog for the latest insights, tips, and updates'
+    title: 'Announcements',
+    description: 'Explore latest updates, news, and notifications from the CII Madhya Pradesh board.'
   },
   collaboratePage: {
-    title: 'Collaborate',
-    description: 'Explore collaboration opportunities and build something amazing with team'
+    title: 'Collaborative Projects',
+    description: 'Partner on research, joint development, and industrial mentorship programs.'
   },
   solutionPage: {
-    title: 'Solution',
+    title: 'Solution Proposals',
     description:
-      'The tailored solutions for SaaS web development, designed to enhance scalability, performance, and efficiency for your business growth.'
+      'Submit solution designs, technical blueprints, and prototypes to industrial briefs.'
   },
 
   about: {
-    title: 'About Sections',
-    description: `${branding.brandName} about sections are designed to display essential content about your product, mission, or team, helping users understand your brand and its purpose at a glance.`
+    title: 'About CIISIC',
+    description: `Learn how ${branding.brandName} coordinates student solvers, academic institutions, and corporate mentors to drive regional innovation.`
   },
 
   metrics: {
-    title: 'Benefits Sections',
-    description: `The benefits sections in ${branding.brandName} showcase the key advantages and features of your product or service, helping users quickly grasp the value proposition and how it addresses their needs.`
+    title: 'Ecosystem Benefits',
+    description: `Track cooperation growth, student verified directories, and research project outcomes.`
   },
 
   forgotPassword: {
-    title: 'Forgot Password Sections',
-    description: `${branding.brandName} forgot password sections help users securely recover account access by guiding them through a smooth password reset process, enhancing user experience and reducing frustration.`
+    title: 'Recover Account Access',
+    description: `Recover your registered ${branding.brandName} account credentials securely.`
   },
 
   login: {
-    title: 'Login Sections',
-    description: `${branding.brandName} login sections offer clean, user-friendly interfaces that streamline secure access to applications, ensuring a smooth entry point for users.`
+    title: 'Portal Authentication',
+    description: `Sign in to access your student, institution, industry SPOC, or reviewer workspace.`
   },
 
   newPassword: {
-    title: 'New Password Sections',
-    description: `${branding.brandName} new password sections offer intuitive designs for users to securely create and confirm new passwords, enhancing the password reset experience.`
+    title: 'Create Secure Password',
+    description: `Update and verify your new account access credentials.`
   },
 
   otpVerification: {
-    title: 'OTP Verification Sections',
-    description: `${branding.brandName} OTP verification sections provide a seamless way for users to authenticate their identity with secure one-time passcodes, ensuring fast and reliable user verification.`
+    title: 'Verify Secure OTP',
+    description: `Complete two-factor authentication to secure your platform access.`
   },
 
   register: {
-    title: 'Register Sections',
-    description: `${branding.brandName} registration sections simplify user onboarding with clean and customizable forms, making it easy for new users to sign up and get started quickly.`
+    title: 'Student Solver Onboarding',
+    description: `Register as a student solver to begin working on active industry briefs.`
   },
 
   clientele: {
-    title: 'Clientele Sections',
-    description: `${branding.brandName} clientele sections let you highlight trusted partners, clients, or brands, showcasing credibility and building trust with potential users through visually engaging logos and testimonials.`
+    title: 'Corporate Partners',
+    description: `Highlighting the verified industrial partners supporting innovation programs.`
   },
 
   blog: {
-    title: 'Blog Sections',
-    description: `${branding.brandName} blog sections are designed to showcase articles, insights, and updates, keeping users engaged with valuable content and enhancing SEO through organized, visually appealing layouts.`
+    title: 'Ecosystem News',
+    description: `Keep up with announcements and collaboration milestones from the CII board.`
   },
 
   color: {
-    title: 'Color',
-    description: `${branding.brandName} color page provides a curated palette to maintain design consistency across your app, ensuring cohesive, visually appealing layouts that align with brand identity and user experience standards.`
+    title: 'Color Palettes',
+    description: `Consistent design tokens and palettes matching the official CII branding guidelines.`
   },
 
   comingSoon: {
-    title: 'Coming Soon Sections',
-    description: `${branding.brandName} coming soon sections are designed to create anticipation for upcoming releases, featuring eye-catching visuals and lead capture forms to keep users engaged and informed about future product launches.`
+    title: 'Upcoming Modules',
+    description: `Preview upcoming collaboration workspaces and reporting features.`
   },
 
   cookie: {
-    title: 'Cookie Sections',
-    description: `${branding.brandName} cookie sections help inform users about data tracking practices, ensuring transparency and compliance while offering options for cookie preferences, all in a clear, user-friendly layout.ie`
+    title: 'Cookie Consent',
+    description: `Manage cookie preferences to personalize your platform usage.`
   },
 
   cta: {
-    title: 'Call to Action Sections',
-    description: `${branding.brandName} CTA sections are designed to drive action with bold, engaging prompts, helping users convert through clear, visually distinct buttons that enhance engagement and guide users through their journey.`
+    title: 'Get Involved',
+    description: `Participate in the innovation ecosystem as a student solver or industry partner.`
   },
 
   earlyAccess: {
-    title: 'Early Access Sections',
-    description: `${branding.brandName} early access sections capture interest and drive sign-ups, enabling users to join exclusive previews and receive updates, fostering anticipation for product launches.`
+    title: 'Partnership Requests',
+    description: `Apply as a new industrial partner or academic institution affiliate.`
   },
 
   error404: {
-    title: 'Error 404 Sections',
-    description: `${branding.brandName} Error 404 sections are crafted to keep users engaged even when they encounter broken links, offering creative and helpful redirects to guide users back on track within your app.`
+    title: 'Workspace Not Found',
+    description: `The requested dashboard page or workspace could not be located.`
   },
 
   error500: {
-    title: 'Error 500 Sections',
-    description: `${branding.brandName} Error 500 sections provide user-friendly messages and clear options for users encountering server issues, offering guidance to return to a stable page or seek support for a smoother user experience.`
+    title: 'Server Error',
+    description: `Encountered a server-side exception. The support team has been notified.`
   },
 
   faq: {
-    title: 'FAQ Sections',
-    description: `${branding.brandName} FAQ sections offer a well-organized layout to address common user questions, enhancing user experience and reducing support needs by providing quick, accessible answers in a clear and concise format.`
+    title: 'Help Center',
+    description: `Find answers to common questions about submitting solutions, verifying credentials, and grading guidelines.`
   },
 
   feature: {
-    title: 'Feature Sections',
-    description: `${branding.brandName} feature sections highlight key product benefits and functionalities, providing a visually engaging way to showcase unique selling points and help users quickly understand the value of your SaaS product.`
+    title: 'Active Modules',
+    description: `Explore workspaces for Student Solvers, Industry SPOCs, Institution SPOCs, Reviewers, and Super Admins.`
   },
 
   footer: {
-    title: 'Footer Sections',
-    description: `${branding.brandName} footer sections offer organized layouts for essential links, contact information, and social media, providing a polished, professional finish that enhances navigation and brand credibility across your site.`
+    title: 'CIISIC Navigation Links',
+    description: `Access legal policies, support directories, and regional CII resources.`
   },
 
   gallery: {
-    title: 'Gallery Sections',
-    description: `${branding.brandName} gallery sections showcase images, portfolios, or visual content in an elegant, responsive layout, enhancing user engagement by allowing viewers to explore visual assets in an organized and appealing way.`
+    title: 'Innovation Showcase',
+    description: `View past successful prototypes and resolved industrial challenges.`
   },
 
   hero: {
-    title: 'Hero Sections',
-    description: `${branding.brandName} hero sections captivate users instantly with impactful visuals and clear messaging, providing a dynamic introduction that highlights key benefits and drives immediate engagement on landing pages.`
+    title: 'Industrial Collaboration Hub',
+    description: `Instantly connect university talent with industrial research challenges.`
   },
 
   icon: {
-    title: 'Icon',
-    description: `${branding.brandName} icon page provides a curated collection of customizable icons to enhance your UI design, ensuring consistency and visual appeal across various sections of your application.`
+    title: 'Icons System',
+    description: `Curated standard lucide icons used across all portals for visual consistency.`
   },
 
   integration: {
-    title: 'Integration Sections',
-    description: `${branding.brandName} integration sections enable you to showcase compatible tools and platforms, helping users understand how seamlessly your product connects with essential third-party services for a smoother workflow.`
+    title: 'Platform Integrations',
+    description: `Connect workspaces with secure email alerts, file upload servers, and Socket.IO real-time pipelines.`
   },
 
   megaMenu: {
-    title: 'Mega Menu Sections',
-    description: `${branding.brandName} mega menu sections offer a streamlined way to organize extensive content and navigation links, enhancing usability and helping users quickly access key areas of your application in a visually structured layout.`
+    title: 'Main Navigation Directory',
+    description: `Quickly navigate between landing pages, directories, and profiles.`
   },
 
   navbar: {
-    title: 'Navbar Sections',
-    description: `${branding.brandName} navbar sections provide intuitive, customizable navigation bars that improve user experience by making it easy to access key pages and features, all in a streamlined, responsive layout.`
+    title: 'Site Header Navigation',
+    description: `Secure access points and shortcuts for active dashboard sessions.`
   },
 
   onBoard: {
-    title: 'Onboard Sections',
-    description: `${branding.brandName} onboarding sections guide new users through a smooth and engaging introduction to your product, helping them quickly understand key features and benefits while enhancing user retention and satisfaction.`
+    title: 'Solver Verification',
+    description: `Complete verification steps to access active industry briefs.`
   },
 
   other: {
-    title: 'Other',
-    description: 'Other'
+    title: 'Other Settings',
+    description: 'System-wide preferences and tools.'
   },
 
-  pricing: {
-    title: 'Pricing Sections',
-    description: `${branding.brandName} pricing sections are designed to present your subscription plans and pricing tiers clearly and effectively, helping users compare options and make informed decisions with ease.`
+  metrics: {
+    title: 'Ecosystem Analytics',
+    description: `Review participation indexes, verified student numbers, and evaluation statistics.`
   },
 
   process: {
-    title: 'Process Sections',
-    description: `${branding.brandName} process sections illustrate step-by-step workflows, guiding users through your product’s unique processes in a clear, visually engaging layout that enhances understanding and engagement.`
+    title: 'Cooperation Pipeline',
+    description: `Understand the workflow: from challenge posting to student submission, evaluation, and shortlisting.`
   },
 
   smallHero: {
-    title: 'Small Hero Sections',
-    description: `${branding.brandName} small hero sections provide compact, visually impactful headers ideal for secondary pages, introducing key content with clarity and style while maintaining user engagement.`
+    title: 'Workspace Header',
+    description: `Access custom settings and details for the selected project.`
   },
 
   team: {
-    title: 'Team Sections',
-    description: `${branding.brandName} team sections showcase your team members with visually appealing layouts, highlighting their roles, expertise, and profiles to build trust and connect with your audience on a personal level.`
+    title: 'Executive Council',
+    description: `The advisory board managing industrial-academic collaboration programs.`
   },
 
   testimonial: {
-    title: 'Testimonial Sections',
-    description: `${branding.brandName} testimonial sections highlight user feedback in visually engaging layouts, showcasing positive experiences and building trust by displaying authentic reviews and success stories from satisfied customers.`
+    title: 'Success Stories',
+    description: `Read feedback from corporate partners, college deans, and student innovators.`
   },
 
   termsCondition: {
-    title: 'Terms Condition',
-    description: `${branding.brandName} terms and conditions page outlines the legal agreements and rules that users must follow when using your product or service, ensuring transparency and fairness with your audience.`
+    title: 'Terms of Service',
+    description: `Legal agreements and guidelines governing platform interactions.`
   },
 
   topOffer: {
-    title: 'Top Offer Sections',
-    description: `${branding.brandName} top bar sections offer a compact space for important announcements, notifications, or quick access links, enhancing user experience by keeping essential information easily accessible at the top of the page.`
+    title: 'Important Announcements',
+    description: `Top banner announcements regarding challenge deadlines or program milestones.`
   },
 
   typography: {
-    title: 'Typoghaphy',
-    description: `${branding.brandName} typography page provides a curated selection of font styles, sizes, and weights to ensure a cohesive and visually appealing text hierarchy, enhancing readability and consistency across your application’s design.`
+    title: 'Typography System',
+    description: `Typography definitions ensuring legible, consistent text sizing.`
   }
 };

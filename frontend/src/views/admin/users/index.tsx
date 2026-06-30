@@ -2,26 +2,55 @@
 
 import React, { useState, useEffect } from 'react';
 import { AdminService } from '@/services/adminService';
+import { CompanyService } from '@/services/companyService';
+import { InstitutionService } from '@/services/institutionService';
 import { UserRecord, PlatformRole } from '@/types/adminPortal';
-import { Search, ShieldAlert, Check, XCircle, Key, RefreshCw } from 'lucide-react';
+import { Search, ShieldAlert, Check, XCircle, Key, RefreshCw, Plus, UserPlus, X } from 'lucide-react';
 import useToast from '@/hooks/useToast';
+import { apiClient } from '@/services/api/client';
 
 export default function UserManagement() {
   const { showToast } = useToast();
   const [users, setUsers] = useState<UserRecord[]>([]);
+  const [companies, setCompanies] = useState<any[]>([]);
+  const [institutions, setInstitutions] = useState<any[]>([]);
+  
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState<string>('ALL');
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchUsers = async () => {
+  // Modal Form States
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState<PlatformRole>('INDUSTRY_SPOC');
+  const [companyId, setCompanyId] = useState('');
+  const [institutionId, setInstitutionId] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fetchUsersAndMeta = async () => {
     setIsLoading(true);
-    const data = await AdminService.getUsers();
-    setUsers(data);
-    setIsLoading(false);
+    try {
+      const userData = await AdminService.getUsers();
+      setUsers(userData);
+      
+      const compData = await CompanyService.getCompanies();
+      setCompanies(compData);
+      if (compData.length > 0) setCompanyId(compData[0].id);
+
+      const instData = await InstitutionService.getInstitutions();
+      setInstitutions(instData);
+      if (instData.length > 0) setInstitutionId(instData[0]._id);
+    } catch {
+      showToast('Failed to load user directory.', 'error');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchUsersAndMeta();
   }, []);
 
   const handleToggleStatus = async (id: string, currentStatus: UserRecord['status']) => {
@@ -29,7 +58,7 @@ export default function UserManagement() {
     try {
       await AdminService.updateUserStatus(id, nextStatus);
       showToast(`User status set to ${nextStatus}`, 'success');
-      await fetchUsers();
+      await fetchUsersAndMeta();
     } catch {
       showToast('Status update failed', 'error');
     }
@@ -37,6 +66,41 @@ export default function UserManagement() {
 
   const handleResetPassword = (email: string) => {
     showToast(`Password recovery link dispatched to ${email}`, 'success');
+  };
+
+  const handleAddUserSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !password.trim() || !role) return;
+
+    setIsSubmitting(true);
+    try {
+      const payload: any = {
+        name: name.trim(),
+        email: email.trim(),
+        password: password.trim(),
+        role,
+        profileData: {}
+      };
+
+      if (role === 'INDUSTRY_SPOC' && companyId) {
+        payload.profileData.companyId = companyId;
+      } else if ((role === 'INSTITUTION_SPOC' || role === 'REVIEWER') && institutionId) {
+        payload.profileData.institutionId = institutionId;
+      }
+
+      await apiClient.post('/api/v1/users', payload);
+      showToast('User account created successfully!', 'success');
+      
+      setName('');
+      setEmail('');
+      setPassword('');
+      setShowAddModal(false);
+      await fetchUsersAndMeta();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to create user account.', 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const filtered = users.filter((u) => {
@@ -48,9 +112,17 @@ export default function UserManagement() {
   return (
     <div className="space-y-6 text-left pb-12 select-none animate-in fade-in slide-in-from-bottom-2 duration-300">
       {/* Title */}
-      <div className="border-b border-zinc-100 pb-4">
-        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 leading-tight">Ecosystem Directory</h1>
-        <p className="text-sm text-zinc-500 font-medium">Verify credentials, toggle suspended locks, and manage ecosystem permissions</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 leading-tight">Ecosystem Directory</h1>
+          <p className="text-sm text-zinc-500 font-medium">Verify credentials, toggle suspended locks, and manage ecosystem permissions</p>
+        </div>
+        <button
+          onClick={() => setShowAddModal(true)}
+          className="py-2.5 px-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm cursor-pointer flex items-center gap-1.5 self-start sm:self-center focus:outline-none"
+        >
+          <Plus className="w-4 h-4" /> Add User Account
+        </button>
       </div>
 
       {/* Toolbar */}
@@ -152,6 +224,119 @@ export default function UserManagement() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Glassmorphic Add User Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-zinc-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-zinc-150 rounded-3xl w-full max-w-md shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+            <button
+              onClick={() => setShowAddModal(false)}
+              className="absolute right-4 top-4 text-zinc-400 hover:text-zinc-700"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <h3 className="text-base font-extrabold text-zinc-950 flex items-center gap-2 border-b border-zinc-50 pb-3">
+              <UserPlus className="w-5 h-5 text-indigo-650" /> Add Ecosystem Account
+            </h3>
+
+            <form onSubmit={handleAddUserSubmit} className="space-y-4 pt-4 text-left">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-zinc-700">Full Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Dr. Rajesh Kumar"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3 py-2 border border-zinc-200 bg-zinc-50/50 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white font-semibold text-zinc-800"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-zinc-700">Email Address</label>
+                <input
+                  type="email"
+                  placeholder="e.g. rajesh@lnct.ac.in"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-3 py-2 border border-zinc-200 bg-zinc-50/50 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white font-semibold text-zinc-800"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-zinc-700">Initial Password</label>
+                <input
+                  type="password"
+                  placeholder="Minimum 8 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-3 py-2 border border-zinc-200 bg-zinc-50/50 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white font-semibold text-zinc-800"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-zinc-700">Ecosystem Role</label>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value as PlatformRole)}
+                  className="w-full px-3 py-2 border border-zinc-200 bg-zinc-50/50 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white font-semibold text-zinc-800"
+                  required
+                >
+                  <option value="INDUSTRY_SPOC">Industry SPOC</option>
+                  <option value="INSTITUTION_SPOC">Institution SPOC</option>
+                  <option value="REVIEWER">Ecosystem Reviewer</option>
+                  <option value="SUPER_ADMIN">Super Administrator</option>
+                </select>
+              </div>
+
+              {role === 'INDUSTRY_SPOC' && companies.length > 0 && (
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-zinc-700">Associate Company</label>
+                  <select
+                    value={companyId}
+                    onChange={(e) => setCompanyId(e.target.value)}
+                    className="w-full px-3 py-2 border border-zinc-200 bg-zinc-50/50 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white font-semibold text-zinc-800"
+                  >
+                    {companies.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {(role === 'INSTITUTION_SPOC' || role === 'REVIEWER') && institutions.length > 0 && (
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-zinc-700">Associate Institution</label>
+                  <select
+                    value={institutionId}
+                    onChange={(e) => setInstitutionId(e.target.value)}
+                    className="w-full px-3 py-2 border border-zinc-200 bg-zinc-50/50 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white font-semibold text-zinc-800"
+                  >
+                    {institutions.map((i) => (
+                      <option key={i._id} value={i._id}>
+                        {i.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3 bg-zinc-950 hover:bg-zinc-850 text-white rounded-2xl text-xs font-extrabold transition-all mt-2 cursor-pointer disabled:opacity-50"
+              >
+                {isSubmitting ? 'Creating...' : 'Create Account'}
+              </button>
+            </form>
           </div>
         </div>
       )}

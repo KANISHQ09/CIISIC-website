@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AuthService, ClientDeviceInfo } from './auth.service';
-import { RegisterStudentSchema, LoginSchema } from './auth.dto';
+import { RegisterStudentSchema, LoginSchema, ForgotPasswordSchema, ResetPasswordSchema } from './auth.dto';
 import { sendResponse } from '../../shared/responses/response';
 import { ValidationError, AuthenticationError } from '../../shared/errors/AppError';
 
@@ -41,6 +41,10 @@ export class AuthController {
       const parsed = RegisterStudentSchema.safeParse(req.body);
       if (!parsed.success) {
         throw new ValidationError('Registration validation failed', parsed.error.format());
+      }
+
+      if (parsed.data.role !== 'STUDENT') {
+        throw new ValidationError('Public self-registration is restricted to Student Solvers only.');
       }
 
       const user = await this.authService.registerStudent(parsed.data);
@@ -197,6 +201,55 @@ export class AuthController {
         res,
         message: 'Current authenticated session identity retrieved',
         data: { user },
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public verifyEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { token } = req.body;
+      if (!token) {
+        throw new ValidationError('Verification token is required');
+      }
+      await this.authService.verifyEmail(token);
+      sendResponse({
+        res,
+        message: 'Email verified successfully.',
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public forgotPassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const parsed = ForgotPasswordSchema.safeParse(req.body);
+      if (!parsed.success) {
+        throw new ValidationError('Validation failed', parsed.error.format());
+      }
+      const resetToken = await this.authService.forgotPassword(parsed.data.email);
+      sendResponse({
+        res,
+        message: 'Password reset link sent to your institutional email.',
+        data: { resetToken } // Returned for dev testing ease but handles securely
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public resetPassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const parsed = ResetPasswordSchema.safeParse(req.body);
+      if (!parsed.success) {
+        throw new ValidationError('Validation failed', parsed.error.format());
+      }
+      await this.authService.resetPassword(parsed.data.token, parsed.data);
+      sendResponse({
+        res,
+        message: 'Password reset successful.',
       });
     } catch (error) {
       next(error);

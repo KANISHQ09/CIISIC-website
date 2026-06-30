@@ -7,10 +7,12 @@ exports.AuthService = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const uuid_1 = require("uuid");
 const jwt_1 = require("../../config/jwt");
 const user_repository_1 = require("../users/user.repository");
 const auth_repository_1 = require("./auth.repository");
 const AppError_1 = require("../../shared/errors/AppError");
+const User_1 = __importDefault(require("../../database/schemas/User"));
 const StudentProfile_1 = __importDefault(require("../../database/schemas/StudentProfile"));
 const Institution_1 = __importDefault(require("../../database/schemas/Institution"));
 const AuditLog_1 = __importDefault(require("../../database/schemas/AuditLog"));
@@ -39,6 +41,7 @@ class AuthService {
         }
         const salt = await bcryptjs_1.default.genSalt(12);
         const passwordHash = await bcryptjs_1.default.hash(dto.password, salt);
+        const verificationToken = dto.role === 'STUDENT' ? (0, uuid_1.v4)() : undefined;
         // Create User
         const user = await this.userRepository.create({
             name: dto.name,
@@ -46,6 +49,7 @@ class AuthService {
             passwordHash,
             role: dto.role === 'ADMIN' ? 'SUPER_ADMIN' : dto.role,
             isVerified: dto.role === 'STUDENT' ? false : true, // Non-students invited by admins are pre-verified
+            verificationToken,
         });
         if (user.role === 'STUDENT') {
             const institution = await Institution_1.default.findOne({ code: 'LNCT' });
@@ -75,6 +79,9 @@ class AuthService {
         const user = await this.userRepository.findByEmail(email);
         if (!user) {
             throw new AppError_1.AuthenticationError('Invalid credentials');
+        }
+        if (!user.isVerified) {
+            throw new AppError_1.AuthenticationError('Please verify your email address before signing in.');
         }
         const isValid = await bcryptjs_1.default.compare(password, user.passwordHash);
         if (!isValid) {
@@ -193,6 +200,42 @@ class AuthService {
             session.isDeleted = true;
             await session.save();
         }
+    }
+    async verifyEmail(token) {
+        const user = await User_1.default.findOne({ verificationToken: token });
+        if (!user) {
+            throw new AppError_1.NotFoundError('Invalid or expired verification token');
+        }
+        user.isVerified = true;
+        user.verificationToken = undefined;
+        await user.save();
+    }
+    async forgotPassword(email) {
+        const user = await this.userRepository.findByEmail(email);
+        if (!user) {
+            throw new AppError_1.NotFoundError('No account found with this email address');
+        }
+        const resetToken = (0, uuid_1.v4)();
+        user.resetPasswordToken = resetToken;
+        const expires = new Date();
+        expires.setHours(expires.getHours() + 1); // 1 hour expiry
+        user.resetPasswordExpires = expires;
+        await user.save();
+        return resetToken;
+    }
+    async resetPassword(token, dto) {
+        const user = await User_1.default.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: new Date() }
+        });
+        if (!user) {
+            throw new AppError_1.AuthenticationError('Password reset token is invalid or has expired');
+        }
+        const salt = await bcryptjs_1.default.genSalt(12);
+        user.passwordHash = await bcryptjs_1.default.hash(dto.password, salt);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
     }
 }
 exports.AuthService = AuthService;

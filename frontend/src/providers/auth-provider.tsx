@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, UserRole } from '@/types/user';
+import { apiClient } from '@/services/api/client';
 
 interface AuthContextType {
   user: User | null;
@@ -20,60 +21,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Load session from local storage on client mount
-    const savedUser = localStorage.getItem('ciisic_user');
-    const savedToken = localStorage.getItem('ciisic_token');
-
-    if (savedUser && savedToken) {
+    const fetchUserProfile = async () => {
       try {
-        setUser(JSON.parse(savedUser));
+        const response = await apiClient.get('/api/v1/profile');
+        const u = response.data.data;
+        if (u) {
+          setUser({
+            id: u.id || u._id,
+            name: u.name,
+            email: u.email,
+            role: u.role,
+            createdAt: u.createdAt || new Date().toISOString()
+          });
+        } else {
+          setUser(null);
+        }
       } catch {
-        localStorage.removeItem('ciisic_user');
-        localStorage.removeItem('ciisic_token');
+        setUser(null);
+      } finally {
+        setIsLoading(false);
       }
-    }
-
-    // Handle dev-only environment role override
-    const devRole = process.env.NEXT_PUBLIC_DEV_ROLE;
-    if (devRole && process.env.NODE_ENV === 'development' && !savedToken) {
-      setUser({
-        id: 'dev-user-id',
-        name: 'Developer Mode',
-        email: 'dev@ciisic.org',
-        role: devRole as UserRole,
-        createdAt: new Date().toISOString()
-      });
-    }
-
-    setIsLoading(false);
+    };
+    fetchUserProfile();
   }, []);
 
   const login = (token: string, userData: User) => {
-    localStorage.setItem('ciisic_token', token);
-    localStorage.setItem('ciisic_user', JSON.stringify(userData));
+    document.cookie = `ciisic_token=${token}; path=/; max-age=86400; SameSite=Strict`;
     setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem('ciisic_token');
-    localStorage.removeItem('ciisic_user');
+    document.cookie = 'ciisic_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     setUser(null);
   };
 
   const devSwitchRole = (newRole: UserRole) => {
-    if (process.env.NODE_ENV === 'development') {
-      const updatedUser = user
-        ? { ...user, role: newRole }
-        : {
-            id: 'dev-user-id',
-            name: 'Developer Mode',
-            email: 'dev@ciisic.org',
-            role: newRole,
-            createdAt: new Date().toISOString()
-          };
-      localStorage.setItem('ciisic_user', JSON.stringify(updatedUser));
-      setUser(updatedUser);
-    }
+    // Dev role switch removed to avoid unauthorized bypasses
   };
 
   return (

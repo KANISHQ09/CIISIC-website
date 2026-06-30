@@ -7,42 +7,56 @@ import { Search, FileSpreadsheet, UserPlus, Check, X } from 'lucide-react';
 import useToast from '@/hooks/useToast';
 import { useRouter } from 'next/navigation';
 
+import { AdminService } from '@/services/adminService';
+
 export default function AdminProposals() {
   const { showToast } = useToast();
   const router = useRouter();
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-
-  // Simulated list of reviewers
-  const reviewerOptions = ['Dr. Ramesh R&D', 'Prof. S. Sharma', 'Dr. Alok Verma'];
+  const [reviewers, setReviewers] = useState<Array<{ id: string; name: string }>>([]);
   const [assigningPropId, setAssigningPropId] = useState<string | null>(null);
 
   const fetchProposals = async () => {
     setIsLoading(true);
-    const data = await ProposalService.getProposals();
-    setProposals(data);
-    setIsLoading(false);
+    try {
+      const data = await ProposalService.getProposals();
+      setProposals(data);
+      const reviewersList = await AdminService.getUsers({ role: 'REVIEWER' });
+      setReviewers(reviewersList.map((r) => ({ id: r.id, name: r.name })));
+    } catch {
+      showToast('Failed to load workspace data.', 'error');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchProposals();
   }, []);
 
-  const handleAssignReviewer = (propId: string, reviewerName: string) => {
-    setProposals(
-      proposals.map((p) => {
-        if (p.id === propId) {
-          return {
-            ...p,
-            feedback: `Reviewer assigned: ${reviewerName}. Assessment pending.`
-          };
-        }
-        return p;
-      })
-    );
-    setAssigningPropId(null);
-    showToast(`Proposal successfully routed to ${reviewerName}`, 'success');
+  const handleAssignReviewer = async (propId: string, reviewerId: string) => {
+    try {
+      const reviewer = reviewers.find((r) => r.id === reviewerId);
+      if (!reviewer) return;
+      await ProposalService.assignReviewer(propId, reviewerId);
+      setProposals(
+        proposals.map((p) => {
+          if (p.id === propId) {
+            return {
+              ...p,
+              feedback: `Reviewer assigned: ${reviewer.name}. Assessment pending.`
+            };
+          }
+          return p;
+        })
+      );
+      setAssigningPropId(null);
+      showToast(`Proposal successfully routed to ${reviewer.name}`, 'success');
+    } catch {
+      showToast('Failed to assign reviewer.', 'error');
+    }
   };
 
   const filtered = proposals.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
@@ -124,9 +138,9 @@ export default function AdminProposals() {
                         <option value="" disabled>
                           Select Reviewer...
                         </option>
-                        {reviewerOptions.map((r) => (
-                          <option key={r} value={r}>
-                            {r}
+                        {reviewers.map((r) => (
+                          <option key={r.id} value={r.id}>
+                            {r.name}
                           </option>
                         ))}
                       </select>

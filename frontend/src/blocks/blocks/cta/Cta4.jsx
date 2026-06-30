@@ -28,10 +28,10 @@ import Arrow from '@/images/graphics/Arrow';
 /**
  *
  * Demos:
- * - [CTA4](https://www.saasable.io/blocks/cta/cta4)
+ * - [CTA4](https://www.ciisic.org/blocks/cta/cta4)
  *
  * API:
- * - [CTA4 API](https://phoenixcoded.gitbook.io/saasable/ui-kit/development/components/cta/cta4#props-details)
+ * - [CTA4 API](https://ciisic.gitbook.io/ciisic/ui-kit/development/components/cta/cta4#props-details)
  */
 
 export default function Cta4({ headLine, primaryBtn, profileGroups, list, clientContent }) {

@@ -42,5 +42,10 @@ class MessageService {
             content,
         });
     }
+    async getUserConversations(userId) {
+        return Conversation_1.default.find({ participants: userId })
+            .populate('participants', 'name email role')
+            .exec();
+    }
 }
 exports.MessageService = MessageService;

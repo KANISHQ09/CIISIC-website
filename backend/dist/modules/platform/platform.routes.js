@@ -21,4 +21,9 @@ router.post('/resources', authMiddleware_1.authenticate, (0, authMiddleware_1.re
 router.get('/health', controller.getPlatformHealth);
 router.get('/readiness', controller.getReadiness);
 router.get('/liveness', controller.getLiveness);
+// Permissions Endpoints
+router.get('/permissions', authMiddleware_1.authenticate, (0, authMiddleware_1.requireRole)(['SUPER_ADMIN']), controller.getPermissions);
+router.patch('/permissions/:key', authMiddleware_1.authenticate, (0, authMiddleware_1.requireRole)(['SUPER_ADMIN']), controller.updatePermission);
+// Contact Form Endpoint
+router.post('/contact', controller.submitContactForm);
 exports.default = router;

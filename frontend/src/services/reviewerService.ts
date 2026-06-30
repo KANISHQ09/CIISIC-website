@@ -3,41 +3,25 @@ import { Proposal } from '@/types/studentPortal';
 
 export class ReviewerService {
   public static async getReviewerStats() {
-    try {
-      const response = await apiClient.get('/api/v1/reviews/reviewer/statistics');
-      return response.data.data;
-    } catch {
-      // Fallback in case of networking issues
-      return {
-        assignedReviews: 12,
-        pendingReviews: 4,
-        completedReviews: 8,
-        averageScore: 7.9,
-        performanceTimeline: [
-          { month: 'Apr', reviewsCompleted: 2 },
-          { month: 'May', reviewsCompleted: 5 },
-          { month: 'Jun', reviewsCompleted: 8 }
-        ]
-      };
-    }
+    const response = await apiClient.get('/api/v1/reviews/reviewer/statistics');
+    return response.data.data;
   }
 
   public static async getAssignedProposals(): Promise<Proposal[]> {
     const response = await apiClient.get('/api/v1/reviews/reviewer/reviews');
-    // Map backend Proposal structure to frontend Proposal attributes
     const list = response.data.data || [];
     return list.map((p: any) => ({
       id: p._id,
-      challengeId: p.challengeId,
-      challengeTitle: 'Innovation Challenge Statement',
-      companyName: 'Corporate Industry Partner',
-      studentId: p.solverId,
-      studentName: 'Student Innovator',
+      challengeId: p.challengeId?._id || p.challengeId,
+      challengeTitle: p.challengeId?.title || 'Innovation Challenge Statement',
+      companyName: p.challengeId?.companyId?.name || 'Corporate Industry Partner',
+      studentId: p.solverId?._id || p.solverId,
+      studentName: p.solverId?.name || 'Student Innovator',
       title: p.title,
       description: p.abstract || '',
       technicalApproach: p.technicalApproach || '',
-      fileUrl: p.attachments?.[0]?.fileUrl || '#',
-      fileName: p.attachments?.[0]?.fileName || 'Proposal_Details.pdf',
+      fileUrl: p.approachDocument || p.attachments?.[0]?.fileUrl || '#',
+      fileName: p.attachments?.[0]?.fileName || (p.approachDocument ? 'Proposal_Details.pdf' : 'No_Document.pdf'),
       status: p.status,
       submissionDate: p.createdAt,
       feedback: p.comments?.[p.comments.length - 1]?.content || '',
